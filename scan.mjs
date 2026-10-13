@@ -2,7 +2,7 @@
 // 1) Gets the US stock list from TradingView's public screener.
 // 2) Downloads ~8 months of daily prices per candidate from Yahoo Finance.
 // 3) Finds breakout setups: big prior move -> tight, tightening base -> push through the top on volume.
-// 4) Writes docs/results.json for the app and sends a push to ntfy for anything new.
+// 4) Writes results.json for the app and sends a push to ntfy for anything new.
 import { readFile, writeFile } from 'node:fs/promises';
 
 const OUT = 'results.json';
@@ -128,13 +128,15 @@ export function analyze(d, info, frac = 1) {
 
 // ---------- 4. push ----------
 async function notify(title, body, tags, priority) {
-  if (!NTFY_TOPIC) return;
+  if (!NTFY_TOPIC) { console.log('NTFY_TOPIC secret is not set - no push sent'); return false; }
   try {
-    await fetch('https://ntfy.sh/' + encodeURIComponent(NTFY_TOPIC), {
+    const r = await fetch('https://ntfy.sh/' + encodeURIComponent(NTFY_TOPIC), {
       method: 'POST', body,
       headers: { Title: title, Tags: tags, Priority: String(priority), ...(APP_URL ? { Click: APP_URL } : {}) },
     });
-  } catch (e) { console.log('ntfy failed', e.message); }
+    console.log('ntfy', r.status, title);
+    return r.ok;
+  } catch (e) { console.log('ntfy failed', e.message); return false; }
 }
 const pct = x => (x * 100).toFixed(1) + '%';
 
@@ -172,18 +174,19 @@ async function main() {
   try { const s = JSON.parse(await readFile(STATE, 'utf8')); if (s.day === today) state = s; } catch {}
   const fresh = rows.filter(r => (r.st === 'breakout' || r.st === 'near' && !r.over) && !state.sent.includes(r.t + '|' + r.st));
   const bo = fresh.filter(r => r.st === 'breakout'), nr = fresh.filter(r => r.st === 'near').slice(0, 8);
+  let ok = true;
   if (bo.length) {
-    await notify(`${bo.length} breakout${bo.length > 1 ? 's' : ''}: ${bo.slice(0, 4).map(r => r.t).join(', ')}`,
-      bo.slice(0, 6).map(r => `${r.t} ${r.p} above ${r.top} · vol ×${r.vr} · stop ${r.stop} (risk ${pct(r.risk)})${r.okRisk ? '' : ' ⚠ wide stop'}`).join('\n'), 'rocket', 4);
+    ok = await notify(`${bo.length} breakout${bo.length > 1 ? 's' : ''}: ${bo.slice(0, 4).map(r => r.t).join(', ')}`,
+      bo.slice(0, 6).map(r => `${r.t} ${r.p} above ${r.top} · vol ×${r.vr} · stop ${r.stop} (risk ${pct(r.risk)})${r.okRisk ? '' : ' ⚠ wide stop'}`).join('\n'), 'rocket', 4) && ok;
   }
   if (nr.length) {
-    await notify(`Near breakout: ${nr.slice(0, 4).map(r => r.t).join(', ')}`,
-      nr.map(r => `${r.t} ${r.p} → level ${r.top} (${pct((r.top - r.p) / r.top)} away) · ${r.L}-day base`).join('\n'), 'eyes', 3);
+    ok = await notify(`Near breakout: ${nr.slice(0, 4).map(r => r.t).join(', ')}`,
+      nr.map(r => `${r.t} ${r.p} → level ${r.top} (${pct((r.top - r.p) / r.top)} away) · ${r.L}-day base`).join('\n'), 'eyes', 3) && ok;
   }
   if (U.list.length > 50 && yahooErrors > U.list.length * 0.5) {
     await notify('Base Watch scan problem', `Price data failed for ${yahooErrors} of ${U.list.length} stocks ${JSON.stringify(codes)}. Results may be incomplete.`, 'warning', 3);
   }
-  state.sent.push(...fresh.map(r => r.t + '|' + r.st));
+  if (ok) state.sent.push(...fresh.map(r => r.t + '|' + r.st));
   await writeFile(STATE, JSON.stringify(state));
 }
 
