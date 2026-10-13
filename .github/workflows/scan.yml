@@ -2,9 +2,9 @@ name: Scan
 
 on:
   schedule:
-    - cron: '0 15 * * 1-5'
-    - cron: '30 21 * * 1-5'
-  workflow_dispatch: {}
+    - cron: '0 15 * * 1-5'   # 15:00 UTC = 16:00 UK summer / 15:00 UK winter (US market open in both)
+    - cron: '30 21 * * 1-5'  # 21:30 UTC = after the US close all year
+  workflow_dispatch: {}       # lets you press "Run workflow" by hand
 
 permissions:
   contents: write
@@ -19,6 +19,8 @@ jobs:
     timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -33,4 +35,5 @@ jobs:
           git config user.email "base-watch-bot@users.noreply.github.com"
           git add results.json alerted.json
           git commit -m "Scan $(date -u +'%Y-%m-%d %H:%M')" || echo "No changes"
+          git pull --rebase -X theirs origin main || true
           git push
