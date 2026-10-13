@@ -5,8 +5,8 @@
 // 4) Writes docs/results.json for the app and sends a push to ntfy for anything new.
 import { readFile, writeFile } from 'node:fs/promises';
 
-const OUT = 'docs/results.json';
-const STATE = 'docs/alerted.json';
+const OUT = 'results.json';
+const STATE = 'alerted.json';
 const NTFY_TOPIC = process.env.NTFY_TOPIC || '';
 const APP_URL = process.env.APP_URL || '';
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0 Safari/537.36';
