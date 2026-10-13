@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Base Watch</title>
+<meta name="theme-color" content="#14202c">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one narrow column of setup cards (phone-first), summary strip and stage tabs on top, rules folded at the bottom. */
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#eef1f4; --surface:#ffffff; --ink:#14202c; --muted:#5b6876; --line:#d6dde4; --grid:#e6ebf0;
+  --accent:#1f5fa8;                 /* chart line, links */
+  --base:rgba(31,95,168,.10);       /* base box fill */
+  --go:#0f7a4f; --go-bg:#dcf2e7;    /* breakout */
+  --near:#a35c00; --near-bg:#fbeacd;/* near breakout */
+  --form:#3b5a7a; --form-bg:#e1e9f2;/* base forming */
+  --warn:#b42318;
+  --f-display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-data:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f151b; --surface:#17202a; --ink:#e6edf3; --muted:#9aa8b6; --line:#2a3542; --grid:#222c37;
+  --accent:#6aa7ee; --base:rgba(106,167,238,.14);
+  --go:#4cc58f; --go-bg:#16352a; --near:#f0a845; --near-bg:#3a2a12; --form:#9db8d6; --form-bg:#1e2c3b; --warn:#ff8a7a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f151b; --surface:#17202a; --ink:#e6edf3; --muted:#9aa8b6; --line:#2a3542; --grid:#222c37;
+  --accent:#6aa7ee; --base:rgba(106,167,238,.14);
+  --go:#4cc58f; --go-bg:#16352a; --near:#f0a845; --near-bg:#3a2a12; --form:#9db8d6; --form-bg:#1e2c3b; --warn:#ff8a7a; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45;margin:0}
+.wrap{max-width:760px;margin:0 auto;padding-inline:16px;padding-block:20px 48px;display:flex;flex-direction:column;gap:18px}
+header{display:flex;flex-direction:column;gap:6px}
+h1{font-family:var(--f-display);font-stretch:80%;font-weight:800;font-size:2.1rem;letter-spacing:-.01em;margin:0;line-height:1}
+.sub{color:var(--muted);font-size:.9rem;margin:0}
+.funnel{display:flex;flex-wrap:wrap;gap:4px 10px;font-family:var(--f-data);font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.funnel b{color:var(--ink);font-weight:500}
+.funnel span+span::before{content:"→";margin-right:10px;color:var(--line)}
+.hdrrow{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.refresh{font:inherit;font-size:.8rem;font-weight:600;color:var(--accent);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer}
+.stale{color:var(--warn);font-weight:600;font-size:.85rem}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding-block:8px;z-index:2}
+.tab{font:inherit;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:8px 8px 7px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:2px;min-width:0}
+.tab .n{font-family:var(--f-display);font-stretch:80%;font-weight:700;font-size:1.5rem;line-height:1;font-variant-numeric:tabular-nums}
+.tab .l{font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tab[aria-pressed="true"]{border-color:currentColor;box-shadow:inset 0 -3px 0 currentColor}
+.tab.go{color:var(--go)} .tab.near{color:var(--near)} .tab.form{color:var(--form)}
+.tab .l{color:inherit;opacity:.85}
+.tab:focus-visible,.more:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.list{display:flex;flex-direction:column;gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.top{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.tk{font-family:var(--f-display);font-stretch:85%;font-weight:800;font-size:1.35rem;letter-spacing:.01em}
+.nm{color:var(--muted);font-size:.85rem;flex:1 1 140px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pill{font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.07em;border-radius:999px;padding:3px 8px;white-space:nowrap}
+.pill.breakout{background:var(--go-bg);color:var(--go)} .pill.near{background:var(--near-bg);color:var(--near)} .pill.forming{background:var(--form-bg);color:var(--form)}
+.pill.new{background:var(--ink);color:var(--surface)}
+.score{font-family:var(--f-data);font-size:.75rem;color:var(--muted)}
+svg.spark{width:100%;height:84px;display:block}
+.facts{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px 12px;margin:0}
+.facts div{min-width:0}
+.facts dt{font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.facts dd{margin:0;font-family:var(--f-data);font-size:.92rem;font-variant-numeric:tabular-nums}
+.plan{font-size:.86rem;border-top:1px dashed var(--line);padding-top:9px;display:flex;flex-wrap:wrap;gap:4px 14px;font-variant-numeric:tabular-nums}
+.plan .w{color:var(--warn);font-weight:600}
+.plan a{color:var(--accent);margin-left:auto;text-decoration:none;font-weight:600}
+.empty{background:var(--surface);border:1px dashed var(--line);border-radius:12px;padding:22px;color:var(--muted)}
+.empty strong{color:var(--ink);display:block;margin-bottom:4px}
+.more{font:inherit;color:var(--accent);background:none;border:0;padding:6px 0;cursor:pointer;align-self:flex-start;font-weight:600}
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+summary{cursor:pointer;font-weight:600}
+details p,details li{color:var(--ink);font-size:.9rem;max-width:65ch}
+details ul{padding-left:18px;margin:8px 0}
+.note{color:var(--muted);font-size:.8rem}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <h1>Base Watch</h1>
+    <p class="sub">Breakout setups on US stocks: big move, tight base, then a push through the top on volume.</p>
+    <div class="hdrrow"><div class="funnel" id="funnel"><span>Loading…</span></div><button class="refresh" id="refresh" aria-label="Refresh results">Refresh</button></div>
+    <div class="stale" id="stale" hidden></div>
+  </header>
+
+  <nav class="tabs" aria-label="Setup stage">
+    <button class="tab go" id="tab-breakout" data-st="breakout" aria-pressed="true"><span class="n" id="n-breakout">–</span><span class="l">Breakouts</span></button>
+    <button class="tab near" id="tab-near" data-st="near" aria-pressed="false"><span class="n" id="n-near">–</span><span class="l">Near breakout</span></button>
+    <button class="tab form" id="tab-forming" data-st="forming" aria-pressed="false"><span class="n" id="n-forming">–</span><span class="l">Bases forming</span></button>
+  </nav>
+
+  <section class="list" id="list" aria-live="polite">
+    <div class="empty"><strong>Loading the latest scan…</strong>Scans run on weekdays after the US open and after the close.</div>
+  </section>
+  <button class="more" id="more" hidden>Show all</button>
+
+  <details>
+    <summary>How the scan works</summary>
+    <p><b>Universe.</b> Every US-listed stock (NASDAQ, NYSE, AMEX), then only tradeable ones: price over $1, at least 150k shares and $1M traded a day, market cap $50M to $50B. Mega caps are left out on purpose.</p>
+    <p><b>A setup needs all of these:</b></p>
+    <ul>
+      <li><b>The move:</b> the top of the base is at least 30% above the lowest price of the 60 days before it.</li>
+      <li><b>The base:</b> 5 to 40 days moving sideways in a range no deeper than 18%, near the stock's recent highs.</li>
+      <li><b>Getting tighter:</b> the second half of the base swings less than the first half, and its lows are higher.</li>
+      <li><b>Trend intact:</b> the 20-day EMA is above the 50-day EMA and price is near or above the 20-day.</li>
+      <li><b>Moves enough to matter:</b> average daily range (ADR) of at least 2.5%. This removes stocks pinned by a takeover offer.</li>
+    </ul>
+    <p><b>Stages.</b> <i>Base forming</i>: inside the base. <i>Near breakout</i>: within 3% of the top, or above it on light volume. <i>Breakout</i>: above the top of the base (no more than 10% above) with volume at least 1.3× the 20-day average. During market hours, volume is projected to a full day, so early readings can overstate it.</p>
+    <p><b>Plan shown on breakouts.</b> Entry at the current price, stop at today's low. If that stop is further away than the stock's ADR, the card warns you, because the risk is too wide.</p>
+    <p><b>Score</b> (0–100) ranks setups within a stage: tighter base, bigger prior move, volume drying up in the base, and closeness to the breakout level.</p>
+    <p class="note">This is a screen, not advice. In a backtest of similar rules on about 1,000 US stocks over two years, only about a third of breakouts worked; the profits came from a few big winners. Always check the chart yourself, and know your exit before you buy. Prices: Yahoo Finance daily data. Stock list: TradingView screener. Scans run on GitHub Actions; alerts go to the ntfy app.</p>
+  </details>
+</div>
+
+<script>
+(function(){
+  var state={latest:null,prev:null,stage:'breakout',showAll:false};
+  try{var s=localStorage.getItem('bw-stage');if(s)state.stage=s}catch(e){}
+  var $=function(id){return document.getElementById(id)};
+  var pct=function(x,d){return (x*100).toFixed(d==null?1:d)+'%'};
+  var money=function(x){return x==null?'–':(x>=100?x.toFixed(2):x>=10?x.toFixed(2):x.toFixed(3).replace(/0$/,''))};
+  var mcap=function(m){return m>=1000?'$'+(m/1000).toFixed(1)+'B':'$'+m+'M'};
+  var esc=function(t){var d=document.createElement('div');d.textContent=t==null?'':String(t);return d.innerHTML};
+
+  function spark(r){
+    var W=300,H=84,P=4,c=(r.cl||[]).map(function(v){return v*r.top/1000});if(c.length<2)return '';
+    var lo=Math.min.apply(null,c.concat([r.bot])),hi=Math.max.apply(null,c.concat([r.top]));var span=(hi-lo)||1;
+    var x=function(i){return P+i*(W-2*P)/(c.length-1)},y=function(v){return H-P-(v-lo)/span*(H-2*P)};
+    var pts=c.map(function(v,i){return x(i).toFixed(1)+','+y(v).toFixed(1)}).join(' ');
+    var bs=Math.max(0,Math.min(c.length-1,r.bs)),bx=x(bs),bw=x(c.length-1)-bx;
+    var last=c[c.length-1];
+    return '<svg class="spark" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" role="img" aria-label="Last 50 days of closing prices with the base marked">'+
+      '<line x1="0" x2="'+W+'" y1="'+y(lo+span/2)+'" y2="'+y(lo+span/2)+'" stroke="var(--grid)" stroke-width="1"/>'+
+      '<rect x="'+bx+'" y="'+y(r.top)+'" width="'+Math.max(bw,2)+'" height="'+Math.max(y(r.bot)-y(r.top),1)+'" fill="var(--base)"/>'+
+      '<line x1="'+bx+'" x2="'+W+'" y1="'+y(r.top)+'" y2="'+y(r.top)+'" stroke="var(--near)" stroke-width="1.5" stroke-dasharray="4 3"/>'+
+      '<polyline points="'+pts+'" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>'+
+      '<circle cx="'+x(c.length-1)+'" cy="'+y(last)+'" r="3.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>'+
+    '</svg>';
+  }
+
+  function card(r,isNew){
+    var stLabel={breakout:'Breakout',near:'Near breakout',forming:'Base forming'}[r.st];
+    var dist=(r.top-r.p)/r.top;
+    var facts=[
+      ['Price',money(r.p)+' <span style="color:'+(r.chg>=0?'var(--go)':'var(--warn)')+'">'+(r.chg>=0?'+':'')+pct(r.chg)+'</span>'],
+      ['Breakout level',money(r.top)],
+      [r.p>r.top?'Above level':'To breakout',(r.p>r.top?'+':'')+pct(Math.abs(dist))],
+      ['Base',r.L+' days · '+pct(r.rng,0)+' deep'],
+      ['Prior move','+'+pct(r.mv,0)],
+      ['ADR',pct(r.adr)],
+      ['Volume','×'+r.vr.toFixed(1)+(r.live?' (proj.)':'')],
+      ['Market cap',mcap(r.mc)]
+    ].map(function(f){return '<div><dt>'+f[0]+'</dt><dd>'+f[1]+'</dd></div>'}).join('');
+    var plan;
+    if(r.st==='breakout'){
+      plan='<span>Entry <b>'+money(r.entry)+'</b></span><span>Stop <b>'+money(r.stop)+'</b> (today\'s low)</span><span>Risk <b>'+pct(r.risk)+'</b></span>'+
+        (r.okRisk?'':'<span class="w">Stop is wider than ADR. Skip or wait.</span>');
+    }else if(r.over){
+      plan='<span>Above '+money(r.top)+' but volume is light. Wait for volume ×1.3+.</span>';
+    }else{
+      plan='<span>Watch for a close above <b>'+money(r.top)+'</b> on volume ×1.3+</span><span>Stop would be the low of that day</span>';
+    }
+    var url='https://www.tradingview.com/chart/?symbol='+encodeURIComponent(r.t);
+    return '<article class="card"><div class="top"><span class="tk">'+esc(r.t)+'</span><span class="nm">'+esc(r.nm)+(r.sec?' · '+esc(r.sec):'')+'</span>'+
+      (isNew?'<span class="pill new">New</span>':'')+'<span class="pill '+r.st+'">'+stLabel+'</span><span class="score">'+r.score+'</span></div>'+
+      spark(r)+'<dl class="facts">'+facts+'</dl><div class="plan">'+plan+'<a href="'+url+'" target="_blank" rel="noopener">Chart ↗</a></div></article>';
+  }
+
+  function render(){
+    ['breakout','near','forming'].forEach(function(s){$('tab-'+s).setAttribute('aria-pressed',String(s===state.stage))});
+    var L=state.latest;
+    if(!L||!L.rows){return}
+    var prevSet={};var pk=state.prev&&state.prev.keys&&state.prev.keys.length?state.prev.keys:null;(pk||[]).forEach(function(k){prevSet[k]=1});var hasPrev=!!pk;
+    var counts={breakout:0,near:0,forming:0};L.rows.forEach(function(r){counts[r.st]++});
+    ['breakout','near','forming'].forEach(function(s){$('n-'+s).textContent=counts[s]});
+    var when=new Date(L.ranAt);
+    $('funnel').innerHTML='<span><b>'+(L.allUS||0).toLocaleString()+'</b> US stocks</span><span><b>'+(L.tradeable||0).toLocaleString()+'</b> tradeable</span><span><b>'+(L.candidates||0).toLocaleString()+'</b> checked</span><span>Scanned <b>'+when.toLocaleString([], {weekday:'short',hour:'2-digit',minute:'2-digit'})+'</b></span>';
+    var ageH=(Date.now()-when.getTime())/36e5,day=new Date().getDay();
+    var st=$('stale');if(ageH>30&&day!==0&&day!==1){st.hidden=false;st.textContent='Last scan was '+Math.round(ageH)+' hours ago. Check the Actions tab on GitHub for a failed run.'}else st.hidden=true;
+    var rows=L.rows.filter(function(r){return r.st===state.stage}).sort(function(a,b){return b.score-a.score});
+    var shown=state.showAll?rows:rows.slice(0,12);
+    $('list').innerHTML=rows.length?shown.map(function(r){return card(r,hasPrev&&!prevSet[r.t+'|'+r.st])}).join(''):
+      '<div class="empty"><strong>Nothing in this stage right now</strong>The next scan may change that. Check the other stages above.</div>';
+    var more=$('more');more.hidden=rows.length<=12||state.showAll;more.textContent='Show all '+rows.length;
+  }
+
+  document.querySelectorAll('.tab').forEach(function(b){b.addEventListener('click',function(){state.stage=b.dataset.st;state.showAll=false;try{localStorage.setItem('bw-stage',state.stage)}catch(e){}render()})});
+  $('more').addEventListener('click',function(){state.showAll=true;render()});
+  render();
+
+  function load(){
+    fetch('results.json?t='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error(r.status);return r.json()})
+      .then(function(j){state.latest=j;state.prev={keys:j.prevKeys||[]};render()})
+      .catch(function(){if(!state.latest)$('list').innerHTML='<div class="empty"><strong>No results yet</strong>The first scan hasn\'t run. In GitHub, open Actions → Scan → Run workflow, then come back in a few minutes.</div>'});
+  }
+  load();setInterval(load,5*60*1000);
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)load()});
+  $('refresh').addEventListener('click',load);
+  if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){})}
+})();
+</script>
+
+</body>
+</html>
