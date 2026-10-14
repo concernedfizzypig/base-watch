@@ -138,7 +138,7 @@ details ul{padding-left:18px;margin:8px 0}
 
   <details>
     <summary>His rules, and how the app uses them</summary>
-    <p><b>1. Only the leaders.</b> Six momentum scans: biggest gainers over 1, 3 and 6 months, measured from the close 21/63/126 days ago and from the lowest low in that period. Only the top ~7% of each (max 50) are kept, after filtering for ADR ≥ 5% and at least $5M traded a day.</p>
+    <p><b>1. Only the leaders.</b> Six momentum scans: biggest gainers over 1, 3 and 6 months, measured from the close 21/63/126 days ago and from the lowest low in that period. Only the top ~7% of each (max 50) are kept, after filtering for ADR (see the number at the top) and at least $5M traded a day.</p>
     <p><b>2. The setup.</b> Rising 20 and 50-day averages; the stock is surfing its 10, 20 or 50-day simple moving average; higher lows; range not widening; near its highs. Extra stars for a tight last 3 days, a narrow candle the day before, a steep trend, relative strength vs the Nasdaq, a hot sector, volume drying up, and appearing in several scans.</p>
     <p><b>3. Entry.</b> Buy as it breaks the <b>trigger</b> (top of the range), at the opening range high (first 1, 5 or 60-minute candle). Don't buy if it's already above the <b>too late</b> price (yesterday's close + one ATR). Never within ~3 days of earnings.</p>
     <p><b>4. Stop.</b> Low of the day you buy. Must not be wider than the ATR; his are usually about half an ATR.</p>
@@ -259,7 +259,7 @@ details ul{padding-left:18px;margin:8px 0}
     var counts={breakout:0,near:0,forming:0};L.rows.forEach(function(r){counts[r.st]++});
     ['breakout','near','forming'].forEach(function(s){$('n-'+s).textContent=counts[s]});
     var when=new Date(L.ranAt);
-    $('funnel').innerHTML='<span><b>'+(L.allUS||0).toLocaleString()+'</b> US stocks</span><span><b>'+(L.tradeable||0).toLocaleString()+'</b> pass ADR + volume</span><span><b>'+(L.candidates||0)+'</b> momentum leaders</span><span>Scanned <b>'+when.toLocaleString([], {weekday:'short',hour:'2-digit',minute:'2-digit'})+'</b></span>'+(L.hotSectors&&L.hotSectors.length?'<span>Hot: <b>'+L.hotSectors.map(esc).join(', ')+'</b></span>':'');
+    $('funnel').innerHTML='<span><b>'+(L.allUS||0).toLocaleString()+'</b> US stocks</span><span><b>'+(L.tradeable||0).toLocaleString()+'</b> pass ADR ≥ '+Math.round(((L.settings&&L.settings.minADR)||0.04)*100)+'% + volume</span><span><b>'+(L.candidates||0)+'</b> momentum leaders</span><span>Scanned <b>'+when.toLocaleString([], {weekday:'short',hour:'2-digit',minute:'2-digit'})+'</b></span>'+(L.hotSectors&&L.hotSectors.length?'<span>Hot: <b>'+L.hotSectors.map(esc).join(', ')+'</b></span>':'');
     var ageH=(Date.now()-when.getTime())/36e5,day=new Date().getDay();
     var st=$('stale');if(ageH>30&&day!==0&&day!==1){st.hidden=false;st.textContent='Last scan was '+Math.round(ageH)+' hours ago. Check the Actions tab on GitHub for a failed run.'}else st.hidden=true;
     var T=(L.tracker&&L.tracker.trades)||[];$('n-tracker').textContent=T.length;
