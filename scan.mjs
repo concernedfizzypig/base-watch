@@ -217,7 +217,7 @@ function simulate(tr, d) {
   const S10 = sma(d.c, 10); const R = tr.entry - tr.stop0;
   let stop = tr.stop0, left = 1, realized = 0, half = false; const ev = [];
   const exitAll = (px, k, why) => { realized += left * (px - tr.entry); left = 0; ev.push({ d: dates[k], what: why, px: r2(px) }); };
-  if (d.l[e] < tr.stop0 - 1e-9) exitAll(tr.stop0, e, 'Stopped out on entry day');
+  if (d.l[e] < tr.stop0 - 0.006) exitAll(tr.stop0, e, 'Stopped out on entry day');
   for (let k = e + 1; k < d.c.length && left > 0; k++) {
     const day = k - e;
     if (d.o[k] <= stop) { exitAll(d.o[k], k, stop > tr.stop0 ? 'Gapped below break-even stop' : 'Gapped below stop'); break; }
