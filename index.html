@@ -79,22 +79,43 @@ summary{cursor:pointer;font-weight:600}
 details p,details li{color:var(--ink);font-size:.9rem;max-width:65ch}
 details ul{padding-left:18px;margin:8px 0}
 .note{color:var(--muted);font-size:.8rem}
+
+.market{display:flex;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.dot{width:14px;height:14px;border-radius:50%;flex:none;background:var(--muted)}
+.dot.green{background:var(--go)} .dot.yellow{background:var(--near)} .dot.red{background:var(--warn)}
+.market b{display:block;font-size:.95rem} .market span{font-size:.84rem;color:var(--muted)}
+.stars{color:var(--near);font-size:.95rem;letter-spacing:1px;white-space:nowrap}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:.72rem;border:1px solid var(--line);border-radius:6px;padding:2px 7px;color:var(--muted);white-space:nowrap}
+.tag.good{color:var(--go);border-color:currentColor} .tag.bad{color:var(--warn);border-color:currentColor;font-weight:600}
+.legend{display:flex;gap:12px;font-size:.7rem;color:var(--muted)} .legend i{display:inline-block;width:12px;height:2px;vertical-align:middle;margin-right:4px}
+.calc{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-wrap:wrap;gap:10px 16px;align-items:end;font-size:.85rem}
+.calc label{display:flex;flex-direction:column;gap:3px;color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em}
+.calc input{font:inherit;font-size:.95rem;width:120px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+.size{font-weight:600}
 </style>
 </head>
 <body>
-
 <div class="wrap">
   <header>
     <h1>Base Watch</h1>
-    <p class="sub">Breakout setups on US stocks: big move, tight base, then a push through the top on volume.</p>
+    <p class="sub">Qullamaggie-style breakouts: momentum leaders surfing their 10, 20 or 50-day average, getting tight, ready for the next step up.</p>
     <div class="hdrrow"><div class="funnel" id="funnel"><span>Loading…</span></div><button class="refresh" id="refresh" aria-label="Refresh results">Refresh</button></div>
     <div class="stale" id="stale" hidden></div>
   </header>
 
+  <div class="market" id="market"><span class="dot" id="mdot"></span><div><b id="mtitle">Market light</b><span id="mtext">Loading Nasdaq trend…</span></div></div>
+
+  <div class="calc">
+    <label for="acct">Account size<input id="acct" type="number" inputmode="decimal" min="0" step="100" placeholder="e.g. 10000"></label>
+    <label for="riskp">Risk per trade %<input id="riskp" type="number" inputmode="decimal" min="0.1" max="2" step="0.05" value="0.5"></label>
+    <span class="note">He risks 0.25–1% per trade and never puts more than 25% of the account in one stock. Cards show how many shares that means.</span>
+  </div>
+
   <nav class="tabs" aria-label="Setup stage">
     <button class="tab go" id="tab-breakout" data-st="breakout" aria-pressed="true"><span class="n" id="n-breakout">–</span><span class="l">Breakouts</span></button>
-    <button class="tab near" id="tab-near" data-st="near" aria-pressed="false"><span class="n" id="n-near">–</span><span class="l">Near breakout</span></button>
-    <button class="tab form" id="tab-forming" data-st="forming" aria-pressed="false"><span class="n" id="n-forming">–</span><span class="l">Bases forming</span></button>
+    <button class="tab near" id="tab-near" data-st="near" aria-pressed="false"><span class="n" id="n-near">–</span><span class="l">Watchlist</span></button>
+    <button class="tab form" id="tab-forming" data-st="forming" aria-pressed="false"><span class="n" id="n-forming">–</span><span class="l">Setting up</span></button>
   </nav>
 
   <section class="list" id="list" aria-live="polite">
@@ -103,103 +124,116 @@ details ul{padding-left:18px;margin:8px 0}
   <button class="more" id="more" hidden>Show all</button>
 
   <details>
-    <summary>How the scan works</summary>
-    <p><b>Universe.</b> Every US-listed stock (NASDAQ, NYSE, AMEX), then only tradeable ones: price over $1, at least 150k shares and $1M traded a day, market cap $50M to $50B. Mega caps are left out on purpose.</p>
-    <p><b>A setup needs all of these:</b></p>
-    <ul>
-      <li><b>The move:</b> the top of the base is at least 30% above the lowest price of the 60 days before it.</li>
-      <li><b>The base:</b> 5 to 40 days moving sideways in a range no deeper than 18%, near the stock's recent highs.</li>
-      <li><b>Getting tighter:</b> the second half of the base swings less than the first half, and its lows are higher.</li>
-      <li><b>Trend intact:</b> the 20-day EMA is above the 50-day EMA and price is near or above the 20-day.</li>
-      <li><b>Moves enough to matter:</b> average daily range (ADR) of at least 2.5%. This removes stocks pinned by a takeover offer.</li>
-    </ul>
-    <p><b>Stages.</b> <i>Base forming</i>: inside the base. <i>Near breakout</i>: within 3% of the top, or above it on light volume. <i>Breakout</i>: above the top of the base (no more than 10% above) with volume at least 1.3× the 20-day average. During market hours, volume is projected to a full day, so early readings can overstate it.</p>
-    <p><b>Plan shown on breakouts.</b> Entry at the current price, stop at today's low. If that stop is further away than the stock's ADR, the card warns you, because the risk is too wide.</p>
-    <p><b>Score</b> (0–100) ranks setups within a stage: tighter base, bigger prior move, volume drying up in the base, and closeness to the breakout level.</p>
-    <p class="note">This is a screen, not advice. In a backtest of similar rules on about 1,000 US stocks over two years, only about a third of breakouts worked; the profits came from a few big winners. Always check the chart yourself, and know your exit before you buy. Prices: Yahoo Finance daily data. Stock list: TradingView screener. Scans run on GitHub Actions; alerts go to the ntfy app.</p>
+    <summary>His rules, and how the app uses them</summary>
+    <p><b>1. Only the leaders.</b> Six momentum scans: biggest gainers over 1, 3 and 6 months, measured from the close 21/63/126 days ago and from the lowest low in that period. Only the top ~7% of each (max 50) are kept, after filtering for ADR ≥ 5% and at least $5M traded a day.</p>
+    <p><b>2. The setup.</b> Rising 20 and 50-day averages; the stock is surfing its 10, 20 or 50-day simple moving average; higher lows; range not widening; near its highs. Extra stars for a tight last 3 days, a narrow candle the day before, a steep trend, relative strength vs the Nasdaq, a hot sector, volume drying up, and appearing in several scans.</p>
+    <p><b>3. Entry.</b> Buy as it breaks the <b>trigger</b> (top of the range), at the opening range high (first 1, 5 or 60-minute candle). Don't buy if it's already above the <b>too late</b> price (yesterday's close + one ATR). Never within ~3 days of earnings.</p>
+    <p><b>4. Stop.</b> Low of the day you buy. Must not be wider than the ATR; his are usually about half an ATR.</p>
+    <p><b>5. Selling.</b> Ignore days 1–2. After 3–5 days sell 1/3 to 1/2 and move the stop to break-even. Sell the rest on the first <b>close</b> below the 10-day average.</p>
+    <p><b>6. Market.</b> Only trade breakouts when the Nasdaq light is green (10 and 20-day averages rising, 10 above 20). In red markets most breakouts fail; sit in cash.</p>
+    <p class="note">Stars are the app's own scoring of his checklist, not his rating. He wins only 20–30% of trades and makes his money from a few that run 10–50× the risk. Not financial advice. Prices: Yahoo Finance. Stock list and earnings dates: TradingView. Source: Qullamaggie's Swing Trading School streams (2020) and his blog.</p>
   </details>
 </div>
-
 <script>
 (function(){
-  var state={latest:null,prev:null,stage:'breakout',showAll:false};
-  try{var s=localStorage.getItem('bw-stage');if(s)state.stage=s}catch(e){}
+  var state={latest:null,stage:'breakout',showAll:false};
+  var get=function(k){try{return localStorage.getItem(k)}catch(e){return null}},put=function(k,v){try{localStorage.setItem(k,v)}catch(e){}};
+  if(get('bw-stage'))state.stage=get('bw-stage');
   var $=function(id){return document.getElementById(id)};
+  if(get('bw-acct'))$('acct').value=get('bw-acct'); if(get('bw-risk'))$('riskp').value=get('bw-risk');
   var pct=function(x,d){return (x*100).toFixed(d==null?1:d)+'%'};
-  var money=function(x){return x==null?'–':(x>=100?x.toFixed(2):x>=10?x.toFixed(2):x.toFixed(3).replace(/0$/,''))};
+  var money=function(x){return x==null?'–':(x>=10?x.toFixed(2):x.toFixed(3).replace(/0$/,''))};
   var mcap=function(m){return m>=1000?'$'+(m/1000).toFixed(1)+'B':'$'+m+'M'};
   var esc=function(t){var d=document.createElement('div');d.textContent=t==null?'':String(t);return d.innerHTML};
+  var starStr=function(n){var f=Math.floor(n);return '★'.repeat(f)+(n%1?'½':'')+'<span style="opacity:.25">'+'★'.repeat(5-Math.ceil(n))+'</span>'};
 
   function spark(r){
-    var W=300,H=84,P=4,c=(r.cl||[]).map(function(v){return v*r.top/1000});if(c.length<2)return '';
-    var lo=Math.min.apply(null,c.concat([r.bot])),hi=Math.max.apply(null,c.concat([r.top]));var span=(hi-lo)||1;
+    var W=300,H=96,P=4,c=r.cl||[];if(c.length<2)return '';
+    var all=c.concat([r.bot,r.top]).concat((r.s10||[]).filter(Boolean)).concat((r.s20||[]).filter(Boolean)).concat((r.s50||[]).filter(Boolean));
+    var lo=Math.min.apply(null,all),hi=Math.max.apply(null,all),span=(hi-lo)||1;
     var x=function(i){return P+i*(W-2*P)/(c.length-1)},y=function(v){return H-P-(v-lo)/span*(H-2*P)};
-    var pts=c.map(function(v,i){return x(i).toFixed(1)+','+y(v).toFixed(1)}).join(' ');
+    var line=function(a,col,w,dash){var p=[];(a||[]).forEach(function(v,i){if(v!=null)p.push(x(i).toFixed(1)+','+y(v).toFixed(1))});return p.length?'<polyline points="'+p.join(' ')+'" fill="none" stroke="'+col+'" stroke-width="'+w+'"'+(dash?' stroke-dasharray="'+dash+'"':'')+' vector-effect="non-scaling-stroke"/>':''};
     var bs=Math.max(0,Math.min(c.length-1,r.bs)),bx=x(bs),bw=x(c.length-1)-bx;
-    var last=c[c.length-1];
-    return '<svg class="spark" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" role="img" aria-label="Last 50 days of closing prices with the base marked">'+
-      '<line x1="0" x2="'+W+'" y1="'+y(lo+span/2)+'" y2="'+y(lo+span/2)+'" stroke="var(--grid)" stroke-width="1"/>'+
+    return '<svg class="spark" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" role="img" aria-label="Last 60 days: price, 10, 20 and 50-day averages, base shaded">'+
       '<rect x="'+bx+'" y="'+y(r.top)+'" width="'+Math.max(bw,2)+'" height="'+Math.max(y(r.bot)-y(r.top),1)+'" fill="var(--base)"/>'+
-      '<line x1="'+bx+'" x2="'+W+'" y1="'+y(r.top)+'" y2="'+y(r.top)+'" stroke="var(--near)" stroke-width="1.5" stroke-dasharray="4 3"/>'+
-      '<polyline points="'+pts+'" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>'+
-      '<circle cx="'+x(c.length-1)+'" cy="'+y(last)+'" r="3.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>'+
-    '</svg>';
+      '<line x1="'+bx+'" x2="'+W+'" y1="'+y(r.top)+'" y2="'+y(r.top)+'" stroke="var(--near)" stroke-width="1.5" stroke-dasharray="4 3" vector-effect="non-scaling-stroke"/>'+
+      line(r.s50,'var(--muted)',1,'2 2')+line(r.s20,'var(--go)',1.2)+line(r.s10,'var(--near)',1.2)+line(c,'var(--accent)',2)+
+      '<circle cx="'+x(c.length-1)+'" cy="'+y(c[c.length-1])+'" r="3.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/></svg>'+
+      '<div class="legend"><span><i style="background:var(--accent)"></i>Price</span><span><i style="background:var(--near)"></i>10d</span><span><i style="background:var(--go)"></i>20d</span><span><i style="background:var(--muted)"></i>50d</span><span><i style="background:var(--near);height:0;border-top:2px dashed var(--near)"></i>Trigger</span></div>';
+  }
+
+  function sizing(entry,stop){
+    var a=parseFloat($('acct').value),rp=parseFloat($('riskp').value)/100;
+    if(!(a>0)||!(rp>0)||!(entry>stop))return '';
+    var perShare=entry-stop,byRisk=Math.floor(a*rp/perShare),byCap=Math.floor(a*0.25/entry),sh=Math.min(byRisk,byCap);
+    return '<span class="size">Buy ≈ '+sh.toLocaleString()+' shares</span><span>(risk '+(sh*perShare).toFixed(0)+', '+pct(sh*entry/a,0)+' of account'+(byCap<byRisk?', capped at 25%':'')+')</span>';
   }
 
   function card(r,isNew){
-    var stLabel={breakout:'Breakout',near:'Near breakout',forming:'Base forming'}[r.st];
+    var lab={breakout:'Breakout',near:'Watchlist',forming:'Setting up'}[r.st];
     var dist=(r.top-r.p)/r.top;
+    var tags=[];
+    tags.push('<span class="tag good">Surfing '+r.surf+'-day</span>');
+    if(r.tight)tags.push('<span class="tag good">Tight 3 days</span>');
+    if(r.nr)tags.push('<span class="tag good">Narrow candle</span>');
+    if(r.rsNearHigh)tags.push('<span class="tag good">Strong vs Nasdaq</span>');
+    if(r.hotSector)tags.push('<span class="tag good">Hot sector</span>');
+    if(r.slope20>=0.10)tags.push('<span class="tag good">Steep trend</span>');
+    if(r.dry<0.8)tags.push('<span class="tag">Volume drying up</span>');
+    tags.push('<span class="tag">In '+r.scans.length+'/6 scans</span>');
+    if(r.earningsSoon)tags.push('<span class="tag bad">Earnings in '+r.earningsDays+'d – skip</span>');
+    else if(r.earningsDays!=null&&r.earningsDays>=0&&r.earningsDays<=14)tags.push('<span class="tag">Earnings in '+r.earningsDays+'d</span>');
     var facts=[
       ['Price',money(r.p)+' <span style="color:'+(r.chg>=0?'var(--go)':'var(--warn)')+'">'+(r.chg>=0?'+':'')+pct(r.chg)+'</span>'],
-      ['Breakout level',money(r.top)],
-      [r.p>r.top?'Above level':'To breakout',(r.p>r.top?'+':'')+pct(Math.abs(dist))],
-      ['Base',r.L+' days · '+pct(r.rng,0)+' deep'],
-      ['Prior move','+'+pct(r.mv,0)],
-      ['ADR',pct(r.adr)],
-      ['Volume','×'+r.vr.toFixed(1)+(r.live?' (proj.)':'')],
+      ['Trigger',money(r.trigger)],
+      [r.p>r.top?'Above trigger':'To trigger',(r.p>r.top?'+':'')+pct(Math.abs(dist))],
+      ['Too late above',money(r.tooLate)],
+      ['ATR / ADR',money(r.atr)+' / '+pct(r.adr)],
+      ['Base',r.L+'d · '+pct(r.depth,0)+' deep'],
+      ['Volume','×'+r.vr.toFixed(1)+(r.live?' proj.':'')],
       ['Market cap',mcap(r.mc)]
     ].map(function(f){return '<div><dt>'+f[0]+'</dt><dd>'+f[1]+'</dd></div>'}).join('');
-    var plan;
+    var plan='';
     if(r.st==='breakout'){
-      plan='<span>Entry <b>'+money(r.entry)+'</b></span><span>Stop <b>'+money(r.stop)+'</b> (today\'s low)</span><span>Risk <b>'+pct(r.risk)+'</b></span>'+
-        (r.okRisk?'':'<span class="w">Stop is wider than ADR. Skip or wait.</span>');
-    }else if(r.over){
-      plan='<span>Above '+money(r.top)+' but volume is light. Wait for volume ×1.3+.</span>';
+      plan='<span>Entry <b>'+money(r.entry)+'</b></span><span>Stop <b>'+money(r.stop)+'</b> (today\'s low)</span><span>Risk/share <b>'+money(r.risk)+'</b></span>'+sizing(r.entry,r.stop)+
+        (r.stopTooWide?'<span class="w">Stop wider than ATR – skip or wait for a dip.</span>':'')+(r.chased?'<span class="w">Up more than its ATR today – too late.</span>':'');
     }else{
-      plan='<span>Watch for a close above <b>'+money(r.top)+'</b> on volume ×1.3+</span><span>Stop would be the low of that day</span>';
+      var estStop=Math.max(r.trigger-r.atr*0.5,0);
+      plan='<span>Buy if it breaks <b>'+money(r.trigger)+'</b> (opening range high)</span><span>Not above <b>'+money(r.tooLate)+'</b></span><span>Stop = low of that day (≈ '+money(estStop)+' if half an ATR)</span>'+sizing(r.trigger,estStop);
     }
     var url='https://www.tradingview.com/chart/?symbol='+encodeURIComponent(r.t);
     return '<article class="card"><div class="top"><span class="tk">'+esc(r.t)+'</span><span class="nm">'+esc(r.nm)+(r.sec?' · '+esc(r.sec):'')+'</span>'+
-      (isNew?'<span class="pill new">New</span>':'')+'<span class="pill '+r.st+'">'+stLabel+'</span><span class="score">'+r.score+'</span></div>'+
-      spark(r)+'<dl class="facts">'+facts+'</dl><div class="plan">'+plan+'<a href="'+url+'" target="_blank" rel="noopener">Chart ↗</a></div></article>';
+      (isNew?'<span class="pill new">New</span>':'')+'<span class="pill '+r.st+'">'+lab+'</span><span class="stars" aria-label="'+r.stars+' of 5 stars">'+starStr(r.stars)+'</span></div>'+
+      '<div class="tags">'+tags.join('')+'</div>'+spark(r)+'<dl class="facts">'+facts+'</dl><div class="plan">'+plan+'<a href="'+url+'" target="_blank" rel="noopener">Chart ↗</a></div></article>';
   }
 
   function render(){
     ['breakout','near','forming'].forEach(function(s){$('tab-'+s).setAttribute('aria-pressed',String(s===state.stage))});
-    var L=state.latest;
-    if(!L||!L.rows){return}
-    var prevSet={};var pk=state.prev&&state.prev.keys&&state.prev.keys.length?state.prev.keys:null;(pk||[]).forEach(function(k){prevSet[k]=1});var hasPrev=!!pk;
+    var L=state.latest; if(!L||!L.rows)return;
+    if(L.market){var m=L.market;$('mdot').className='dot '+m.light;$('mtitle').textContent='Market: '+({green:'GREEN',yellow:'YELLOW',red:'RED'}[m.light]||'unknown')+(m.close?' · Nasdaq '+m.close.toLocaleString():'');$('mtext').textContent=m.text||''}
+    var prevSet={},pk=L.prevKeys&&L.prevKeys.length?L.prevKeys:null;(pk||[]).forEach(function(k){prevSet[k]=1});
     var counts={breakout:0,near:0,forming:0};L.rows.forEach(function(r){counts[r.st]++});
     ['breakout','near','forming'].forEach(function(s){$('n-'+s).textContent=counts[s]});
     var when=new Date(L.ranAt);
-    $('funnel').innerHTML='<span><b>'+(L.allUS||0).toLocaleString()+'</b> US stocks</span><span><b>'+(L.tradeable||0).toLocaleString()+'</b> tradeable</span><span><b>'+(L.candidates||0).toLocaleString()+'</b> checked</span><span>Scanned <b>'+when.toLocaleString([], {weekday:'short',hour:'2-digit',minute:'2-digit'})+'</b></span>';
+    $('funnel').innerHTML='<span><b>'+(L.allUS||0).toLocaleString()+'</b> US stocks</span><span><b>'+(L.tradeable||0).toLocaleString()+'</b> pass ADR + volume</span><span><b>'+(L.candidates||0)+'</b> momentum leaders</span><span>Scanned <b>'+when.toLocaleString([], {weekday:'short',hour:'2-digit',minute:'2-digit'})+'</b></span>'+(L.hotSectors&&L.hotSectors.length?'<span>Hot: <b>'+L.hotSectors.map(esc).join(', ')+'</b></span>':'');
     var ageH=(Date.now()-when.getTime())/36e5,day=new Date().getDay();
     var st=$('stale');if(ageH>30&&day!==0&&day!==1){st.hidden=false;st.textContent='Last scan was '+Math.round(ageH)+' hours ago. Check the Actions tab on GitHub for a failed run.'}else st.hidden=true;
-    var rows=L.rows.filter(function(r){return r.st===state.stage}).sort(function(a,b){return b.score-a.score});
-    var shown=state.showAll?rows:rows.slice(0,12);
-    $('list').innerHTML=rows.length?shown.map(function(r){return card(r,hasPrev&&!prevSet[r.t+'|'+r.st])}).join(''):
-      '<div class="empty"><strong>Nothing in this stage right now</strong>The next scan may change that. Check the other stages above.</div>';
-    var more=$('more');more.hidden=rows.length<=12||state.showAll;more.textContent='Show all '+rows.length;
+    var rows=L.rows.filter(function(r){return r.st===state.stage});
+    var shown=state.showAll?rows:rows.slice(0,15);
+    $('list').innerHTML=rows.length?shown.map(function(r){return card(r,!!pk&&!prevSet[r.t+'|'+r.st])}).join(''):
+      '<div class="empty"><strong>Nothing in this stage right now</strong>The next scan may change that. Check the other tabs.</div>';
+    var more=$('more');more.hidden=rows.length<=15||state.showAll;more.textContent='Show all '+rows.length;
   }
 
-  document.querySelectorAll('.tab').forEach(function(b){b.addEventListener('click',function(){state.stage=b.dataset.st;state.showAll=false;try{localStorage.setItem('bw-stage',state.stage)}catch(e){}render()})});
+  document.querySelectorAll('.tab').forEach(function(b){b.addEventListener('click',function(){state.stage=b.dataset.st;state.showAll=false;put('bw-stage',state.stage);render()})});
   $('more').addEventListener('click',function(){state.showAll=true;render()});
+  ['acct','riskp'].forEach(function(id){$(id).addEventListener('input',function(){put(id==='acct'?'bw-acct':'bw-risk',$(id).value);render()})});
   render();
 
   function load(){
     fetch('results.json?t='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error(r.status);return r.json()})
-      .then(function(j){state.latest=j;state.prev={keys:j.prevKeys||[]};render()})
-      .catch(function(){if(!state.latest)$('list').innerHTML='<div class="empty"><strong>No results yet</strong>The first scan hasn\'t run. In GitHub, open Actions → Scan → Run workflow, then come back in a few minutes.</div>'});
+      .then(function(j){if(j.version!==2){$('list').innerHTML='<div class="empty"><strong>Waiting for the first v2 scan</strong>Run the Scan workflow on GitHub once to fill this in.</div>';return}state.latest=j;render()})
+      .catch(function(){if(!state.latest)$('list').innerHTML='<div class="empty"><strong>No results yet</strong>In GitHub, open Actions → Scan → Run workflow, then come back in a few minutes.</div>'});
   }
   load();setInterval(load,5*60*1000);
   document.addEventListener('visibilitychange',function(){if(!document.hidden)load()});
@@ -207,6 +241,5 @@ details ul{padding-left:18px;margin:8px 0}
   if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){})}
 })();
 </script>
-
 </body>
 </html>
