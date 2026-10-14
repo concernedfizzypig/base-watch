@@ -205,6 +205,57 @@ export function analyze(d, info, ctx, frac = 1) {
   };
 }
 
+
+// ---------------- 6. paper-trade tracker ----------------
+// Every breakout the app shows is "bought" on paper and managed with his rules:
+// stop = low of the entry day; on day 3 sell half at the close and move the stop to break-even;
+// then sell the rest on the first close below the 10-day SMA. Uses daily bars, so it is an approximation.
+const dstr = t => new Date(t * 1000).toISOString().slice(0, 10);
+function simulate(tr, d) {
+  const dates = d.t.map(dstr); const e = dates.indexOf(tr.entryDate);
+  if (e < 0) return tr;                                  // no bar for the entry day yet
+  const S10 = sma(d.c, 10); const R = tr.entry - tr.stop0;
+  let stop = tr.stop0, left = 1, realized = 0, half = false; const ev = [];
+  const exitAll = (px, k, why) => { realized += left * (px - tr.entry); left = 0; ev.push({ d: dates[k], what: why, px: r2(px) }); };
+  if (d.l[e] < tr.stop0 - 1e-9) exitAll(tr.stop0, e, 'Stopped out on entry day');
+  for (let k = e + 1; k < d.c.length && left > 0; k++) {
+    const day = k - e;
+    if (d.o[k] <= stop) { exitAll(d.o[k], k, stop > tr.stop0 ? 'Gapped below break-even stop' : 'Gapped below stop'); break; }
+    if (d.l[k] <= stop) { exitAll(stop, k, stop > tr.stop0 ? 'Break-even stop hit' : 'Stopped out (day low)'); break; }
+    if (!half && day >= 3) { realized += 0.5 * (d.c[k] - tr.entry); left = 0.5; half = true; stop = Math.max(stop, tr.entry);
+      ev.push({ d: dates[k], what: 'Sold half (day 3), stop to break-even', px: r2(d.c[k]) }); continue; }
+    if (half && S10[k] != null && d.c[k] < S10[k]) { exitAll(d.c[k], k, 'Closed below 10-day SMA'); break; }
+  }
+  const last = d.c.at(-1);
+  const pnl = realized + left * (last - tr.entry);
+  return { ...tr, status: left > 0 ? 'open' : 'closed', half, stopNow: r2(stop), last: r2(last), lastDate: dates.at(-1),
+    days: d.c.length - 1 - e, events: ev, rMult: R > 0 ? Math.round(pnl / R * 100) / 100 : null, pct: Math.round(pnl / tr.entry * 10000) / 100,
+    exitDate: left > 0 ? null : ev.at(-1).d };
+}
+async function updateTracker(prev, breakouts, bars, market) {
+  const tk = prev?.trades ? prev : { startedAt: new Date().toISOString(), trades: [] };
+  const trades = tk.trades.map(t => ({ ...t }));
+  const today = new Date().toISOString().slice(0, 10);
+  for (const r of breakouts) {
+    if (r.date !== today && Date.now() - Date.parse(r.date) > 4 * 864e5) continue;          // only fresh signals
+    if (trades.some(t => t.t === r.t && (t.status === 'open' || t.entryDate === r.date))) continue;
+    if (!(r.stop > 0) || !(r.p > r.stop)) continue;
+    trades.push({ id: r.t + '|' + r.date, t: r.t, nm: r.nm, entryDate: r.date, entry: r.p, stop0: r.stop, stars: r.stars, surf: r.surf,
+      market: market.light, followedRules: !r.chased && !r.stopTooWide && !r.earningsSoon && market.light !== 'red',
+      flags: [r.chased && 'chased', r.stopTooWide && 'wide stop', r.earningsSoon && 'earnings', market.light === 'red' && 'red market'].filter(Boolean),
+      status: 'open', rMult: 0, pct: 0, days: 0, events: [] });
+  }
+  for (let i = 0; i < trades.length; i++) {
+    const t = trades[i]; if (t.status === 'closed') continue;
+    let d = bars.get(t.t);
+    if (!d) { const res = await history(t.t); d = res?.timestamp ? clean(res) : null; await sleep(250); }
+    if (d) trades[i] = simulate(t, d);
+  }
+  return { startedAt: tk.startedAt, updatedAt: new Date().toISOString(),
+    rules: 'Entry at the scan price when the breakout is first seen; stop = day low; day 3: sell half at close, stop to break-even; rest: first close below 10-day SMA. Daily bars, no costs.',
+    trades };
+}
+
 // ---------------- 5. push ----------------
 async function notify(title, body, tags, priority) {
   if (!NTFY_TOPIC) { console.log('NTFY_TOPIC secret is not set - no push sent'); return false; }
@@ -227,11 +278,11 @@ async function main() {
   const ndxRes = await history('^IXIC'); const ndx = ndxRes ? clean(ndxRes) : null;
   const market = ndx ? marketLight(ndx) : { light: 'unknown', text: 'Could not load Nasdaq data.' };
   const ctx = { ndx, hot: U.hot };
-  const out = []; let k = 0, done = 0;
+  const out = []; const bars = new Map(); let k = 0, done = 0;
   const worker = async () => {
     while (k < U.list.length) {
       const info = U.list[k++]; const res = await history(info.r.name); done++;
-      if (res?.timestamp) { try { const x = analyze(clean(res), info, ctx, sessionFraction(res)); if (x) out.push(x); } catch (e) { console.log('analyze', info.r.name, e.message); } }
+      if (res?.timestamp) { try { const cd = clean(res); bars.set(info.r.name, cd); const x = analyze(cd, info, ctx, sessionFraction(res)); if (x) out.push(x); } catch (e) { console.log('analyze', info.r.name, e.message); } }
       await sleep(250);
     }
   };
@@ -240,14 +291,15 @@ async function main() {
   const by = st => out.filter(x => x.st === st).sort(rank);
   const rows = [...by('breakout'), ...by('near'), ...by('forming')];
 
-  let prevKeys = [];
-  try { prevKeys = JSON.parse(await readFile(OUT, 'utf8')).keys || []; } catch {}
+  let prevKeys = [], prevTracker = null;
+  try { const prev = JSON.parse(await readFile(OUT, 'utf8')); prevKeys = prev.keys || []; prevTracker = prev.tracker || null; } catch {}
+  const tracker = await updateTracker(prevTracker, by('breakout'), bars, market);
   const result = {
     version: 2, ranAt: new Date().toISOString(), market, settings: { minDollarVol: S.minDollarVol, minADR: S.minADR, perScan: U.perScan },
     allUS: U.allUS, tradeable: U.tradeable, candidates: U.list.length, scans: U.scans, hotSectors: U.hot,
     scanned: done, errors: yahooErrors, codes, seconds: Math.round((Date.now() - t0) / 1000),
     counts: { breakout: by('breakout').length, near: by('near').length, forming: by('forming').length },
-    keys: rows.map(r => r.t + '|' + r.st), prevKeys, rows,
+    keys: rows.map(r => r.t + '|' + r.st), prevKeys, rows, tracker,
   };
   await writeFile(OUT, JSON.stringify(result));
   console.log(`Done in ${result.seconds}s: ${JSON.stringify(result.counts)}, market ${market.light}, Yahoo errors ${yahooErrors} ${JSON.stringify(codes)}`);

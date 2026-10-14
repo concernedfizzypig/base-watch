@@ -46,12 +46,12 @@ h1{font-family:var(--f-display);font-stretch:80%;font-weight:800;font-size:2.1re
 .hdrrow{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
 .refresh{font:inherit;font-size:.8rem;font-weight:600;color:var(--accent);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer}
 .stale{color:var(--warn);font-weight:600;font-size:.85rem}
-.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding-block:8px;z-index:2}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding-block:8px;z-index:2}
 .tab{font:inherit;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:8px 8px 7px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:2px;min-width:0}
 .tab .n{font-family:var(--f-display);font-stretch:80%;font-weight:700;font-size:1.5rem;line-height:1;font-variant-numeric:tabular-nums}
 .tab .l{font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tab[aria-pressed="true"]{border-color:currentColor;box-shadow:inset 0 -3px 0 currentColor}
-.tab.go{color:var(--go)} .tab.near{color:var(--near)} .tab.form{color:var(--form)}
+.tab.go{color:var(--go)} .tab.near{color:var(--near)} .tab.form{color:var(--form)} .tab.trk{color:var(--accent)}
 .tab .l{color:inherit;opacity:.85}
 .tab:focus-visible,.more:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .list{display:flex;flex-direction:column;gap:12px}
@@ -93,6 +93,18 @@ details ul{padding-left:18px;margin:8px 0}
 .calc label{display:flex;flex-direction:column;gap:3px;color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em}
 .calc input{font:inherit;font-size:.95rem;width:120px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
 .size{font-weight:600}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px}
+.tile .k{font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.tile .v{font-family:var(--f-display);font-stretch:85%;font-weight:700;font-size:1.6rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.pos{color:var(--go)} .neg{color:var(--warn)}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{font:inherit;font-size:.82rem;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:5px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.trow{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:4px 12px;min-width:0}
+.trow .r{font-family:var(--f-data);font-weight:600;font-size:1.05rem;text-align:right;font-variant-numeric:tabular-nums}
+.trow .meta{color:var(--muted);font-size:.8rem;grid-column:1/-1}
+.trow .ev{font-size:.8rem;grid-column:1/-1}
 </style>
 </head>
 <body>
@@ -116,6 +128,7 @@ details ul{padding-left:18px;margin:8px 0}
     <button class="tab go" id="tab-breakout" data-st="breakout" aria-pressed="true"><span class="n" id="n-breakout">–</span><span class="l">Breakouts</span></button>
     <button class="tab near" id="tab-near" data-st="near" aria-pressed="false"><span class="n" id="n-near">–</span><span class="l">Watchlist</span></button>
     <button class="tab form" id="tab-forming" data-st="forming" aria-pressed="false"><span class="n" id="n-forming">–</span><span class="l">Setting up</span></button>
+    <button class="tab trk" id="tab-tracker" data-st="tracker" aria-pressed="false"><span class="n" id="n-tracker">–</span><span class="l">Tracker</span></button>
   </nav>
 
   <section class="list" id="list" aria-live="polite">
@@ -207,8 +220,39 @@ details ul{padding-left:18px;margin:8px 0}
       '<div class="tags">'+tags.join('')+'</div>'+spark(r)+'<dl class="facts">'+facts+'</dl><div class="plan">'+plan+'<a href="'+url+'" target="_blank" rel="noopener">Chart ↗</a></div></article>';
   }
 
+
+  function renderTracker(tk){
+    var all=(tk&&tk.trades)||[];
+    var list=state.onlyRules?all.filter(function(t){return t.followedRules}):all;
+    var closed=list.filter(function(t){return t.status==='closed'}),open=list.filter(function(t){return t.status==='open'});
+    var wins=closed.filter(function(t){return t.rMult>0}).length;
+    var sum=function(a){return a.reduce(function(s,t){return s+(t.rMult||0)},0)};
+    var totR=sum(list),avgR=closed.length?sum(closed)/closed.length:null;
+    var rp=parseFloat($('riskp').value)||0.5;
+    var sign=function(x,d){return (x>0?'+':'')+x.toFixed(d==null?2:d)};
+    var cls=function(x){return x>0?'pos':x<0?'neg':''};
+    var tiles='<div class="tiles">'+
+      '<div class="tile"><div class="k">Trades</div><div class="v">'+list.length+'</div><div class="note">'+open.length+' open · '+closed.length+' closed</div></div>'+
+      '<div class="tile"><div class="k">Win rate (closed)</div><div class="v">'+(closed.length?Math.round(wins/closed.length*100)+'%':'–')+'</div><div class="note">He expects 20–30%</div></div>'+
+      '<div class="tile"><div class="k">Average result</div><div class="v '+cls(avgR||0)+'">'+(avgR==null?'–':sign(avgR)+'R')+'</div><div class="note">Closed trades, in units of risk</div></div>'+
+      '<div class="tile"><div class="k">Total</div><div class="v '+cls(totR)+'">'+sign(totR)+'R</div><div class="note">Includes open trades at today\'s price</div></div>'+
+      '<div class="tile"><div class="k">Account if '+rp+'% risk/trade</div><div class="v '+cls(totR)+'">'+sign(totR*rp,1)+'%</div><div class="note">Simple sum, no compounding or costs</div></div>'+
+    '</div>';
+    var seg='<div class="seg"><button id="f-all" aria-pressed="'+(!state.onlyRules)+'">All breakouts</button><button id="f-rules" aria-pressed="'+(!!state.onlyRules)+'">Only ones that followed his rules</button></div>';
+    var rows=list.slice().sort(function(a,b){return (a.status===b.status?0:a.status==='open'?-1:1)||(b.entryDate>a.entryDate?1:-1)}).map(function(t){
+      var ev=(t.events||[]).map(function(e){return e.d.slice(5)+': '+esc(e.what)+' @ '+money(e.px)}).join(' · ');
+      return '<div class="trow"><div><b>'+esc(t.t)+'</b> <span class="pill '+(t.status==='open'?'near':'forming')+'">'+t.status+'</span>'+(t.followedRules?'':' <span class="tag bad">'+esc((t.flags||[]).join(', ')||'rule broken')+'</span>')+'</div>'+
+        '<div class="r '+cls(t.rMult||0)+'">'+(t.rMult==null?'–':sign(t.rMult)+'R')+'<div class="note">'+sign(t.pct||0,1)+'%</div></div>'+
+        '<div class="meta">Bought '+t.entryDate+' @ '+money(t.entry)+' · stop '+money(t.stop0)+(t.status==='open'?' · now '+money(t.last)+' · stop now '+money(t.stopNow)+' · day '+t.days:' · closed '+t.exitDate)+'</div>'+
+        (ev?'<div class="ev">'+ev+'</div>':'')+'</div>';
+    }).join('');
+    $('list').innerHTML=seg+tiles+(rows||'<div class="empty"><strong>No paper trades yet</strong>Every breakout the scanner finds from now on is bought here on paper and managed with his rules: stop at the day\'s low, sell half on day 3 and move the stop to break-even, sell the rest on the first close below the 10-day average.</div>')+
+      '<p class="note">'+esc((tk&&tk.rules)||'')+' Started '+(tk&&tk.startedAt?new Date(tk.startedAt).toLocaleDateString():'–')+'.</p>';
+    $('f-all').onclick=function(){state.onlyRules=false;render()};$('f-rules').onclick=function(){state.onlyRules=true;render()};
+  }
+
   function render(){
-    ['breakout','near','forming'].forEach(function(s){$('tab-'+s).setAttribute('aria-pressed',String(s===state.stage))});
+    ['breakout','near','forming','tracker'].forEach(function(s){$('tab-'+s).setAttribute('aria-pressed',String(s===state.stage))});
     var L=state.latest; if(!L||!L.rows)return;
     if(L.market){var m=L.market;$('mdot').className='dot '+m.light;$('mtitle').textContent='Market: '+({green:'GREEN',yellow:'YELLOW',red:'RED'}[m.light]||'unknown')+(m.close?' · Nasdaq '+m.close.toLocaleString():'');$('mtext').textContent=m.text||''}
     var prevSet={},pk=L.prevKeys&&L.prevKeys.length?L.prevKeys:null;(pk||[]).forEach(function(k){prevSet[k]=1});
@@ -218,6 +262,8 @@ details ul{padding-left:18px;margin:8px 0}
     $('funnel').innerHTML='<span><b>'+(L.allUS||0).toLocaleString()+'</b> US stocks</span><span><b>'+(L.tradeable||0).toLocaleString()+'</b> pass ADR + volume</span><span><b>'+(L.candidates||0)+'</b> momentum leaders</span><span>Scanned <b>'+when.toLocaleString([], {weekday:'short',hour:'2-digit',minute:'2-digit'})+'</b></span>'+(L.hotSectors&&L.hotSectors.length?'<span>Hot: <b>'+L.hotSectors.map(esc).join(', ')+'</b></span>':'');
     var ageH=(Date.now()-when.getTime())/36e5,day=new Date().getDay();
     var st=$('stale');if(ageH>30&&day!==0&&day!==1){st.hidden=false;st.textContent='Last scan was '+Math.round(ageH)+' hours ago. Check the Actions tab on GitHub for a failed run.'}else st.hidden=true;
+    var T=(L.tracker&&L.tracker.trades)||[];$('n-tracker').textContent=T.length;
+    if(state.stage==='tracker'){renderTracker(L.tracker);$('more').hidden=true;return}
     var rows=L.rows.filter(function(r){return r.st===state.stage});
     var shown=state.showAll?rows:rows.slice(0,15);
     $('list').innerHTML=rows.length?shown.map(function(r){return card(r,!!pk&&!prevSet[r.t+'|'+r.st])}).join(''):
