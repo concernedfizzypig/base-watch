@@ -18,7 +18,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 const S = {
   minPrice: 1,
   minDollarVol: Number(process.env.MIN_DOLLAR_VOL || 5_000_000), // he says ~30-50x your account size
-  minADR: Number(process.env.MIN_ADR || 0.05),                     // he says 5-6% for most people (he uses 3.5-4%)
+  minADR: Number(process.env.MIN_ADR || 0.04),                     // 4%: middle of his 3.5-6% range
   rankTopPct: 0.07,     // keep the top 7% of each momentum scan ("rank 93%")
   maxPerScan: 50,       // he wants no more than ~50 results per scan
   minBase: 5, maxBase: 60,  // "2 weeks to 2 months", but tight flags can be shorter
