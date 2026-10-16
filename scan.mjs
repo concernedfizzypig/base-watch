@@ -1,9 +1,11 @@
+// Base Watch v4 (setup detector in setup4.mjs, rebuilt after v3 caught only 3 of 14 of his own example breakouts).
 // Base Watch v3: Qullamaggie-style breakout scanner. Runs on GitHub Actions (Node 20+, no dependencies).
 // Rules come from his blog, FAQ, Swing Trading School streams (Aug 2020) and the setups compilation.
 // v3 adds: big prior move required, flat base (no run-ups), 10-day must have caught up, tightness right before
 // the break, breakout volume, ATR rules measured at the trigger price, deeper bases allowed after huge runs,
 // brief MA undercuts allowed, $10M liquidity, a new 5-star grade, and intraday opening-range levels.
 import { readFile, writeFile } from 'node:fs/promises';
+import { detect4 } from './setup4.mjs';
 
 const OUT = 'results.json';
 const STATE = 'alerted.json';
@@ -127,38 +129,13 @@ export function analyze(d, info, ctx, frac = 1, opts = {}) {
   const vAvg = avg(d.v, i - 20, i - 1); if (!(vAvg > 0)) return null;
   const j = i - 1;
   const rising = { 10: S10[j] > S10[j - 5], 20: S20[j] > S20[j - 5], 50: S50[j] > S50[j - 5] };
-  if (!(rising[20] && rising[50])) return null;
   const slope20 = S20[j] / S20[j - 20] - 1;
-  const ext10 = d.c[j] / S10[j] - 1;                         // how far above the 10-day (must have "caught up")
-  if (ext10 > S.maxExt10 * adr) return null;
-
-  // base: the longest window ending yesterday that is sideways, tightening, with higher lows, near the highs
-  const hi120 = mx(d.h, Math.max(0, i - 120), j); let best = null;
-  for (let L = S.minBase; L <= S.maxBase; L++) {
-    const s = i - L; if (s < 130) break;
-    const top = mx(d.h, s, j), bot = mn(d.l, s, j), depth = (top - bot) / top;
-    const prior = top / mn(d.l, Math.max(0, s - 126), s) - 1;          // the move INTO the base
-    if (prior < S.minPriorMove) continue;
-    if (depth > (prior >= 1 ? S.maxDepthBigMove : S.maxDepth)) continue;
-    if (top < 0.85 * hi120) continue;
-    if (Math.abs(d.c[j] / d.c[s] - 1) > S.maxDrift) continue;          // a run-up is not a base
-    const hf = Math.floor(L / 2);
-    const ra = mx(d.h, s, s + hf - 1) - mn(d.l, s, s + hf - 1), rb = mx(d.h, s + hf, j) - mn(d.l, s + hf, j);
-    if (rb > ra) continue;
-    if (mn(d.l, s + hf, j) < mn(d.l, s, s + hf - 1)) continue;
-    best = { L, s, top, bot, depth, prior };
-  }
-  if (!best) return null;
-  const { L, s, top, bot, depth, prior } = best;
-
-  let surf = null;
-  for (const [nm, A] of [[10, S10], [20, S20], [50, S50]]) {
-    if (!rising[nm]) continue;
-    const w0 = Math.max(s, j - 15); let above = 0, touch = false;
-    for (let k = w0; k <= j; k++) { if (d.c[k] >= A[k] * S.surfClose) above++; if (d.l[k] <= A[k] * 1.03) touch = true; }
-    if (above / (j - w0 + 1) >= S.surfShare && touch) { surf = nm; break; }
-  }
-  if (!surf) return null;
+  const ext10 = d.c[j] / S10[j] - 1;
+  // v4 base: 3-40 day consolidation on a rising 10/20/50-day after a 30%+ leg, depth/drift scaled to ADR (setup4.mjs)
+  const adrArr = []; adrArr[j] = adr;
+  const b4 = detect4(d, i, { S10, S20, S50, adr: adrArr });
+  if (b4.fail) return null;
+  const { L, s, top, bot, depth, prior, surf } = b4;
 
   // tightness right before the breakout
   const last3 = (mx(d.h, j - 2, j) - mn(d.l, j - 2, j)) / d.c[j];
@@ -255,7 +232,7 @@ function simulate(tr, d) {
     days: d.c.length - 1 - e, events: ev, rMult: R > 0 ? Math.round(pnl / R * 100) / 100 : null, pct: Math.round(pnl / tr.entry * 10000) / 100,
     exitDate: left > 0 ? null : ev.at(-1).d };
 }
-const followsRules = (r, light) => !r.chased && !r.stopTooWide && !r.earningsSoon && r.volOK && light !== 'red';
+const followsRules = (r, light) => !r.stopTooWide && !r.earningsSoon && light !== 'red';   // v4: no gap ('chased') or volume rule; you judge volume
 async function updateTracker(prev, breakouts, bars, market) {
   const tk = prev?.trades ? prev : { startedAt: new Date().toISOString(), trades: [] };
   const trades = tk.trades.map(t => ({ ...t }));
@@ -335,7 +312,7 @@ async function main() {
   try { const prev = JSON.parse(await readFile(OUT, 'utf8')); prevKeys = prev.keys || []; prevTracker = prev.tracker || null; } catch {}
   const tracker = await updateTracker(prevTracker, by('breakout'), bars, market);
   const result = {
-    version: 3, ranAt: new Date().toISOString(), market, settings: { minDollarVol: S.minDollarVol, minADR: S.minADR, perScan: U.perScan, minVolBreakout: S.minVolBreakout },
+    version: 4, ranAt: new Date().toISOString(), market, settings: { minDollarVol: S.minDollarVol, minADR: S.minADR, perScan: U.perScan, minVolBreakout: S.minVolBreakout },
     allUS: U.allUS, tradeable: U.tradeable, candidates: U.list.length, scans: U.scans, hotSectors: U.hot,
     scanned: done, errors: yahooErrors, codes, seconds: Math.round((Date.now() - t0) / 1000),
     counts: { breakout: by('breakout').length, near: by('near').length, forming: by('forming').length },
@@ -350,7 +327,7 @@ async function main() {
   let state = { day: today, sent: [] };
   try { const s = JSON.parse(await readFile(STATE, 'utf8')); if (s.day === today) state = s; } catch {}
   const fresh = r => !r.earningsSoon && !state.sent.includes(r.t + '|' + r.st);
-  const bo = by('breakout').filter(r => fresh(r) && !r.stopTooWide && !r.chased && r.volOK && !(r.plan?.wide) && market.light !== 'red').slice(0, 6);
+  const bo = by('breakout').filter(r => fresh(r) && !r.stopTooWide && !(r.plan?.wide) && market.light !== 'red').slice(0, 6);
   const nr = by('near').filter(r => fresh(r) && r.stars >= S.minStarsAlert).slice(0, 8);
   const mk = market.light === 'green' ? '🟢' : market.light === 'yellow' ? '🟡' : '🔴';
   let ok = true;
