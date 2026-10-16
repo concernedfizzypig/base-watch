@@ -67,7 +67,7 @@ function oneAtATime(sigs) { const busy = new Map(), T = [];
   for (const s of [...sigs].sort((a, b) => a.date.localeCompare(b.date))) { const b = busy.get(s.t); if (b && s.date <= b) continue; T.push(s); busy.set(s.t, s.exit || '9999'); }
   return T; }
 // portfolio: max open positions, risk % of current equity per trade (position capped at 25% of equity), same-day ties by volume
-function portfolio(sigs, maxOpen = 20, risk = 0.005) {
+function portfolio(sigs, maxOpen = 20, risk = 0.005, eqw = 0) {   // eqw > 0: fixed position size (fraction of the starting account) instead of risk sizing
   const days = [...new Set(sigs.map(s => s.date))].sort(); const byDay = new Map(); for (const s of sigs) (byDay.get(s.date) || byDay.set(s.date, []).get(s.date)).push(s);
   let eq = 1, peak = 1, dd = 0; const open = []; const yearly = {}; let taken = 0; const curve = [];
   const allDates = [...new Set([...sigs.map(s => s.date), ...sigs.map(s => s.exit).filter(Boolean)])].sort();
@@ -76,7 +76,7 @@ function portfolio(sigs, maxOpen = 20, risk = 0.005) {
     peak = Math.max(peak, eq); dd = Math.min(dd, eq / peak - 1);
     const today = (byDay.get(day) || []).sort((a, b) => b.vr - a.vr);
     for (const s of today) { if (open.length >= maxOpen || open.some(o => o.t === s.t)) continue;
-      const size = Math.min(risk, 0.25 * s.riskPct) * eq; open.push({ ...s, size }); taken++; }
+      const size = eqw ? eqw * s.riskPct : Math.min(risk, 0.25 * s.riskPct); open.push({ ...s, size }); taken++; }   // no compounding: sized off the starting account
     if (day.endsWith('-01') || day.endsWith('-15')) curve.push([day, r2(eq)]);
   }
   for (const o of open) eq += o.size * o.R;   // still-open trades marked at the last close
@@ -131,7 +131,7 @@ async function main() {
     const T = oneAtATime(sigs), notRed = T.filter(t => t.mkt !== 'red');
     out.results[vn] = { all: stats(T), byYear: byKey(T, t => t.year), byMarket: byKey(T, t => t.mkt),
       notRed: { all: stats(notRed), byYear: byKey(notRed, t => t.year) },
-      portfolio_notRed_max20: portfolio(notRed, 20, 0.005), portfolio_all_max20: portfolio(T, 20, 0.005) };
+      portfolio_notRed_max20: portfolio(notRed, 20, 0.005), portfolio_all_max20: portfolio(T, 20, 0.005), portfolio_notRed_10pctEach_max10: portfolio(notRed, 10, 0, 0.10) };
     if (vn === 'neutral') {
       out.results[vn].bySurf = byKey(notRed, t => 'surf' + t.surf);
       out.results[vn].byBaseLen = byKey(notRed, t => t.L <= 7 ? 'L03-07' : t.L <= 15 ? 'L08-15' : 'L16-40');
