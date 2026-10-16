@@ -3,6 +3,7 @@
 // and a diagnosis says which rule blocked it. Output: recall.json
 import { writeFile } from 'node:fs/promises';
 import { S, history, clean, sma, marketLight, analyze, dstr } from './scan.mjs';
+import { detect4 } from './setup4.mjs';
 
 const CASES = [
   // [label, symbols to try, window start, window end, note]
@@ -90,6 +91,8 @@ for (const [label, syms, w0, w1] of CASES) {
     if (res?.timestamp?.length > 50) { d = clean(res); used = sym; break; }
   }
   if (!d) { results.push({ label, error: 'no Yahoo data for ' + syms.join('/') }); continue; }
+  const A = { S10: sma(d.c, 10), S20: sma(d.c, 20), S50: sma(d.c, 50), adr: d.c.map((_, k) => { if (k < 20) return null; let x = 0; for (let q = k - 19; q <= k; q++) x += d.h[q] / d.l[q] - 1; return x / 20; }) };
+  const tr = d.c.map((c, k) => k ? Math.max(d.h[k] - d.l[k], Math.abs(d.h[k] - d.c[k - 1]), Math.abs(d.l[k] - d.c[k - 1])) : d.h[k] - d.l[k]);
   const days = [];
   for (let i = 140; i < d.c.length; i++) {
     if (d.t[i] < T(w0) || d.t[i] > T(w1) + 86399) continue;
@@ -105,9 +108,13 @@ for (const [label, syms, w0, w1] of CASES) {
       wouldAlert: !a.chased && !a.stopTooWide && a.volOK && light !== 'red' });
     else if (a) Object.assign(day, { bot: 'setup but no break (' + a.st + ')', trigger: a.top });
     else Object.assign(day, { bot: 'MISSED', why: diag(sub) });
+    const m4 = detect4(d, i, A), atr = avg(tr, i - 14, i - 1);
+    if (m4.fail) day.v4 = 'miss: ' + m4.fail;
+    else if (d.h[i] > m4.top) { const entry = Math.max(d.o[i], m4.top); day.v4 = 'BREAKOUT L' + m4.L + ' surf' + m4.surf + ' trig ' + r(m4.top, 2) + (entry - d.l[i] > atr ? ' (LOD stop > 1 ATR)' : ''); day.v4ok = entry - d.l[i] <= atr; }
+    else day.v4 = 'setup, no break (trig ' + r(m4.top, 2) + ')';
     days.push(day);
   }
-  results.push({ label, sym: used, window: [w0, w1], days, caught: days.some(x => x.bot === 'BREAKOUT'), alerted: days.some(x => x.wouldAlert) });
-  console.log(label, used, days.map(x => x.date + ':' + (x.bot === 'BREAKOUT' ? (x.wouldAlert ? 'ALERT' : 'bo-blocked') : x.bot === 'MISSED' ? 'miss[' + x.why.fail + ']' : 'nb')).join(' | '));
+  results.push({ label, sym: used, window: [w0, w1], days, caught: days.some(x => x.bot === 'BREAKOUT'), alerted: days.some(x => x.wouldAlert), v4caught: days.some(x => x.v4ok) });
+  console.log(label, used, days.map(x => x.date + ':' + (x.bot === 'BREAKOUT' ? (x.wouldAlert ? 'ALERT' : 'bo-blocked') : x.bot === 'MISSED' ? 'miss[' + x.why.fail + ']' : 'nb') + ' v4=' + x.v4).join(' | '));
 }
 await writeFile('recall.json', JSON.stringify({ at: new Date().toISOString(), settings: S, results }, null, 1));
