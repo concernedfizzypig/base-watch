@@ -24,11 +24,12 @@ export function detect4(d, i, A, o = V4) {
   const trendOK = o.trend === 'strict' ? r[20] && r[50] : (r[50] && d.c[j] >= S50[j] * 0.97) || (r[10] && r[20] && S10[j] > S20[j]);
   if (!trendOK) return { fail: 'trend' };
   const ext = (d.c[j] / S10[j] - 1) / a; if (ext > o.maxExt) return { fail: 'ext', ext };
-  let best = null, why = null;
+  let best = null, why = null, top = mx(d.h, j - o.minL + 2, j), bot = mn(d.l, j - o.minL + 2, j);
   for (let L = o.minL; L <= o.maxL; L++) {
     const s = j - L + 1; if (s < 60) break;
-    const top = mx(d.h, s, j), bot = mn(d.l, s, j), depth = (top - bot) / top;
-    if (depth > Math.min(o.depthCap, o.depthADR * a)) { why = 'deep'; continue; }
+    if (d.h[s] > top) top = d.h[s]; if (d.l[s] < bot) bot = d.l[s];
+    const depth = (top - bot) / top;
+    if (depth > Math.min(o.depthCap, o.depthADR * a)) { why = why || 'deep'; break; }   // depth only grows with L
     if (Math.abs(d.c[j] / d.c[s] - 1) > Math.max(o.driftMin, o.driftADR * a)) { why = 'drift'; continue; }
     const pk = argmx(d.h, Math.max(0, s - o.peakLook), j), peak = d.h[pk];
     const legLow = mn(d.l, Math.max(0, pk - o.legLook), pk), prior = peak / legLow - 1;
@@ -50,5 +51,5 @@ export function detect4(d, i, A, o = V4) {
   const last3 = (mx(d.h, j - 2, j) - mn(d.l, j - 2, j)) / d.c[j];
   if (last3 > o.last3ADR * a) return { fail: 'loose', ext };
   const nr = (d.h[j] - d.l[j]) / d.c[j] <= 0.6 * a, inside = d.h[j] <= d.h[j - 1] && d.l[j] >= d.l[j - 1];
-  return { ...best, ext, adr: a, tight: last3 <= 2 * a && (nr || inside || last3 <= 1.4 * a), last3 };
+  return { ...best, ext, adr: a, rising: r, tight: last3 <= 2 * a && (nr || inside || last3 <= 1.4 * a), last3 };
 }
