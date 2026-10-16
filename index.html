@@ -231,8 +231,8 @@ details ul{padding-left:18px;margin:8px 0}
     if(r.st==='breakout'){
       var en=r.plan?r.plan.entry:r.entry, sp=r.plan?r.plan.stop:r.stop;
       plan='<span>Buy above <b>'+money(en)+'</b> (trigger / 5-min ORH)</span><span>Stop <b>'+money(sp)+'</b> = low of day</span><span>Risk/share <b>'+money(en-sp)+'</b></span>'+sizing(en,sp)+
-        (!r.volOK?'<span class="w">Volume only ×'+r.vr.toFixed(1)+' – he wants big volume.</span>':'')+(!r.tight?'<span class="w">Not tight before the break.</span>':'')+
-        (r.stopTooWide?'<span class="w">Stop wider than ATR – skip or wait for a dip.</span>':'')+(r.chased?'<span class="w">Up more than its ATR today – too late.</span>':'');
+        (!r.volOK?'<span class="w">Volume ×'+r.vr.toFixed(1)+' so far – judge it yourself (he wants big volume).</span>':'')+(!r.tight?'<span class="w">Not tight before the break.</span>':'')+
+        (r.stopTooWide?'<span class="w">Stop wider than ATR – skip or wait for a dip.</span>':'')+(r.chased?'<span class="w">Gapped/ran more than 1 ATR above yesterday – check the low-of-day stop is still within 1 ATR.</span>':'');
     }else{
       var estStop=Math.max(r.trigger-r.atr*0.5,0);
       plan='<span>Buy if it breaks <b>'+money(r.trigger)+'</b> (opening range high)</span><span>Not above <b>'+money(r.tooLate)+'</b></span><span>Stop = low of that day (≈ '+money(estStop)+' if half an ATR)</span>'+sizing(r.trigger,estStop);
