@@ -200,14 +200,27 @@ export function analyze(d, info, ctx, frac = 1, opts = {}) {
 }
 
 // ---------------- 5. intraday opening range (Yahoo 5-minute bars, today only) ----------------
-async function intraday(sym) {
+// Walks today's 5-minute bars to find the live buy level. Opens below the trigger: buy level = trigger. Opens above it:
+// buy level = high of the first 5-minute bar. Once bought, the stop is the low of day at that moment. If a later bar
+// trades through that stop, the attempt failed and the new level to beat is the high of day so far.
+export async function intraday(sym, trigger) {
   const res = await history(sym, 'range=1d&interval=5m'); if (!res?.timestamp) return null;
   const p = res.meta?.currentTradingPeriod?.regular; const d = clean(res);
   const k = d.t.map((t, i) => i).filter(i => !p || (d.t[i] >= p.start && d.t[i] < p.end)); if (!k.length) return null;
   const H = k.map(i => d.h[i]), Lw = k.map(i => d.l[i]);
   const first12 = Math.min(12, k.length);
+  const O = k.map(i => d.o[i]); let walk = null;
+  if (trigger > 0) {
+    const gap = O[0] > trigger; let level = gap ? H[0] : trigger, state = 'waiting', entry = null, stop = null, attempts = 0, hod = -Infinity, lod = Infinity;
+    for (let z = 0; z < H.length; z++) {
+      if (state === 'in') { if (Lw[z] <= stop) { state = 'stopped'; level = Math.max(hod, H[z]); } }
+      else if ((z > 0 || !gap) && H[z] > level) { state = 'in'; attempts++; entry = Math.max(O[z], level) + 0.01; stop = Math.min(lod, Lw[z]); }
+      hod = Math.max(hod, H[z]); lod = Math.min(lod, Lw[z]);
+    }
+    walk = { state, level: r2(level), attempts, entry: r2(entry), stopAtEntry: r2(stop), gapOpen: gap };
+  }
   return { orh5: r2(H[0]), orl5: r2(Lw[0]), orh60: k.length >= 12 ? r2(Math.max(...H.slice(0, 12))) : null, orl60: k.length >= 12 ? r2(Math.min(...Lw.slice(0, 12))) : null,
-    hod: r2(Math.max(...H)), lod: r2(Math.min(...Lw)), last: r2(d.c[k.at(-1)]), bars: k.length, firstHourDone: first12 >= 12, asOf: new Date(d.t[k.at(-1)] * 1000).toISOString() };
+    hod: r2(Math.max(...H)), lod: r2(Math.min(...Lw)), last: r2(d.c[k.at(-1)]), bars: k.length, firstHourDone: first12 >= 12, asOf: new Date(d.t[k.at(-1)] * 1000).toISOString(), ...(walk || {}) };
 }
 
 // ---------------- 6. paper-trade tracker ----------------
@@ -298,11 +311,15 @@ async function main() {
   // intraday opening range + chart bars for the names you might act on
   const focus = [...by('breakout'), ...by('near')].slice(0, 25);
   for (const r of focus) {
-    try { r.intra = await intraday(r.t); } catch { r.intra = null; } await sleep(250);
-    if (r.st === 'breakout' && r.intra) {
-      const orh = r.intra.orh5 ?? r.trigger;
-      const entry = Math.max(r.trigger, orh, r.open ?? 0);
-      r.plan = { entry: r2(entry), stop: r.intra.lod, risk: r2(entry - r.intra.lod), wide: entry - r.intra.lod > r.atr, basis: 'max(trigger, 5-min ORH, open); stop = low of day so far' };
+    try { r.intra = await intraday(r.t, r.trigger); } catch { r.intra = null; } await sleep(250);
+    const w = r.intra;
+    if (w?.state === 'in') {                     // bought on this attempt and the stop has not been hit
+      r.st = 'breakout';
+      r.plan = { entry: w.entry, stop: w.stopAtEntry, risk: r2(w.entry - w.stopAtEntry), wide: w.entry - w.stopAtEntry > r.atr, attempt: w.attempts,
+        basis: w.attempts > 1 ? 'new high of day after a failed attempt; stop = low of day at that moment' : (w.gapOpen ? '5-min ORH (opened above the trigger)' : 'trigger') + '; stop = low of day at that moment' };
+    } else if (w?.state) {                        // not triggered yet today, or triggered and failed
+      if (r.st === 'breakout') r.st = 'near';
+      r.nextTrigger = w.level; r.failedToday = w.state === 'stopped';
     }
   }
   for (const r of rows.slice(0, 30)) { const d = bars.get(r.t); if (d) r.bars = packBars(d); }
@@ -326,7 +343,8 @@ async function main() {
   const today = new Date().toISOString().slice(0, 10);
   let state = { day: today, sent: [] };
   try { const s = JSON.parse(await readFile(STATE, 'utf8')); if (s.day === today) state = s; } catch {}
-  const fresh = r => !r.earningsSoon && !state.sent.includes(r.t + '|' + r.st);
+  const key = r => r.t + '|' + (r.st === 'breakout' ? 'breakout' + (r.plan?.attempt > 1 ? r.plan.attempt : '') : r.failedToday ? 'retest' : r.st);
+  const fresh = r => !r.earningsSoon && !state.sent.includes(key(r));
   const bo = by('breakout').filter(r => fresh(r) && !r.stopTooWide && !(r.plan?.wide) && market.light !== 'red').slice(0, 6);
   const nr = by('near').filter(r => fresh(r) && r.stars >= S.minStarsAlert).slice(0, 8);
   const mk = market.light === 'green' ? '🟢' : market.light === 'yellow' ? '🟡' : '🔴';
@@ -338,12 +356,12 @@ async function main() {
   }
   if (nr.length) {
     ok = await notify(`${mk} Watchlist: ${nr.slice(0, 4).map(r => r.t).join(', ')}`,
-      nr.map(r => `${r.t} ${star(r.stars)} trigger ${r.trigger} (${((r.top - r.p) / r.top * 100).toFixed(1)}% away) · too late > ${r.tooLate}`).join('\n'), 'eyes', 3) && ok;
+      nr.map(r => { const lv = r.nextTrigger ?? r.trigger; return `${r.t} ${star(r.stars)} ${r.failedToday ? 'failed breakout today, new level to beat' : 'trigger'} ${lv} (${((lv - r.p) / lv * 100).toFixed(1)}% away) · 1 ATR line ${r.tooLate}`; }).join('\n'), 'eyes', 3) && ok;
   }
   if (U.list.length > 30 && yahooErrors > U.list.length * 0.5) {
     await notify('Base Watch scan problem', `Price data failed for ${yahooErrors} of ${U.list.length} stocks ${JSON.stringify(codes)}.`, 'warning', 3);
   }
-  if (ok) state.sent.push(...[...bo, ...nr].map(r => r.t + '|' + r.st));
+  if (ok) state.sent.push(...[...bo, ...nr].map(key));
   await writeFile(STATE, JSON.stringify(state));
 }
 
