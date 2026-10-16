@@ -105,6 +105,18 @@ details ul{padding-left:18px;margin:8px 0}
 .trow .r{font-family:var(--f-data);font-weight:600;font-size:1.05rem;text-align:right;font-variant-numeric:tabular-nums}
 .trow .meta{color:var(--muted);font-size:.8rem;grid-column:1/-1}
 .trow .ev{font-size:.8rem;grid-column:1/-1}
+.cbtn{font:inherit;font-size:.86rem;font-weight:600;color:var(--surface);background:var(--accent);border:0;border-radius:8px;padding:6px 12px;cursor:pointer;margin-left:auto}
+.plan .tvl{margin-left:0;font-weight:500;font-size:.8rem}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:50;display:flex;align-items:flex-end;justify-content:center}
+.modal[hidden]{display:none}
+.sheet{background:var(--surface);color:var(--ink);width:100%;max-width:900px;max-height:96vh;overflow:auto;border-radius:14px 14px 0 0;padding:14px 16px 18px;display:flex;flex-direction:column;gap:10px}
+@media (min-width:700px){.modal{align-items:center}.sheet{border-radius:14px}}
+.sheet header{flex-direction:row;align-items:center;gap:10px}
+.sheet .x{margin-left:auto;font:inherit;font-size:1.3rem;background:none;border:0;color:var(--ink);cursor:pointer;padding:4px 8px}
+#cbox{width:100%;height:min(58vh,460px)}
+.lvls{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px 12px;font-size:.84rem}
+.lvls div{display:flex;gap:6px;align-items:center}.lvls i{width:16px;height:0;border-top:2px solid;display:inline-block;flex:none}
+.lvls b{font-family:var(--f-data);font-weight:500;margin-left:auto}
 </style>
 </head>
 <body>
@@ -138,18 +150,24 @@ details ul{padding-left:18px;margin:8px 0}
 
   <details>
     <summary>His rules, and how the app uses them</summary>
-    <p><b>1. Only the leaders.</b> Six momentum scans: biggest gainers over 1, 3 and 6 months, measured from the close 21/63/126 days ago and from the lowest low in that period. Only the top ~7% of each (max 50) are kept, after filtering for ADR (see the number at the top) and at least $5M traded a day.</p>
-    <p><b>2. The setup.</b> Rising 20 and 50-day averages; the stock is surfing its 10, 20 or 50-day simple moving average; higher lows; range not widening; near its highs. Extra stars for a tight last 3 days, a narrow candle the day before, a steep trend, relative strength vs the Nasdaq, a hot sector, volume drying up, and appearing in several scans.</p>
-    <p><b>3. Entry.</b> Buy as it breaks the <b>trigger</b> (top of the range), at the opening range high (first 1, 5 or 60-minute candle). Don't buy if it's already above the <b>too late</b> price (yesterday's close + one ATR). Never within ~3 days of earnings.</p>
+    <p><b>1. Only the leaders.</b> Six momentum scans: biggest gainers over 1, 3 and 6 months, measured from the close 21/63/126 days ago and from the lowest low in that period. Only the top ~7% of each (max 50) are kept, after filtering for ADR (see the number at the top) and at least $10M traded a day.</p>
+    <p><b>2. The setup.</b> A big move first (30%+ into the base). Then a sideways base (not a run-up) with higher lows and a tightening range, surfing a rising 10, 20 or 50-day average (brief undercuts allowed), with the 10-day caught up. Tight right before the break (narrow or inside day). Stars grade his A+ traits: size of the prior move, surfing the 10/20, tightness, a steep trend, strength vs the Nasdaq, a hot sector, volume drying up, high ADR.</p>
+    <p><b>3. Entry.</b> Buy as it breaks the <b>trigger</b> (top of the range) and the <b>opening range high</b> (high of the first 1, 5 or 60-minute candle), on big volume (the app wants 1.5× normal pace). Don't buy if it's already above the <b>too late</b> price (yesterday's close + one ATR). Never within ~3 days of earnings.</p>
     <p><b>4. Stop.</b> Low of the day you buy. Must not be wider than the ATR; his are usually about half an ATR.</p>
     <p><b>5. Selling.</b> Ignore days 1–2. After 3–5 days sell 1/3 to 1/2 and move the stop to break-even. Sell the rest on the first <b>close</b> below the 10-day average.</p>
     <p><b>6. Market.</b> Only trade breakouts when the Nasdaq light is green (10 and 20-day averages rising, 10 above 20). In red markets most breakouts fail; sit in cash.</p>
     <p class="note">Stars are the app's own scoring of his checklist, not his rating. He wins only 20–30% of trades and makes his money from a few that run 10–50× the risk. Not financial advice. Prices: Yahoo Finance. Stock list and earnings dates: TradingView. Source: Qullamaggie's Swing Trading School streams (2020) and his blog.</p>
   </details>
 </div>
+<div class="modal" id="modal" hidden><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="mtk">
+  <header><span class="tk" id="mtk"></span><span class="nm" id="mnm"></span><button class="x" id="mclose" aria-label="Close chart">✕</button></header>
+  <div id="cbox"></div>
+  <div class="lvls" id="lvls"></div>
+  <p class="note" id="mnote">Daily candles with the 10, 20 and 50-day averages. Lines: where you buy, where your stop is, and the price above which it is too late.</p>
+</div></div>
 <script>
 (function(){
-  var state={latest:null,stage:'breakout',showAll:false};
+  var state={latest:null,stage:'breakout',showAll:false,byT:{}};
   var get=function(k){try{return localStorage.getItem(k)}catch(e){return null}},put=function(k,v){try{localStorage.setItem(k,v)}catch(e){}};
   if(get('bw-stage'))state.stage=get('bw-stage');
   var $=function(id){return document.getElementById(id)};
@@ -193,6 +211,8 @@ details ul{padding-left:18px;margin:8px 0}
     if(r.hotSector)tags.push('<span class="tag good">Hot sector</span>');
     if(r.slope20>=0.10)tags.push('<span class="tag good">Steep trend</span>');
     if(r.dry<0.8)tags.push('<span class="tag">Volume drying up</span>');
+    if(r.prior>=1)tags.push('<span class="tag good">Big prior move +'+pct(r.prior,0)+'</span>');
+    if(r.st==='breakout')tags.push(r.volOK?'<span class="tag good">Breakout volume ×'+r.vr.toFixed(1)+'</span>':'<span class="tag bad">Low volume ×'+r.vr.toFixed(1)+'</span>');
     tags.push('<span class="tag">In '+r.scans.length+'/6 scans</span>');
     if(r.earningsSoon)tags.push('<span class="tag bad">Earnings in '+r.earningsDays+'d – skip</span>');
     else if(r.earningsDays!=null&&r.earningsDays>=0&&r.earningsDays<=14)tags.push('<span class="tag">Earnings in '+r.earningsDays+'d</span>');
@@ -204,20 +224,24 @@ details ul{padding-left:18px;margin:8px 0}
       ['ATR / ADR',money(r.atr)+' / '+pct(r.adr)],
       ['Base',r.L+'d · '+pct(r.depth,0)+' deep'],
       ['Volume','×'+r.vr.toFixed(1)+(r.live?' proj.':'')],
+      ['Prior move','+'+pct(r.prior||0,0)],
       ['Market cap',mcap(r.mc)]
-    ].map(function(f){return '<div><dt>'+f[0]+'</dt><dd>'+f[1]+'</dd></div>'}).join('');
+    ].concat(r.intra?[['5-min ORH',money(r.intra.orh5)],['60-min ORH',r.intra.orh60==null?'after 10:30':money(r.intra.orh60)],['Low of day',money(r.intra.lod)]]:[]).map(function(f){return '<div><dt>'+f[0]+'</dt><dd>'+f[1]+'</dd></div>'}).join('');
     var plan='';
     if(r.st==='breakout'){
-      plan='<span>Entry <b>'+money(r.entry)+'</b></span><span>Stop <b>'+money(r.stop)+'</b> (today\'s low)</span><span>Risk/share <b>'+money(r.risk)+'</b></span>'+sizing(r.entry,r.stop)+
+      var en=r.plan?r.plan.entry:r.entry, sp=r.plan?r.plan.stop:r.stop;
+      plan='<span>Buy above <b>'+money(en)+'</b> (trigger / 5-min ORH)</span><span>Stop <b>'+money(sp)+'</b> = low of day</span><span>Risk/share <b>'+money(en-sp)+'</b></span>'+sizing(en,sp)+
+        (!r.volOK?'<span class="w">Volume only ×'+r.vr.toFixed(1)+' – he wants big volume.</span>':'')+(!r.tight?'<span class="w">Not tight before the break.</span>':'')+
         (r.stopTooWide?'<span class="w">Stop wider than ATR – skip or wait for a dip.</span>':'')+(r.chased?'<span class="w">Up more than its ATR today – too late.</span>':'');
     }else{
       var estStop=Math.max(r.trigger-r.atr*0.5,0);
       plan='<span>Buy if it breaks <b>'+money(r.trigger)+'</b> (opening range high)</span><span>Not above <b>'+money(r.tooLate)+'</b></span><span>Stop = low of that day (≈ '+money(estStop)+' if half an ATR)</span>'+sizing(r.trigger,estStop);
     }
     var url='https://www.tradingview.com/chart/?symbol='+encodeURIComponent(r.t);
+    state.byT[r.t]=r;
     return '<article class="card"><div class="top"><span class="tk">'+esc(r.t)+'</span><span class="nm">'+esc(r.nm)+(r.sec?' · '+esc(r.sec):'')+'</span>'+
       (isNew?'<span class="pill new">New</span>':'')+'<span class="pill '+r.st+'">'+lab+'</span><span class="stars" aria-label="'+r.stars+' of 5 stars">'+starStr(r.stars)+'</span></div>'+
-      '<div class="tags">'+tags.join('')+'</div>'+spark(r)+'<dl class="facts">'+facts+'</dl><div class="plan">'+plan+'<a href="'+url+'" target="_blank" rel="noopener">Chart ↗</a></div></article>';
+      '<div class="tags">'+tags.join('')+'</div>'+spark(r)+'<dl class="facts">'+facts+'</dl><div class="plan">'+plan+(r.bars?'<button class="cbtn" data-chart="'+esc(r.t)+'">Chart</button>':'')+'<a class="tvl" href="'+url+'" target="_blank" rel="noopener">TradingView ↗</a></div></article>';
   }
 
 
@@ -274,11 +298,44 @@ details ul{padding-left:18px;margin:8px 0}
   document.querySelectorAll('.tab').forEach(function(b){b.addEventListener('click',function(){state.stage=b.dataset.st;state.showAll=false;put('bw-stage',state.stage);render()})});
   $('more').addEventListener('click',function(){state.showAll=true;render()});
   ['acct','riskp'].forEach(function(id){$(id).addEventListener('input',function(){put(id==='acct'?'bw-acct':'bw-risk',$(id).value);render()})});
+  var LW=null,chart=null;
+  function loadLW(cb){if(window.LightweightCharts)return cb();var s=document.createElement('script');s.src='https://unpkg.com/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js';s.onload=cb;s.onerror=function(){$('cbox').textContent='Could not load the chart library.'};document.head.appendChild(s)}
+  function smaArr(a,n){var o=[],s=0;for(var i=0;i<a.length;i++){s+=a[i];if(i>=n)s-=a[i-n];o.push(i>=n-1?s/n:null)}return o}
+  function openChart(t){
+    var r=state.byT[t];if(!r||!r.bars)return;
+    $('mtk').textContent=r.t;$('mnm').textContent=(r.nm||'')+' · daily';$('modal').hidden=false;document.body.style.overflow='hidden';
+    loadLW(function(){
+      var css=getComputedStyle(document.documentElement),col=function(v){return css.getPropertyValue(v).trim()||'#888'};
+      if(chart){chart.remove();chart=null}
+      var box=$('cbox');box.textContent='';
+      chart=LightweightCharts.createChart(box,{autoSize:true,layout:{background:{color:col('--surface')},textColor:col('--ink')},grid:{vertLines:{color:col('--grid')},horzLines:{color:col('--grid')}},rightPriceScale:{borderColor:col('--line')},timeScale:{borderColor:col('--line')},crosshair:{mode:0}});
+      var b=r.bars,T=b.t.map(function(x){return x*86400});
+      var cs=chart.addCandlestickSeries({upColor:'#16a34a',downColor:'#dc2626',borderVisible:false,wickUpColor:'#16a34a',wickDownColor:'#dc2626',priceLineVisible:false});
+      cs.setData(T.map(function(t,i){return {time:t,open:b.o[i],high:b.h[i],low:b.l[i],close:b.c[i]}}));
+      var vs=chart.addHistogramSeries({priceScaleId:'vol',priceFormat:{type:'volume'},lastValueVisible:false,priceLineVisible:false});
+      chart.priceScale('vol').applyOptions({scaleMargins:{top:0.8,bottom:0}});
+      vs.setData(T.map(function(t,i){return {time:t,value:b.v[i]*1000,color:b.c[i]>=b.o[i]?'rgba(22,163,74,.35)':'rgba(220,38,38,.35)'}}));
+      [[10,'#a21caf'],[20,'#f59e0b'],[50,'#ef4444']].forEach(function(m){var a=smaArr(b.c,m[0]);var ls=chart.addLineSeries({color:m[1],lineWidth:2,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false,title:m[0]+'-day'});ls.setData(T.map(function(t,i){return a[i]==null?null:{time:t,value:a[i]}}).filter(Boolean))});
+      var lv=[];
+      var add=function(p,c,title,style){if(p==null||!(p>0))return;cs.createPriceLine({price:p,color:c,lineWidth:2,lineStyle:style==null?2:style,axisLabelVisible:true,title:title});lv.push([title,c,p])};
+      add(r.trigger,'#2563eb','Trigger (base top)',2);
+      if(r.intra){add(r.intra.orh5,'#a21caf','5-min ORH',0);if(r.intra.orh60!=null)add(r.intra.orh60,'#d97706','60-min ORH',0);add(r.intra.lod,'#dc2626','STOP = low of day',0)}
+      else{add(Math.max(r.trigger-r.atr*0.5,0),'#dc2626','Est. stop (½ ATR) – real stop = low of buy day',1)}
+      add(r.tooLate,'#6b7280','Too late above',3);
+      var start=Math.max(0,T.length-90);chart.timeScale().setVisibleRange({from:T[start],to:T[T.length-1]});
+      $('lvls').innerHTML=lv.map(function(x){return '<div><i style="border-color:'+x[1]+'"></i>'+esc(x[0])+'<b>'+money(x[2])+'</b></div>'}).join('');
+      $('mnote').textContent=r.intra?('Intraday levels from today\'s 5-minute bars (as of '+new Date(r.intra.asOf).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})+'). Buy above the higher of the trigger and the ORH; the stop is the lowest price of the day so far when you buy.'):'No intraday levels yet (they appear for breakouts and the watchlist during market hours). Daily candles with the 10, 20 and 50-day averages.';
+    });
+  }
+  function closeChart(){$('modal').hidden=true;document.body.style.overflow='';if(chart){chart.remove();chart=null}}
+  $('list').addEventListener('click',function(e){var b=e.target.closest('[data-chart]');if(b)openChart(b.getAttribute('data-chart'))});
+  $('mclose').addEventListener('click',closeChart);$('modal').addEventListener('click',function(e){if(e.target===$('modal'))closeChart()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!$('modal').hidden)closeChart()});
   render();
 
   function load(){
     fetch('results.json?t='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error(r.status);return r.json()})
-      .then(function(j){if(j.version!==2){$('list').innerHTML='<div class="empty"><strong>Waiting for the first v2 scan</strong>Run the Scan workflow on GitHub once to fill this in.</div>';return}state.latest=j;render()})
+      .then(function(j){if(!(j.version>=2)){$('list').innerHTML='<div class="empty"><strong>Waiting for the first v2 scan</strong>Run the Scan workflow on GitHub once to fill this in.</div>';return}state.latest=j;render()})
       .catch(function(){if(!state.latest)$('list').innerHTML='<div class="empty"><strong>No results yet</strong>In GitHub, open Actions → Scan → Run workflow, then come back in a few minutes.</div>'});
   }
   load();setInterval(load,5*60*1000);
