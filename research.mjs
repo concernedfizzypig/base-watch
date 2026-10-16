@@ -7,6 +7,7 @@
 // Train = first half of each window, Test = second half (to check a rule that wins in train still wins out of sample).
 import { writeFile } from 'node:fs/promises';
 import { history, clean, sma, r2, dstr, marketLight } from './scan.mjs';
+import { detect4 } from './setup4.mjs';
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0 Safari/537.36';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -56,10 +57,15 @@ const V = {
   v3_live:      m => m.strict && m.strict.surf >= 0.75 && m.ext10 <= 1.5 ? m.strict : null,
   relax_all:    m => m.relaxed && m.relaxed.surf >= 0.6 && m.ext10 <= 2.5 ? m.relaxed : null,
   relax_drift12:m => { const b = V.relax_all(m); return b && b.drift <= 0.12 ? b : null; },
-  relax_ext15:  m => m.ext10 <= 1.5 ? V.relax_all(m) : null,
-  relax_hl:     m => { const b = V.relax_all(m); return b && b.hl ? b : null; },
-  relax_prior30:m => { const b = V.relax_all(m); return b && b.prior >= 0.3 ? b : null; },
-  relax_surf75: m => { const b = V.relax_all(m); return b && b.surf >= 0.75 ? b : null; },
+};
+// v4 variants (setup4.mjs). Each runs detect4 with these overrides; results keyed by name.
+// v4 variants = extra gates on one detect4() result (the base search itself does not depend on them)
+const V4G = {
+  v4:             x => true,
+  v4_strictTrend: x => x.rising[20] && x.rising[50],
+  v4_ext15:       x => x.ext <= 1.5,
+  v4_tightOnly:   x => x.tight,
+  v4_no50:        x => x.surf !== 50,
 };
 
 function manage(d, e, entry, stop0, S10) {
@@ -74,22 +80,22 @@ function manage(d, e, entry, stop0, S10) {
   return { pnl: realized + left * (d.c.at(-1) - entry), exitK, why };
 }
 // hourly realistic entry. level0 = the daily trigger (null for EP). maxATR = widest stop allowed in ATRs.
-function simH(d, i, hb, level0, atr, maxATR, vAvg) {
+function simH(d, i, hb, level0, atr, maxATR, vAvg, chase = true) {
   const ds = dstr(d.t[i]); const idx = []; for (let k = 0; k < hb.t.length; k++) if (dstr(hb.t[k] - 4 * 3600) === ds) idx.push(k);
   if (idx.length < 2) return null;
   const level = Math.max(level0 ?? 0, hb.h[idx[0]]) + 0.01; let eb = null, entry = null;
   for (let z = 1; z < idx.length; z++) if (hb.h[idx[z]] >= level) { eb = z; entry = Math.max(hb.o[idx[z]], level) * (1 + COST); break; }
   if (eb == null) return null;
   let lod = Infinity, cumV = 0; for (let z = 0; z <= eb; z++) { lod = Math.min(lod, hb.l[idx[z]]); cumV += hb.v[idx[z]]; }
-  if (entry - d.c[i - 1] > atr * (level0 == null ? 99 : 1) || entry - lod > maxATR * atr || entry <= lod) return null;
+  if ((chase && level0 != null && entry - d.c[i - 1] > atr) || entry - lod > maxATR * atr || entry <= lod) return null;
   const pace = cumV / (vAvg * Math.min(1, (eb + 1) / 6.5)), firstHourVol = hb.v[idx[0]] / vAvg;
   let res = null; for (let z = eb + 1; z < idx.length; z++) if (hb.l[idx[z]] <= lod) { res = { pnl: lod * (1 - COST) - entry, exitK: i, why: 'stopped same day' }; break; }
   if (!res) res = manage(d, i, entry, lod, d.S10);
   return { entry, stop: lod, pace, firstHourVol, R: res.pnl / (entry - lod), pct: res.pnl / entry * 100, riskPct: (entry - lod) / entry, exitK: res.exitK, why: res.why };
 }
-function simP(d, i, top, atr) {
+function simP(d, i, top, atr, chase = true) {
   const entry = Math.max(d.o[i], top + 0.01) * (1 + COST);
-  if (entry - d.c[i - 1] > atr || entry - d.l[i] > atr) return null;
+  if ((chase && entry - d.c[i - 1] > atr) || entry - d.l[i] > atr) return null;
   const stop = Math.min(d.l[i], entry - 0.3 * atr);
   const res = d.c[i] < entry ? { pnl: stop * (1 - COST) - entry, exitK: i, why: 'closed below entry' } : manage(d, i, entry, stop, d.S10);
   return { entry, stop, R: res.pnl / (entry - stop), pct: res.pnl / entry * 100, riskPct: (entry - stop) / entry, exitK: res.exitK, why: res.why };
@@ -141,6 +147,8 @@ async function main() {
   const days = ndx.t.map((t, i) => ({ t, i, ds: dstr(t) })).filter(x => x.t >= startT);
   const funnel = { days: 0, momentum: 0, trend: 0, ext10ok: 0, baseStrict: 0, baseRelaxed: 0, v3setups: 0, relaxSetups: 0, v3near: 0, relaxNear: 0, v3breakout: 0, relaxBreakout: 0, fails: {} };
   const cand = [];                              // breakout candidates: {s,i,date,mkt,m}
+  const cand4 = [];                             // v4 breakout candidates: {s,i,date,mkt,b:{variant:base}}
+  const f4 = { setups: 0, breakouts: 0, fails: {} };
   const eps = [];                               // EP gap days in the hourly window
   for (const D of days) {
     const light = marketLight({ c: ndx.c.slice(Math.max(0, D.i - 299), D.i + 1) }).light;
@@ -150,7 +158,12 @@ async function main() {
     const UA2 = U.filter(u => u.s.d.adr[u.i - 1] >= MIN_ADR), keep = Math.min(50, Math.max(10, Math.round(UA2.length * 0.07)));
     const pick = new Set(); for (const f of meas) UA2.map(u => ({ u, x: f(u.s.d, u.i - 1) })).filter(z => Number.isFinite(z.x)).sort((a, b) => b.x - a.x).slice(0, keep).forEach(z => pick.add(z.u));
     const green = light === 'green'; if (green) funnel.days++;
-    for (const u of pick) { const { s, i } = u, d = s.d; const m = setup(d, i, d);
+    for (const u of pick) { const { s, i } = u, d = s.d;
+      const x = detect4(d, i, d);
+      if (green) { if (x.fail) f4.fails[x.fail] = (f4.fails[x.fail] || 0) + 1; else { f4.setups++; if (d.h[i] > x.top) f4.breakouts++; } }
+      if (!x.fail && d.h[i] > x.top) { const b4 = {}; for (const [vn, g] of Object.entries(V4G)) if (g(x)) b4[vn] = { top: x.top, L: x.L, surf: x.surf, tight: x.tight };
+        cand4.push({ s, i, date: D.ds, mkt: light, b4 }); }
+      const m = setup(d, i, d);
       if (green) { funnel.momentum++; if (m.fail) funnel.fails[m.fail] = (funnel.fails[m.fail] || 0) + 1;
         if (!m.fail || m.fail === 'base') funnel.trend++; if (!m.fail || m.fail === 'base') { if (m.ext10 <= 1.5) funnel.ext10ok++; }
         if (m.strict) funnel.baseStrict++; if (m.relaxed) funnel.baseRelaxed++; }
@@ -163,9 +176,10 @@ async function main() {
         cand.push({ s, i, date: D.ds, mkt: light, m });
     }
   }
+  console.log('v4 candidates', cand4.length);
   console.log('candidates', cand.length, 'eps', eps.length, Math.round((Date.now() - t0) / 1000) + 's');
   // hourly bars for every stock that has a candidate or an EP in the hourly window
-  const need = [...new Set([...cand.filter(c => c.s.d.t[c.i] >= hStart), ...eps].map(c => c.s.r.name))]; const H = new Map(); let qn = 0;
+  const need = [...new Set([...cand.filter(c => c.s.d.t[c.i] >= hStart), ...cand4.filter(c => c.s.d.t[c.i] >= hStart), ...eps].map(c => c.s.r.name))]; const H = new Map(); let qn = 0;
   const hw = async () => { while (qn < need.length) { const sym = need[qn++]; const res = await history(sym, 'range=730d&interval=60m'); if (res?.timestamp) H.set(sym, clean(res)); if (qn % 300 === 0) console.log('hourly', qn, '/', need.length); await sleep(120); } };
   await Promise.all(Array.from({ length: 6 }, hw));
   console.log('hourly series', H.size, 'of', need.length, Math.round((Date.now() - t0) / 1000) + 's');
@@ -190,6 +204,32 @@ async function main() {
       }
     results[vn] = out;
   }
+  const vols = [0, 1.0];
+  const tops4 = [];
+  for (const vn of Object.keys(V4G)) for (const chase of (vn === 'v4' ? [false, true] : [false])) {
+    const sigH = [], sigP = [];
+    for (const c of cand4) { const b = c.b4[vn]; if (!b) continue; const d = c.s.d, i = c.i; if (d.o[i] > b.top * 1.10) continue; const atr = d.atr[i];
+      const k = c.s.r.name + c.date + b.top + chase;
+      if (!cacheP.has(k)) cacheP.set(k, simP(d, i, b.top, atr, chase));
+      const p = cacheP.get(k); if (p) sigP.push({ t: c.s.r.name, date: c.date, mkt: c.mkt, vr: d.v[i] / d.v20[i], ...p, exit: p.exitK != null ? dstr(d.t[p.exitK]) : null });
+      if (d.t[i] < hStart) continue; const hb = H.get(c.s.r.name); if (!hb) continue;
+      if (!cacheH.has(k)) cacheH.set(k, simH(d, i, hb, b.top, atr, 1, d.v20[i], chase));
+      const h = cacheH.get(k); if (h) sigH.push({ t: c.s.r.name, date: c.date, mkt: c.mkt, vr: h.pace, surf: b.surf, L: b.L, tight: b.tight, ...h, exit: h.exitK != null ? dstr(d.t[h.exitK]) : null });
+    }
+    const out = {};
+    for (const [mk, mf] of [['any', () => true], ['notRed', t => t.mkt !== 'red'], ['green', t => t.mkt === 'green']])
+      for (const vol of vols) {
+        const fH = sigH.filter(t => mf(t) && t.vr >= vol), fP = sigP.filter(t => mf(t) && t.vr >= vol);
+        out[mk + '_v' + vol] = { H: stats(run(fH), hSplit), H_noReentry: stats(run(fH, false), hSplit), P: stats(run(fP), pSplit) };
+      }
+    if (vn === 'v4' && !chase) {   // break the main v4 result down by which MA it surfs, base length, and tightness
+      const g = sigH.filter(t => t.mkt !== 'red'), by = (f) => { const o = {}; for (const t of g) { const k = f(t); (o[k] = o[k] || []).push(t); } return Object.fromEntries(Object.entries(o).map(([k, A]) => [k, stats(run(A), hSplit).all])); };
+      out.breakdown_notRed = { surf: by(t => t.surf), L: by(t => t.L <= 7 ? '3-7' : t.L <= 15 ? '8-15' : '16-40'), tight: by(t => String(t.tight)) };
+      tops4.push(...run(g).sort((a, b) => b.R - a.R).slice(0, 15).map(t => [t.t, t.date, r2(t.R), r2(t.pct)]));
+      out.top15_notRed = tops4;
+    }
+    results[vn + (chase ? '_withChaseRule' : '')] = out;
+  }
   // EP: gap >= 10%, buy above the first-hour high, stop = low of day, stop up to 1.5 ATR
   const epSig = [];
   for (const e of eps) { const hb = H.get(e.s.r.name); if (!hb) continue; const d = e.s.d, i = e.i; const atr = d.atr[i]; if (!atr) continue;
@@ -201,6 +241,7 @@ async function main() {
       epOut[mk + '_fhv' + fv + '_' + pn] = stats(run(epSig.filter(t => mf(t) && t.fhv >= fv && pf(t))), hSplit); }
   const out = { ranAt: new Date().toISOString(), seconds: Math.round((Date.now() - t0) / 1000), years: YEARS, hourlyFrom: dstr(hStart), hSplit, pSplit,
     stocks: Sx.length, hourlySeries: H.size, funnel: { ...funnel, perGreenDay: Object.fromEntries(Object.entries(funnel).filter(([k]) => !['days', 'fails'].includes(k)).map(([k, v]) => [k, r2(v / Math.max(1, funnel.days))])) },
+    funnel4: { ...f4, setupsPerGreenDay: r2(f4.setups / Math.max(1, funnel.days)), breakoutsPerGreenDay: r2(f4.breakouts / Math.max(1, funnel.days)) },
     variants: results, ep: epOut, epCount: epSig.length,
     epTop: epSig.sort((a, b) => b.R - a.R).slice(0, 15).map(t => [t.t, t.date, r2(t.gap), r2(t.fhv), r2(t.R), r2(t.pct)]),
     notes: ['Hourly window starts ' + dstr(hStart) + '. Train/test split at ' + hSplit + ' (hourly) and ' + pSplit + ' (5y daily).', 'Survivorship bias: only stocks listed today.', 'No earnings dates: EPs are any 10%+ gap.', 'Re-entry allowed the day after an exit unless stated.'] };
