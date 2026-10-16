@@ -255,7 +255,7 @@ function simulate(tr, d) {
     days: d.c.length - 1 - e, events: ev, rMult: R > 0 ? Math.round(pnl / R * 100) / 100 : null, pct: Math.round(pnl / tr.entry * 10000) / 100,
     exitDate: left > 0 ? null : ev.at(-1).d };
 }
-const followsRules = (r, light) => !r.chased && !r.stopTooWide && !r.earningsSoon && r.volOK && r.tight && light !== 'red';
+const followsRules = (r, light) => !r.chased && !r.stopTooWide && !r.earningsSoon && r.volOK && light !== 'red';
 async function updateTracker(prev, breakouts, bars, market) {
   const tk = prev?.trades ? prev : { startedAt: new Date().toISOString(), trades: [] };
   const trades = tk.trades.map(t => ({ ...t }));
@@ -344,13 +344,14 @@ async function main() {
   await writeFile(OUT, JSON.stringify(result));
   console.log(`Done in ${result.seconds}s: ${JSON.stringify(result.counts)}, market ${market.light}, Yahoo errors ${yahooErrors} ${JSON.stringify(codes)}`);
 
-  // alerts: once per ticker+stage per day; only setups that pass his checklist and grade >= 3 stars
+  // alerts: once per ticker+stage per day. Backtest (Oct 2026): breakout volume >= 1.5x and a non-red market were the
+  // only filters that clearly helped; tightness and stars did not, so they are shown but not required for breakouts.
   const today = new Date().toISOString().slice(0, 10);
   let state = { day: today, sent: [] };
   try { const s = JSON.parse(await readFile(STATE, 'utf8')); if (s.day === today) state = s; } catch {}
-  const fresh = r => !r.earningsSoon && !state.sent.includes(r.t + '|' + r.st) && r.stars >= S.minStarsAlert;
-  const bo = by('breakout').filter(r => fresh(r) && !r.stopTooWide && !r.chased && r.tight && r.volOK && !(r.plan?.wide)).slice(0, 6);
-  const nr = by('near').filter(r => fresh(r) && r.tight).slice(0, 8);
+  const fresh = r => !r.earningsSoon && !state.sent.includes(r.t + '|' + r.st);
+  const bo = by('breakout').filter(r => fresh(r) && !r.stopTooWide && !r.chased && r.volOK && !(r.plan?.wide) && market.light !== 'red').slice(0, 6);
+  const nr = by('near').filter(r => fresh(r) && r.stars >= S.minStarsAlert).slice(0, 8);
   const mk = market.light === 'green' ? '🟢' : market.light === 'yellow' ? '🟡' : '🔴';
   let ok = true;
   if (bo.length) {
