@@ -212,6 +212,7 @@ details ul{padding-left:18px;margin:8px 0}
     if(r.slope20>=0.10)tags.push('<span class="tag good">Steep trend</span>');
     if(r.dry<0.8)tags.push('<span class="tag">Volume drying up</span>');
     if(r.prior>=1)tags.push('<span class="tag good">Big prior move +'+pct(r.prior,0)+'</span>');
+    if(r.failedToday)tags.push('<span class="tag bad">Failed breakout today – new level '+money(r.nextTrigger)+'</span>');
     if(r.st==='breakout')tags.push(r.volOK?'<span class="tag good">Breakout volume ×'+r.vr.toFixed(1)+'</span>':'<span class="tag bad">Low volume ×'+r.vr.toFixed(1)+'</span>');
     tags.push('<span class="tag">In '+r.scans.length+'/6 scans</span>');
     if(r.earningsSoon)tags.push('<span class="tag bad">Earnings in '+r.earningsDays+'d – skip</span>');
@@ -219,6 +220,7 @@ details ul{padding-left:18px;margin:8px 0}
     var facts=[
       ['Price',money(r.p)+' <span style="color:'+(r.chg>=0?'var(--go)':'var(--warn)')+'">'+(r.chg>=0?'+':'')+pct(r.chg)+'</span>'],
       ['Trigger',money(r.trigger)],
+      r.nextTrigger!=null&&r.nextTrigger!==r.trigger?[r.failedToday?'New level to beat today':'Buy level today',money(r.nextTrigger)]:null,
       [r.p>r.top?'Above trigger':'To trigger',(r.p>r.top?'+':'')+pct(Math.abs(dist))],
       ['1 ATR above yesterday',money(r.tooLate)],
       ['ATR / ADR',money(r.atr)+' / '+pct(r.adr)],
@@ -226,16 +228,17 @@ details ul{padding-left:18px;margin:8px 0}
       ['Volume','×'+r.vr.toFixed(1)+(r.live?' proj.':'')],
       ['Prior move','+'+pct(r.prior||0,0)],
       ['Market cap',mcap(r.mc)]
-    ].concat(r.intra?[['5-min ORH',money(r.intra.orh5)],['Low of day',money(r.intra.lod)]]:[]).map(function(f){return '<div><dt>'+f[0]+'</dt><dd>'+f[1]+'</dd></div>'}).join('');
+    ].filter(Boolean).concat(r.intra?[['5-min ORH',money(r.intra.orh5)],['High of day',money(r.intra.hod)],['Low of day',money(r.intra.lod)]]:[]).map(function(f){return '<div><dt>'+f[0]+'</dt><dd>'+f[1]+'</dd></div>'}).join('');
     var plan='';
     if(r.st==='breakout'){
       var en=r.plan?r.plan.entry:r.entry, sp=r.plan?r.plan.stop:r.stop;
-      plan='<span>Buy above <b>'+money(en)+'</b> (trigger / 5-min ORH)</span><span>Stop <b>'+money(sp)+'</b> = low of day</span><span>Risk/share <b>'+money(en-sp)+'</b></span>'+sizing(en,sp)+
+      plan='<span>Buy above <b>'+money(en)+'</b> ('+esc(r.plan&&r.plan.basis?r.plan.basis.split(';')[0]:'trigger / 5-min ORH')+')</span><span>Stop <b>'+money(sp)+'</b> = low of day</span><span>Risk/share <b>'+money(en-sp)+'</b></span>'+sizing(en,sp)+
         (!r.volOK?'<span class="w">Volume ×'+r.vr.toFixed(1)+' so far – judge it yourself (he wants big volume).</span>':'')+(!r.tight?'<span class="w">Not tight before the break.</span>':'')+
         (r.stopTooWide?'<span class="w">Stop wider than ATR – skip or wait for a dip.</span>':'')+(r.chased?'<span class="w">Gapped/ran more than 1 ATR above yesterday – check the low-of-day stop is still within 1 ATR.</span>':'');
     }else{
-      var estStop=Math.max(r.trigger-r.atr*0.5,0);
-      plan='<span>Buy if it breaks <b>'+money(r.trigger)+'</b> (opening range high)</span><span>Above <b>'+money(r.tooLate)+'</b>: only if the stop is within 1 ATR</span><span>Stop = low of that day (≈ '+money(estStop)+' if half an ATR)</span>'+sizing(r.trigger,estStop);
+      var lvl=r.nextTrigger!=null?r.nextTrigger:r.trigger, why=r.failedToday?'today\'s high – the first attempt failed':(r.intra&&r.intra.gapOpen?'5-min ORH – it opened above the trigger':'trigger; if it opens above, the 5-min ORH');
+      var estStop=r.intra&&r.intra.lod>0&&r.intra.lod<lvl?r.intra.lod:Math.max(lvl-r.atr*0.5,0);
+      plan='<span>Buy if it breaks <b>'+money(lvl)+'</b> ('+why+')</span><span>Above <b>'+money(r.tooLate)+'</b>: only if the stop is within 1 ATR</span><span>Stop = low of that day ('+(r.intra?'now '+money(estStop)+(lvl-estStop>r.atr?' – too wide, more than 1 ATR':''):'≈ '+money(estStop)+' if half an ATR')+')</span>'+sizing(lvl,estStop);
     }
     var url='https://www.tradingview.com/chart/?symbol='+encodeURIComponent(r.t);
     state.byT[r.t]=r;
@@ -319,7 +322,8 @@ details ul{padding-left:18px;margin:8px 0}
       var lv=[];
       var add=function(p,c,title,style){if(p==null||!(p>0))return;cs.createPriceLine({price:p,color:c,lineWidth:2,lineStyle:style==null?2:style,axisLabelVisible:true,title:title});lv.push([title,c,p])};
       add(r.trigger,'#2563eb','Trigger (base top)',2);
-      if(r.intra){add(r.intra.orh5,'#a21caf','5-min ORH',0);add(r.intra.lod,'#dc2626','STOP = low of day',0)}
+      if(r.nextTrigger!=null&&r.nextTrigger!==r.trigger)add(r.nextTrigger,'#16a34a',r.failedToday?'New level to beat (high of day)':'Buy level today',0);
+      if(r.intra){add(r.intra.orh5,'#a21caf','5-min ORH',0);add(r.st==='breakout'&&r.plan?r.plan.stop:r.intra.lod,'#dc2626','STOP = low of day',0)}
       else{add(Math.max(r.trigger-r.atr*0.5,0),'#dc2626','Est. stop (½ ATR) – real stop = low of buy day',1)}
       add(r.tooLate,'#6b7280','1 ATR above yesterday',3);
       var start=Math.max(0,T.length-90);chart.timeScale().setVisibleRange({from:T[start],to:T[T.length-1]});
