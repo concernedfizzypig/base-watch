@@ -1,0 +1,4137 @@
+{
+ "at": "2026-10-16T13:50:17.885Z",
+ "settings": {
+  "minPrice": 1,
+  "minDollarVol": 10000000,
+  "minADR": 0.04,
+  "rankTopPct": 0.07,
+  "maxPerScan": 50,
+  "minBase": 5,
+  "maxBase": 60,
+  "maxDepth": 0.3,
+  "maxDepthBigMove": 0.4,
+  "minPriorMove": 0.3,
+  "maxDrift": 0.12,
+  "maxExt10": 1.5,
+  "surfClose": 0.97,
+  "surfShare": 0.75,
+  "nearPct": 0.03,
+  "minVolBreakout": 1.5,
+  "earningsDays": 5,
+  "minStarsAlert": 3
+ },
+ "results": [
+  {
+   "label": "TSLA 2020 triangle",
+   "sym": "TSLA",
+   "window": [
+    "2020-05-26",
+    "2020-06-12"
+   ],
+   "days": [
+    {
+     "date": "2020-05-29",
+     "o": 53.92,
+     "h": 55.67,
+     "l": 53.61,
+     "c": 55.67,
+     "chg": 0.036,
+     "vr": 0.81,
+     "light": "green",
+     "bot": "setup but no break (forming)",
+     "trigger": 57.99
+    },
+    {
+     "date": "2020-06-01",
+     "o": 57.2,
+     "h": 59.93,
+     "l": 56.94,
+     "c": 59.87,
+     "chg": 0.076,
+     "vr": 1.1,
+     "light": "green",
+     "bot": "BREAKOUT",
+     "trigger": 57.99,
+     "L": 30,
+     "surf": 10,
+     "stars": 4,
+     "chased": true,
+     "stopTooWide": false,
+     "volOK": false,
+     "wouldAlert": false
+    },
+    {
+     "date": "2020-06-02",
+     "o": 59.65,
+     "h": 60.58,
+     "l": 58.07,
+     "c": 58.77,
+     "chg": -0.018,
+     "vr": 1.06,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.042,
+      "dollarVol": 11456,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 2.06,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 10,
+       "base drifts >12% (not sideways)": 22,
+       "base too deep": 24
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-06-08",
+     "o": 61.27,
+     "h": 63.33,
+     "l": 60.61,
+     "c": 63.33,
+     "chg": 0.073,
+     "vr": 1.21,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.039,
+      "dollarVol": 10382,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.06,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 12,
+       "base drifts >12% (not sideways)": 18,
+       "base too deep": 20
+      },
+      "base": {
+       "L": 29,
+       "top": 60.58,
+       "depth": 0.248,
+       "prior": 2.142
+      },
+      "surf": 10,
+      "fail": "ADR<4%"
+     }
+    },
+    {
+     "date": "2020-06-09",
+     "o": 62.67,
+     "h": 63.63,
+     "l": 61.6,
+     "c": 62.71,
+     "chg": -0.01,
+     "vr": 0.98,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.038,
+      "dollarVol": 11044,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 2.58,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 2,
+       "base drifts >12% (not sideways)": 34,
+       "base too deep": 20
+      },
+      "base": null,
+      "fail": "ADR<4% + too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-06-10",
+     "o": 66.13,
+     "h": 68.5,
+     "l": 65.5,
+     "c": 68.34,
+     "chg": 0.09,
+     "vr": 1.63,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.038,
+      "dollarVol": 10696,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.95,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 3,
+       "base drifts >12% (not sideways)": 34,
+       "base too deep": 19
+      },
+      "base": null,
+      "fail": "ADR<4% + too far above 10-day + no valid base"
+     }
+    }
+   ],
+   "caught": true,
+   "alerted": false
+  },
+  {
+   "label": "MNKD 2013 flag",
+   "sym": "MNKD",
+   "window": [
+    "2013-04-15",
+    "2013-06-20"
+   ],
+   "days": [
+    {
+     "date": "2013-05-02",
+     "o": 19.35,
+     "h": 20.8,
+     "l": 19.35,
+     "c": 20.1,
+     "chg": 0.039,
+     "vr": 1.68,
+     "light": "green",
+     "bot": "setup but no break (forming)",
+     "trigger": 22.5
+    },
+    {
+     "date": "2013-05-10",
+     "o": 20.5,
+     "h": 22.2,
+     "l": 20.4,
+     "c": 22.15,
+     "chg": 0.113,
+     "vr": 2.53,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.054,
+      "dollarVol": 17,
+      "rising": {
+       "10": true,
+       "20": false,
+       "50": true
+      },
+      "ext10_adr": 0.08,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 1,
+       "base drifts >12% (not sideways)": 15,
+       "base too deep": 16
+      },
+      "base": {
+       "L": 41,
+       "top": 22.5,
+       "depth": 0.3,
+       "prior": 1.473
+      },
+      "surf": 10,
+      "fail": "20-day not rising"
+     }
+    },
+    {
+     "date": "2013-05-13",
+     "o": 22.65,
+     "h": 23.7,
+     "l": 22.55,
+     "c": 23,
+     "chg": 0.038,
+     "vr": 2.25,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.054,
+      "dollarVol": 19,
+      "rising": {
+       "10": true,
+       "20": false,
+       "50": true
+      },
+      "ext10_adr": 1.96,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 31,
+       "2nd half wider (not tightening)": 6,
+       "base too deep": 15
+      },
+      "base": {
+       "L": 24,
+       "top": 22.5,
+       "depth": 0.173,
+       "prior": 1.473
+      },
+      "surf": 10,
+      "fail": "20-day not rising + too far above 10-day"
+     }
+    },
+    {
+     "date": "2013-05-15",
+     "o": 24,
+     "h": 25.85,
+     "l": 23.9,
+     "c": 25.65,
+     "chg": 0.085,
+     "vr": 2.5,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.051,
+      "dollarVol": 21,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 2.75,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 41,
+       "2nd half wider (not tightening)": 2,
+       "base too deep": 13
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2013-05-16",
+     "o": 26.25,
+     "h": 26.25,
+     "l": 24.55,
+     "c": 25.8,
+     "chg": 0.006,
+     "vr": 1.71,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.053,
+      "dollarVol": 25,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 3.75,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 43,
+       "base too deep": 13
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2013-05-17",
+     "o": 25.9,
+     "h": 27.25,
+     "l": 25.6,
+     "c": 25.95,
+     "chg": 0.006,
+     "vr": 2.04,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.052,
+      "dollarVol": 26,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 3.37,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 43,
+       "base too deep": 13
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2013-05-22",
+     "o": 27.7,
+     "h": 32.7,
+     "l": 27.55,
+     "c": 31.15,
+     "chg": 0.162,
+     "vr": 4.05,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.051,
+      "dollarVol": 31,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 2.36,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 39,
+       "base too deep": 16
+      },
+      "base": {
+       "L": 5,
+       "top": 27.25,
+       "depth": 0.123,
+       "prior": 1.899
+      },
+      "surf": null,
+      "fail": "too far above 10-day + not surfing a rising 10/20/50"
+     }
+    },
+    {
+     "date": "2013-05-23",
+     "o": 32.5,
+     "h": 34.95,
+     "l": 31.15,
+     "c": 34.25,
+     "chg": 0.1,
+     "vr": 2.95,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.058,
+      "dollarVol": 42,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 4.2,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 5,
+       "base too deep": 51
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2013-06-03",
+     "o": 35,
+     "h": 38.35,
+     "l": 34.15,
+     "c": 38.15,
+     "chg": 0.146,
+     "vr": 2.25,
+     "light": "yellow",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.063,
+      "dollarVol": 56,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.2,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 7,
+       "base too deep": 46
+      },
+      "base": {
+       "L": 7,
+       "top": 34.95,
+       "depth": 0.212,
+       "prior": 2.698
+      },
+      "surf": null,
+      "fail": "not surfing a rising 10/20/50"
+     }
+    },
+    {
+     "date": "2013-06-04",
+     "o": 38.85,
+     "h": 39.35,
+     "l": 35.85,
+     "c": 38.4,
+     "chg": 0.007,
+     "vr": 1.61,
+     "light": "yellow",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.066,
+      "dollarVol": 70,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 2.8,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 8,
+       "2nd half wider (not tightening)": 1,
+       "base too deep": 47
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2013-06-11",
+     "o": 37.2,
+     "h": 40.3,
+     "l": 36.8,
+     "c": 38.25,
+     "chg": 0.02,
+     "vr": 1.3,
+     "light": "red",
+     "bot": "BREAKOUT",
+     "trigger": 39.35,
+     "L": 10,
+     "surf": 10,
+     "stars": 4,
+     "chased": false,
+     "stopTooWide": false,
+     "volOK": false,
+     "wouldAlert": false
+    }
+   ],
+   "caught": true,
+   "alerted": false
+  },
+  {
+   "label": "AAXN Jan 2004",
+   "sym": "AXON",
+   "window": [
+    "2003-12-20",
+    "2004-02-10"
+   ],
+   "days": [
+    {
+     "date": "2004-01-09",
+     "o": 7.08,
+     "h": 7.88,
+     "l": 7.02,
+     "c": 7.83,
+     "chg": 0.099,
+     "vr": 1.9,
+     "light": "green",
+     "bot": "BREAKOUT",
+     "trigger": 7.79,
+     "L": 29,
+     "surf": 10,
+     "stars": 4,
+     "chased": true,
+     "stopTooWide": true,
+     "volOK": true,
+     "wouldAlert": false
+    },
+    {
+     "date": "2004-01-12",
+     "o": 8.04,
+     "h": 8.62,
+     "l": 7.93,
+     "c": 8.62,
+     "chg": 0.101,
+     "vr": 2.36,
+     "light": "green",
+     "bot": "BREAKOUT",
+     "trigger": 7.88,
+     "L": 23,
+     "surf": 10,
+     "stars": 4,
+     "chased": false,
+     "stopTooWide": false,
+     "volOK": true,
+     "wouldAlert": true
+    },
+    {
+     "date": "2004-01-13",
+     "o": 8.62,
+     "h": 8.67,
+     "l": 8.17,
+     "c": 8.44,
+     "chg": -0.021,
+     "vr": 1.33,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.059,
+      "dollarVol": 50,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 2.89,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 31,
+       "base too deep": 25
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2004-01-14",
+     "o": 9.08,
+     "h": 9.77,
+     "l": 8.55,
+     "c": 9.65,
+     "chg": 0.143,
+     "vr": 5,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.058,
+      "dollarVol": 49,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 2.23,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 31,
+       "2nd half wider (not tightening)": 1,
+       "base too deep": 24
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2004-01-16",
+     "o": 9.41,
+     "h": 10.41,
+     "l": 9.14,
+     "c": 9.94,
+     "chg": 0.073,
+     "vr": 3.3,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.06,
+      "dollarVol": 64,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 2.72,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 32,
+       "base too deep": 24
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2004-01-26",
+     "o": 9.98,
+     "h": 11.24,
+     "l": 9.88,
+     "c": 11.22,
+     "chg": 0.126,
+     "vr": 1.99,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.066,
+      "dollarVol": 81,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.02,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 26,
+       "base too deep": 27
+      },
+      "base": {
+       "L": 7,
+       "top": 10.41,
+       "depth": 0.179,
+       "prior": 9.412
+      },
+      "surf": null,
+      "fail": "not surfing a rising 10/20/50"
+     }
+    },
+    {
+     "date": "2004-01-27",
+     "o": 11.26,
+     "h": 12.23,
+     "l": 11.11,
+     "c": 11.14,
+     "chg": -0.007,
+     "vr": 2.67,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.071,
+      "dollarVol": 99,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 2.25,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 17,
+       "base too deep": 39
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2004-02-03",
+     "o": 12.78,
+     "h": 12.84,
+     "l": 10.44,
+     "c": 10.6,
+     "chg": -0.058,
+     "vr": 4.14,
+     "light": "red",
+     "bot": "BREAKOUT",
+     "trigger": 12.23,
+     "L": 6,
+     "surf": 10,
+     "stars": 3.5,
+     "chased": true,
+     "stopTooWide": true,
+     "volOK": true,
+     "wouldAlert": false
+    }
+   ],
+   "caught": true,
+   "alerted": true
+  },
+  {
+   "label": "AMZN Aug 2020 HTF",
+   "sym": "AMZN",
+   "window": [
+    "2020-08-14",
+    "2020-09-02"
+   ],
+   "days": [
+    {
+     "date": "2020-08-18",
+     "o": 160.6,
+     "h": 166,
+     "l": 160.29,
+     "c": 165.62,
+     "chg": 0.041,
+     "vr": 1.24,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.028,
+      "dollarVol": 13774,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 0.24,
+      "baseFailCounts": {
+       "lower low in 2nd half": 4,
+       "base drifts >12% (not sideways)": 27
+      },
+      "base": {
+       "L": 33,
+       "top": 167.21,
+       "depth": 0.177,
+       "prior": 1.057
+      },
+      "surf": 10,
+      "fail": "ADR<4%"
+     }
+    },
+    {
+     "date": "2020-08-24",
+     "o": 165.51,
+     "h": 169.02,
+     "l": 162.88,
+     "c": 165.37,
+     "chg": 0.007,
+     "vr": 1.15,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.024,
+      "dollarVol": 13383,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.06,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 10,
+       "base drifts >12% (not sideways)": 25
+      },
+      "base": {
+       "L": 35,
+       "top": 167.21,
+       "depth": 0.136,
+       "prior": 1.057
+      },
+      "surf": 10,
+      "fail": "ADR<4%"
+     }
+    },
+    {
+     "date": "2020-08-26",
+     "o": 167.56,
+     "h": 172.59,
+     "l": 167.23,
+     "c": 172.09,
+     "chg": 0.028,
+     "vr": 1.57,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.024,
+      "dollarVol": 13863,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.27,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 14,
+       "base drifts >12% (not sideways)": 25
+      },
+      "base": {
+       "L": 37,
+       "top": 169.02,
+       "depth": 0.146,
+       "prior": 1.079
+      },
+      "surf": 10,
+      "fail": "ADR<4%"
+     }
+    },
+    {
+     "date": "2020-08-27",
+     "o": 172.5,
+     "h": 172.65,
+     "l": 168.9,
+     "c": 170,
+     "chg": -0.012,
+     "vr": 0.99,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.025,
+      "dollarVol": 14866,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 2.03,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 17,
+       "base drifts >12% (not sideways)": 33
+      },
+      "base": {
+       "L": 36,
+       "top": 172.59,
+       "depth": 0.163,
+       "prior": 1.123
+      },
+      "surf": 10,
+      "fail": "ADR<4% + too far above 10-day"
+     }
+    },
+    {
+     "date": "2020-08-31",
+     "o": 170.45,
+     "h": 174.75,
+     "l": 170.25,
+     "c": 172.55,
+     "chg": 0.014,
+     "vr": 1.06,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.024,
+      "dollarVol": 13493,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 0.98,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 15,
+       "base drifts >12% (not sideways)": 28
+      },
+      "base": {
+       "L": 40,
+       "top": 172.65,
+       "depth": 0.164,
+       "prior": 1.124
+      },
+      "surf": 10,
+      "fail": "ADR<4%"
+     }
+    },
+    {
+     "date": "2020-09-01",
+     "o": 174.48,
+     "h": 175.69,
+     "l": 173.35,
+     "c": 174.96,
+     "chg": 0.014,
+     "vr": 0.88,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.024,
+      "dollarVol": 13535,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.25,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 19,
+       "base drifts >12% (not sideways)": 32
+      },
+      "base": {
+       "L": 38,
+       "top": 174.75,
+       "depth": 0.174,
+       "prior": 1.149
+      },
+      "surf": 10,
+      "fail": "ADR<4%"
+     }
+    },
+    {
+     "date": "2020-09-02",
+     "o": 177.35,
+     "h": 177.61,
+     "l": 174.33,
+     "c": 176.57,
+     "chg": 0.009,
+     "vr": 1.02,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.024,
+      "dollarVol": 13503,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.63,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 16,
+       "base drifts >12% (not sideways)": 35
+      },
+      "base": {
+       "L": 39,
+       "top": 175.69,
+       "depth": 0.178,
+       "prior": 1.161
+      },
+      "surf": 10,
+      "fail": "ADR<4% + too far above 10-day"
+     }
+    }
+   ],
+   "caught": false,
+   "alerted": false
+  },
+  {
+   "label": "WIX 2020 higher lows",
+   "sym": "WIX",
+   "window": [
+    "2020-08-12",
+    "2020-09-10"
+   ],
+   "days": [
+    {
+     "date": "2020-08-25",
+     "o": 278.95,
+     "h": 295.9,
+     "l": 276.79,
+     "c": 292.79,
+     "chg": 0.049,
+     "vr": 0.89,
+     "light": "green",
+     "bot": "setup but no break (forming)",
+     "trigger": 319.34
+    },
+    {
+     "date": "2020-08-26",
+     "o": 295.45,
+     "h": 304.28,
+     "l": 291.33,
+     "c": 296.93,
+     "chg": 0.014,
+     "vr": 0.65,
+     "light": "green",
+     "bot": "setup but no break (forming)",
+     "trigger": 319.34
+    },
+    {
+     "date": "2020-09-01",
+     "o": 296.75,
+     "h": 305.98,
+     "l": 294.65,
+     "c": 299.71,
+     "chg": 0.017,
+     "vr": 0.85,
+     "light": "green",
+     "bot": "setup but no break (forming)",
+     "trigger": 319.34
+    }
+   ],
+   "caught": false,
+   "alerted": false
+  },
+  {
+   "label": "LL 2020 stair-step",
+   "error": "no Yahoo data for LL/LLFLQ"
+  },
+  {
+   "label": "SPOT 2020 50-day",
+   "sym": "SPOT",
+   "window": [
+    "2020-08-17",
+    "2020-10-15"
+   ],
+   "days": [
+    {
+     "date": "2020-08-20",
+     "o": 260,
+     "h": 270.89,
+     "l": 258.64,
+     "c": 269.33,
+     "chg": 0.029,
+     "vr": 0.94,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.042,
+      "dollarVol": 484,
+      "rising": {
+       "10": true,
+       "20": false,
+       "50": true
+      },
+      "ext10_adr": 0.65,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 5,
+       "lower low in 2nd half": 23,
+       "base drifts >12% (not sideways)": 4,
+       "base too deep": 14
+      },
+      "base": {
+       "L": 42,
+       "top": 299.67,
+       "depth": 0.242,
+       "prior": 1.745
+      },
+      "surf": 50,
+      "fail": "20-day not rising"
+     }
+    },
+    {
+     "date": "2020-08-21",
+     "o": 271.03,
+     "h": 276.88,
+     "l": 268.63,
+     "c": 270.98,
+     "chg": 0.006,
+     "vr": 0.9,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.041,
+      "dollarVol": 483,
+      "rising": {
+       "10": true,
+       "20": false,
+       "50": true
+      },
+      "ext10_adr": 1.27,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 8,
+       "lower low in 2nd half": 23,
+       "base drifts >12% (not sideways)": 5,
+       "base too deep": 13
+      },
+      "base": {
+       "L": 42,
+       "top": 299.67,
+       "depth": 0.215,
+       "prior": 1.745
+      },
+      "surf": 50,
+      "fail": "20-day not rising"
+     }
+    },
+    {
+     "date": "2020-08-24",
+     "o": 276.81,
+     "h": 279.24,
+     "l": 266.11,
+     "c": 269.13,
+     "chg": -0.007,
+     "vr": 0.71,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.04,
+      "dollarVol": 476,
+      "rising": {
+       "10": true,
+       "20": false,
+       "50": true
+      },
+      "ext10_adr": 1.27,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 17,
+       "lower low in 2nd half": 20,
+       "base drifts >12% (not sideways)": 6,
+       "base too deep": 12
+      },
+      "base": {
+       "L": 42,
+       "top": 299.67,
+       "depth": 0.215,
+       "prior": 1.745
+      },
+      "surf": 10,
+      "fail": "ADR<4% + 20-day not rising"
+     }
+    },
+    {
+     "date": "2020-08-26",
+     "o": 268.76,
+     "h": 280,
+     "l": 268.76,
+     "c": 278.29,
+     "chg": 0.036,
+     "vr": 0.77,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.041,
+      "dollarVol": 459,
+      "rising": {
+       "10": true,
+       "20": false,
+       "50": true
+      },
+      "ext10_adr": 0.67,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 19,
+       "lower low in 2nd half": 20,
+       "base drifts >12% (not sideways)": 5,
+       "base too deep": 10
+      },
+      "base": {
+       "L": 45,
+       "top": 299.67,
+       "depth": 0.215,
+       "prior": 1.745
+      },
+      "surf": 10,
+      "fail": "20-day not rising"
+     }
+    },
+    {
+     "date": "2020-08-28",
+     "o": 276.1,
+     "h": 284.61,
+     "l": 274.06,
+     "c": 279.36,
+     "chg": 0.027,
+     "vr": 0.92,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.04,
+      "dollarVol": 410,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 0.59,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 17,
+       "lower low in 2nd half": 19,
+       "base drifts >12% (not sideways)": 7,
+       "base too deep": 8
+      },
+      "base": {
+       "L": 26,
+       "top": 288.99,
+       "depth": 0.165,
+       "prior": 1.647
+      },
+      "surf": 10,
+      "fail": "ADR<4%"
+     }
+    },
+    {
+     "date": "2020-08-31",
+     "o": 280.28,
+     "h": 284.91,
+     "l": 278.83,
+     "c": 282.16,
+     "chg": 0.01,
+     "vr": 0.59,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.04,
+      "dollarVol": 415,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.01,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 18,
+       "base drifts >12% (not sideways)": 9,
+       "lower low in 2nd half": 18,
+       "base too deep": 7
+      },
+      "base": {
+       "L": 28,
+       "top": 299.67,
+       "depth": 0.195,
+       "prior": 1.745
+      },
+      "surf": 10,
+      "fail": "ADR<4%"
+     }
+    },
+    {
+     "date": "2020-09-01",
+     "o": 284.65,
+     "h": 293,
+     "l": 282.09,
+     "c": 291.75,
+     "chg": 0.034,
+     "vr": 0.86,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.039,
+      "dollarVol": 405,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.07,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 15,
+       "base drifts >12% (not sideways)": 11,
+       "lower low in 2nd half": 17,
+       "base too deep": 6
+      },
+      "base": {
+       "L": 30,
+       "top": 299.67,
+       "depth": 0.195,
+       "prior": 1.745
+      },
+      "surf": 10,
+      "fail": "ADR<4%"
+     }
+    },
+    {
+     "date": "2020-09-02",
+     "o": 291.85,
+     "h": 294.67,
+     "l": 266.08,
+     "c": 276.29,
+     "chg": -0.053,
+     "vr": 1.74,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.039,
+      "dollarVol": 412,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.62,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 10,
+       "base drifts >12% (not sideways)": 24,
+       "lower low in 2nd half": 12,
+       "base too deep": 5
+      },
+      "base": {
+       "L": 32,
+       "top": 299.67,
+       "depth": 0.195,
+       "prior": 1.745
+      },
+      "surf": 10,
+      "fail": "ADR<4% + too far above 10-day"
+     }
+    },
+    {
+     "date": "2020-09-30",
+     "o": 244,
+     "h": 246.47,
+     "l": 240.6,
+     "c": 242.57,
+     "chg": 0,
+     "vr": 0.67,
+     "light": "red",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.052,
+      "dollarVol": 407,
+      "rising": {
+       "10": false,
+       "20": false,
+       "50": false
+      },
+      "ext10_adr": 0.49,
+      "baseFailCounts": {
+       "base not near 6-mo high": 9,
+       "base drifts >12% (not sideways)": 9,
+       "lower low in 2nd half": 11,
+       "2nd half wider (not tightening)": 22
+      },
+      "base": {
+       "L": 18,
+       "top": 274.97,
+       "depth": 0.197,
+       "prior": 1.519
+      },
+      "surf": null,
+      "fail": "20-day not rising + 50-day not rising + not surfing a rising 10/20/50"
+     }
+    },
+    {
+     "date": "2020-10-01",
+     "o": 244.52,
+     "h": 250.75,
+     "l": 243.96,
+     "c": 250.19,
+     "chg": 0.031,
+     "vr": 0.63,
+     "light": "red",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.051,
+      "dollarVol": 406,
+      "rising": {
+       "10": false,
+       "20": false,
+       "50": false
+      },
+      "ext10_adr": 0.44,
+      "baseFailCounts": {
+       "base not near 6-mo high": 10,
+       "base drifts >12% (not sideways)": 9,
+       "lower low in 2nd half": 12,
+       "2nd half wider (not tightening)": 20
+      },
+      "base": {
+       "L": 19,
+       "top": 274.97,
+       "depth": 0.197,
+       "prior": 1.519
+      },
+      "surf": null,
+      "fail": "20-day not rising + 50-day not rising + not surfing a rising 10/20/50"
+     }
+    },
+    {
+     "date": "2020-10-05",
+     "o": 244.1,
+     "h": 252.11,
+     "l": 241.27,
+     "c": 251.37,
+     "chg": 0.046,
+     "vr": 0.62,
+     "light": "yellow",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.046,
+      "dollarVol": 375,
+      "rising": {
+       "10": true,
+       "20": false,
+       "50": false
+      },
+      "ext10_adr": 0.08,
+      "baseFailCounts": {
+       "base not near 6-mo high": 12,
+       "base drifts >12% (not sideways)": 9,
+       "lower low in 2nd half": 14,
+       "2nd half wider (not tightening)": 16
+      },
+      "base": {
+       "L": 21,
+       "top": 274.97,
+       "depth": 0.197,
+       "prior": 1.519
+      },
+      "surf": null,
+      "fail": "20-day not rising + 50-day not rising + not surfing a rising 10/20/50"
+     }
+    },
+    {
+     "date": "2020-10-06",
+     "o": 249.68,
+     "h": 255.7,
+     "l": 247.15,
+     "c": 248.54,
+     "chg": -0.011,
+     "vr": 0.62,
+     "light": "yellow",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.043,
+      "dollarVol": 379,
+      "rising": {
+       "10": true,
+       "20": false,
+       "50": false
+      },
+      "ext10_adr": 1.03,
+      "baseFailCounts": {
+       "base not near 6-mo high": 13,
+       "base drifts >12% (not sideways)": 3,
+       "lower low in 2nd half": 16,
+       "2nd half wider (not tightening)": 16
+      },
+      "base": {
+       "L": 26,
+       "top": 294.67,
+       "depth": 0.251,
+       "prior": 1.699
+      },
+      "surf": 10,
+      "fail": "20-day not rising + 50-day not rising"
+     }
+    },
+    {
+     "date": "2020-10-13",
+     "o": 254,
+     "h": 268.25,
+     "l": 252.82,
+     "c": 266.95,
+     "chg": 0.062,
+     "vr": 1.23,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.037,
+      "dollarVol": 326,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": false
+      },
+      "ext10_adr": 0.39,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 3,
+       "lower low in 2nd half": 16,
+       "2nd half wider (not tightening)": 6
+      },
+      "base": {
+       "L": 36,
+       "top": 294.67,
+       "depth": 0.251,
+       "prior": 1.699
+      },
+      "surf": 10,
+      "fail": "ADR<4% + 50-day not rising"
+     }
+    },
+    {
+     "date": "2020-10-14",
+     "o": 268.86,
+     "h": 269,
+     "l": 257.17,
+     "c": 257.62,
+     "chg": -0.035,
+     "vr": 0.75,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.039,
+      "dollarVol": 350,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": false
+      },
+      "ext10_adr": 1.71,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 17,
+       "base drifts >12% (not sideways)": 8,
+       "lower low in 2nd half": 16
+      },
+      "base": {
+       "L": 38,
+       "top": 294.67,
+       "depth": 0.251,
+       "prior": 1.699
+      },
+      "surf": 10,
+      "fail": "ADR<4% + 50-day not rising + too far above 10-day"
+     }
+    }
+   ],
+   "caught": false,
+   "alerted": false
+  },
+  {
+   "label": "LVGO 2020",
+   "error": "no Yahoo data for LVGO"
+  },
+  {
+   "label": "SHLL Aug 2020",
+   "sym": "HYLN",
+   "window": [
+    "2020-08-10",
+    "2020-09-15"
+   ],
+   "days": [
+    {
+     "date": "2020-08-13",
+     "o": 20.2,
+     "h": 24.08,
+     "l": 19.95,
+     "c": 24,
+     "chg": 0.206,
+     "vr": 4.35,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.064,
+      "dollarVol": 35,
+      "rising": {
+       "10": true,
+       "20": false,
+       "50": true
+      },
+      "ext10_adr": 0.15,
+      "baseFailCounts": {
+       "base not near 6-mo high": 21,
+       "not enough history": 1
+      },
+      "base": null,
+      "fail": "20-day not rising + no valid base"
+     }
+    },
+    {
+     "date": "2020-08-14",
+     "o": 23.97,
+     "h": 26.57,
+     "l": 22.7,
+     "c": 24.45,
+     "chg": 0.019,
+     "vr": 3.83,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.072,
+      "dollarVol": 51,
+      "rising": {
+       "10": true,
+       "20": false,
+       "50": true
+      },
+      "ext10_adr": 2.59,
+      "baseFailCounts": {
+       "base not near 6-mo high": 22,
+       "not enough history": 1
+      },
+      "base": null,
+      "fail": "20-day not rising + too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-08-17",
+     "o": 26.19,
+     "h": 27.88,
+     "l": 25.35,
+     "c": 27.44,
+     "chg": 0.122,
+     "vr": 2.3,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.076,
+      "dollarVol": 59,
+      "rising": {
+       "10": true,
+       "20": false,
+       "50": true
+      },
+      "ext10_adr": 2.36,
+      "baseFailCounts": {
+       "base not near 6-mo high": 23,
+       "not enough history": 1
+      },
+      "base": null,
+      "fail": "20-day not rising + too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-08-21",
+     "o": 29,
+     "h": 31.36,
+     "l": 28,
+     "c": 29.91,
+     "chg": 0.114,
+     "vr": 2.85,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.074,
+      "dollarVol": 70,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.92,
+      "baseFailCounts": {
+       "base not near 6-mo high": 27,
+       "not enough history": 1
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-08-24",
+     "o": 32,
+     "h": 40.38,
+     "l": 31.25,
+     "c": 40,
+     "chg": 0.337,
+     "vr": 10.1,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.076,
+      "dollarVol": 83,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 2.87,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 1,
+       "base drifts >12% (not sideways)": 9,
+       "base too deep": 18,
+       "not enough history": 1
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-08-25",
+     "o": 37.07,
+     "h": 42.85,
+     "l": 36,
+     "c": 38.88,
+     "chg": -0.028,
+     "vr": 4.62,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.087,
+      "dollarVol": 163,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 5.8,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 2,
+       "base too deep": 27,
+       "not enough history": 1
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-09-01",
+     "o": 40.05,
+     "h": 48.97,
+     "l": 39.52,
+     "c": 48.97,
+     "chg": 0.242,
+     "vr": 1.58,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.109,
+      "dollarVol": 229,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.42,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 1,
+       "base drifts >12% (not sideways)": 1,
+       "base too deep": 31,
+       "not enough history": 1
+      },
+      "base": {
+       "L": 6,
+       "top": 42.85,
+       "depth": 0.271,
+       "prior": 3.511
+      },
+      "surf": null,
+      "fail": "not surfing a rising 10/20/50"
+     }
+    },
+    {
+     "date": "2020-09-02",
+     "o": 52.43,
+     "h": 58.66,
+     "l": 50,
+     "c": 55.85,
+     "chg": 0.14,
+     "vr": 3.15,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.115,
+      "dollarVol": 301,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 2.99,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 3,
+       "base too deep": 32,
+       "not enough history": 1
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    }
+   ],
+   "caught": false,
+   "alerted": false
+  },
+  {
+   "label": "SVM Aug 2020",
+   "sym": "SVM",
+   "window": [
+    "2020-08-12",
+    "2020-09-04"
+   ],
+   "days": [
+    {
+     "date": "2020-08-31",
+     "o": 8.5,
+     "h": 8.85,
+     "l": 8.4,
+     "c": 8.66,
+     "chg": 0.043,
+     "vr": 1.03,
+     "light": "green",
+     "bot": "BREAKOUT",
+     "trigger": 8.49,
+     "L": 28,
+     "surf": 10,
+     "stars": 3.5,
+     "chased": false,
+     "stopTooWide": false,
+     "volOK": false,
+     "wouldAlert": false
+    },
+    {
+     "date": "2020-09-01",
+     "o": 8.9,
+     "h": 8.91,
+     "l": 8.38,
+     "c": 8.59,
+     "chg": -0.008,
+     "vr": 0.88,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.058,
+      "dollarVol": 18,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.78,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 29,
+       "2nd half wider (not tightening)": 6,
+       "base too deep": 21
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    }
+   ],
+   "caught": true,
+   "alerted": false
+  },
+  {
+   "label": "NNDM 2020-21 flags",
+   "sym": "NNDM",
+   "window": [
+    "2020-10-01",
+    "2021-01-25"
+   ],
+   "days": [
+    {
+     "date": "2020-10-13",
+     "o": 3.06,
+     "h": 3.4,
+     "l": 2.85,
+     "c": 2.99,
+     "chg": -0.023,
+     "vr": 1.58,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.143,
+      "dollarVol": 38,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.66,
+      "baseFailCounts": {
+       "base not near 6-mo high": 5,
+       "base too deep": 51
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-10-14",
+     "o": 3.02,
+     "h": 3.9,
+     "l": 3.02,
+     "c": 3.65,
+     "chg": 0.221,
+     "vr": 1.95,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.147,
+      "dollarVol": 39,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.14,
+      "baseFailCounts": {
+       "base not near 6-mo high": 6,
+       "base too deep": 50
+      },
+      "base": null,
+      "fail": "no valid base"
+     }
+    },
+    {
+     "date": "2020-10-15",
+     "o": 3.52,
+     "h": 4.48,
+     "l": 3.38,
+     "c": 4.48,
+     "chg": 0.227,
+     "vr": 2.28,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.157,
+      "dollarVol": 53,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 2.44,
+      "baseFailCounts": {
+       "base too deep": 56
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-10-16",
+     "o": 4.6,
+     "h": 6,
+     "l": 4.59,
+     "c": 4.91,
+     "chg": 0.096,
+     "vr": 6.6,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.168,
+      "dollarVol": 72,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 3.41,
+      "baseFailCounts": {
+       "base too deep": 56
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-11-09",
+     "o": 4.42,
+     "h": 4.61,
+     "l": 3.98,
+     "c": 4.32,
+     "chg": 0.085,
+     "vr": 0.77,
+     "light": "red",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.18,
+      "dollarVol": 80,
+      "rising": {
+       "10": false,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.35,
+      "baseFailCounts": {
+       "base not near 6-mo high": 10,
+       "base too deep": 46
+      },
+      "base": null,
+      "fail": "no valid base"
+     }
+    },
+    {
+     "date": "2020-11-17",
+     "o": 4.06,
+     "h": 4.85,
+     "l": 4.01,
+     "c": 4.47,
+     "chg": 0.062,
+     "vr": 1.51,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.144,
+      "dollarVol": 49,
+      "rising": {
+       "10": true,
+       "20": false,
+       "50": true
+      },
+      "ext10_adr": 0.84,
+      "baseFailCounts": {
+       "base not near 6-mo high": 7,
+       "base too deep": 49
+      },
+      "base": null,
+      "fail": "20-day not rising + no valid base"
+     }
+    },
+    {
+     "date": "2020-11-18",
+     "o": 4.59,
+     "h": 4.95,
+     "l": 4.55,
+     "c": 4.77,
+     "chg": 0.067,
+     "vr": 1.05,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.14,
+      "dollarVol": 51,
+      "rising": {
+       "10": true,
+       "20": false,
+       "50": true
+      },
+      "ext10_adr": 1.03,
+      "baseFailCounts": {
+       "base not near 6-mo high": 5,
+       "base too deep": 51
+      },
+      "base": null,
+      "fail": "20-day not rising + no valid base"
+     }
+    },
+    {
+     "date": "2020-11-19",
+     "o": 5.01,
+     "h": 5.88,
+     "l": 4.96,
+     "c": 5.86,
+     "chg": 0.229,
+     "vr": 2.3,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.137,
+      "dollarVol": 54,
+      "rising": {
+       "10": true,
+       "20": false,
+       "50": true
+      },
+      "ext10_adr": 1.22,
+      "baseFailCounts": {
+       "base not near 6-mo high": 5,
+       "base too deep": 51
+      },
+      "base": null,
+      "fail": "20-day not rising + no valid base"
+     }
+    },
+    {
+     "date": "2020-11-27",
+     "o": 6.3,
+     "h": 7.39,
+     "l": 6.26,
+     "c": 6.53,
+     "chg": 0.14,
+     "vr": 2.74,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.144,
+      "dollarVol": 96,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.53,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 4,
+       "base too deep": 51
+      },
+      "base": {
+       "L": 5,
+       "top": 5.88,
+       "depth": 0.286,
+       "prior": 3.489
+      },
+      "surf": 10,
+      "fail": "too far above 10-day"
+     }
+    },
+    {
+     "date": "2020-12-03",
+     "o": 6.84,
+     "h": 7.72,
+     "l": 6.79,
+     "c": 7.58,
+     "chg": 0.184,
+     "vr": 2.08,
+     "light": "green",
+     "bot": "BREAKOUT",
+     "trigger": 7.39,
+     "L": 5,
+     "surf": 10,
+     "stars": 4,
+     "chased": true,
+     "stopTooWide": false,
+     "volOK": true,
+     "wouldAlert": false
+    },
+    {
+     "date": "2020-12-04",
+     "o": 7.52,
+     "h": 7.97,
+     "l": 7.06,
+     "c": 7.44,
+     "chg": -0.018,
+     "vr": 1.35,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.159,
+      "dollarVol": 187,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.73,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 2,
+       "base too deep": 54
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-12-21",
+     "o": 7.1,
+     "h": 8.42,
+     "l": 7,
+     "c": 8.41,
+     "chg": 0.176,
+     "vr": 1.44,
+     "light": "green",
+     "bot": "BREAKOUT",
+     "trigger": 7.97,
+     "L": 16,
+     "surf": 20,
+     "stars": 4,
+     "chased": true,
+     "stopTooWide": true,
+     "volOK": false,
+     "wouldAlert": false
+    },
+    {
+     "date": "2020-12-22",
+     "o": 8.86,
+     "h": 9.54,
+     "l": 8.51,
+     "c": 9.08,
+     "chg": 0.08,
+     "vr": 1.32,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.127,
+      "dollarVol": 262,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.84,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 12,
+       "2nd half wider (not tightening)": 1,
+       "base too deep": 43
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-12-23",
+     "o": 9.55,
+     "h": 10.49,
+     "l": 8.63,
+     "c": 8.77,
+     "chg": -0.034,
+     "vr": 1.64,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.128,
+      "dollarVol": 288,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 2.31,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 14,
+       "base too deep": 42
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2021-01-13",
+     "o": 9.75,
+     "h": 11.45,
+     "l": 9.66,
+     "c": 11.43,
+     "chg": 0.216,
+     "vr": 1.86,
+     "light": "green",
+     "bot": "BREAKOUT",
+     "trigger": 10.49,
+     "L": 15,
+     "surf": 10,
+     "stars": 4,
+     "chased": true,
+     "stopTooWide": false,
+     "volOK": true,
+     "wouldAlert": false
+    },
+    {
+     "date": "2021-01-19",
+     "o": 11.05,
+     "h": 11.61,
+     "l": 10.68,
+     "c": 10.94,
+     "chg": 0.054,
+     "vr": 1.01,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.116,
+      "dollarVol": 397,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 0.84,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 3,
+       "base drifts >12% (not sideways)": 11,
+       "base too deep": 42
+      },
+      "base": null,
+      "fail": "no valid base"
+     }
+    },
+    {
+     "date": "2021-01-20",
+     "o": 11.24,
+     "h": 11.86,
+     "l": 11.12,
+     "c": 11.52,
+     "chg": 0.053,
+     "vr": 0.86,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.113,
+      "dollarVol": 423,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.14,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 15,
+       "base too deep": 41
+      },
+      "base": null,
+      "fail": "no valid base"
+     }
+    },
+    {
+     "date": "2021-01-21",
+     "o": 11.9,
+     "h": 13.3,
+     "l": 11.5,
+     "c": 12.6,
+     "chg": 0.094,
+     "vr": 1.24,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.112,
+      "dollarVol": 445,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.37,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 14,
+       "base too deep": 41
+      },
+      "base": {
+       "L": 5,
+       "top": 11.86,
+       "depth": 0.185,
+       "prior": 8.053
+      },
+      "surf": null,
+      "fail": "not surfing a rising 10/20/50"
+     }
+    },
+    {
+     "date": "2021-01-22",
+     "o": 12.6,
+     "h": 14.66,
+     "l": 12.4,
+     "c": 14.39,
+     "chg": 0.142,
+     "vr": 1.36,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.109,
+      "dollarVol": 488,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.89,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 5,
+       "2nd half wider (not tightening)": 1,
+       "base too deep": 50
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2021-01-25",
+     "o": 16.45,
+     "h": 17.86,
+     "l": 13.21,
+     "c": 16.66,
+     "chg": 0.158,
+     "vr": 1.66,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.112,
+      "dollarVol": 566,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 2.8,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 6,
+       "base too deep": 50
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    }
+   ],
+   "caught": true,
+   "alerted": false
+  },
+  {
+   "label": "JMIA Jan 2021",
+   "sym": "JMIA",
+   "window": [
+    "2021-01-04",
+    "2021-01-20"
+   ],
+   "days": [
+    {
+     "date": "2021-01-13",
+     "o": 40.35,
+     "h": 45.96,
+     "l": 38.8,
+     "c": 43.3,
+     "chg": 0.071,
+     "vr": 1.55,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.113,
+      "dollarVol": 476,
+      "rising": {
+       "10": false,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 0.57,
+      "baseFailCounts": {
+       "base not near 6-mo high": 3,
+       "lower low in 2nd half": 11,
+       "base drifts >12% (not sideways)": 7,
+       "base too deep": 33
+      },
+      "base": {
+       "L": 22,
+       "top": 49,
+       "depth": 0.349,
+       "prior": 8.608
+      },
+      "surf": null,
+      "fail": "not surfing a rising 10/20/50"
+     }
+    },
+    {
+     "date": "2021-01-14",
+     "o": 44.92,
+     "h": 47.88,
+     "l": 44.51,
+     "c": 46.86,
+     "chg": 0.082,
+     "vr": 1.09,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.117,
+      "dollarVol": 530,
+      "rising": {
+       "10": false,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.1,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 13,
+       "2nd half wider (not tightening)": 9,
+       "lower low in 2nd half": 2,
+       "base too deep": 32
+      },
+      "base": null,
+      "fail": "no valid base"
+     }
+    },
+    {
+     "date": "2021-01-15",
+     "o": 46.83,
+     "h": 48,
+     "l": 42.02,
+     "c": 43.47,
+     "chg": -0.072,
+     "vr": 0.78,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.116,
+      "dollarVol": 582,
+      "rising": {
+       "10": false,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.79,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 20,
+       "2nd half wider (not tightening)": 5,
+       "base too deep": 31
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    }
+   ],
+   "caught": false,
+   "alerted": false
+  },
+  {
+   "label": "NIO Jun 2020",
+   "sym": "NIO",
+   "window": [
+    "2020-06-01",
+    "2020-07-15"
+   ],
+   "days": [
+    {
+     "date": "2020-06-01",
+     "o": 4,
+     "h": 4.33,
+     "l": 3.96,
+     "c": 4.26,
+     "chg": 0.07,
+     "vr": 1.97,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.069,
+      "dollarVol": 140,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.29,
+      "baseFailCounts": {
+       "base not near 6-mo high": 33,
+       "base too deep": 23
+      },
+      "base": null,
+      "fail": "no valid base"
+     }
+    },
+    {
+     "date": "2020-06-02",
+     "o": 4.36,
+     "h": 4.73,
+     "l": 4.35,
+     "c": 4.7,
+     "chg": 0.103,
+     "vr": 2.23,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.07,
+      "dollarVol": 158,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.97,
+      "baseFailCounts": {
+       "base not near 6-mo high": 34,
+       "base too deep": 22
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-06-03",
+     "o": 5,
+     "h": 5.7,
+     "l": 4.98,
+     "c": 5.6,
+     "chg": 0.191,
+     "vr": 4.98,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.07,
+      "dollarVol": 188,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 3.14,
+      "baseFailCounts": {
+       "base not near 6-mo high": 31,
+       "base too deep": 25
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-06-04",
+     "o": 6.01,
+     "h": 6.2,
+     "l": 5.61,
+     "c": 5.97,
+     "chg": 0.066,
+     "vr": 3.54,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.074,
+      "dollarVol": 273,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 5.19,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 2,
+       "base too deep": 54
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-06-09",
+     "o": 5.84,
+     "h": 6.83,
+     "l": 5.76,
+     "c": 6.68,
+     "chg": 0.119,
+     "vr": 2.25,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.08,
+      "dollarVol": 363,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 3.08,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 5,
+       "base too deep": 51
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-06-10",
+     "o": 6.72,
+     "h": 6.95,
+     "l": 6.16,
+     "c": 6.3,
+     "chg": -0.057,
+     "vr": 1.5,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.088,
+      "dollarVol": 447,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 3.6,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 2,
+       "base too deep": 54
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-06-15",
+     "o": 5.97,
+     "h": 6.99,
+     "l": 5.92,
+     "c": 6.83,
+     "chg": 0.12,
+     "vr": 1.47,
+     "light": "green",
+     "bot": "BREAKOUT",
+     "trigger": 6.95,
+     "L": 6,
+     "surf": 10,
+     "stars": 3.5,
+     "chased": true,
+     "stopTooWide": true,
+     "volOK": false,
+     "wouldAlert": false
+    },
+    {
+     "date": "2020-06-16",
+     "o": 7.43,
+     "h": 7.44,
+     "l": 6.53,
+     "c": 6.99,
+     "chg": 0.023,
+     "vr": 1.58,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.098,
+      "dollarVol": 563,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.49,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 1,
+       "base drifts >12% (not sideways)": 5,
+       "base too deep": 50
+      },
+      "base": null,
+      "fail": "no valid base"
+     }
+    },
+    {
+     "date": "2020-06-19",
+     "o": 7.36,
+     "h": 7.63,
+     "l": 7.23,
+     "c": 7.34,
+     "chg": 0.022,
+     "vr": 0.93,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.1,
+      "dollarVol": 651,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.15,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 7,
+       "2nd half wider (not tightening)": 1,
+       "base too deep": 48
+      },
+      "base": null,
+      "fail": "no valid base"
+     }
+    },
+    {
+     "date": "2020-06-22",
+     "o": 7.86,
+     "h": 7.9,
+     "l": 7.38,
+     "c": 7.43,
+     "chg": 0.012,
+     "vr": 1.22,
+     "light": "green",
+     "bot": "BREAKOUT",
+     "trigger": 7.63,
+     "L": 5,
+     "surf": 10,
+     "stars": 4,
+     "chased": false,
+     "stopTooWide": false,
+     "volOK": false,
+     "wouldAlert": false
+    },
+    {
+     "date": "2020-07-01",
+     "o": 7.79,
+     "h": 7.99,
+     "l": 7.67,
+     "c": 7.91,
+     "chg": 0.025,
+     "vr": 0.67,
+     "light": "green",
+     "bot": "BREAKOUT",
+     "trigger": 7.9,
+     "L": 8,
+     "surf": 10,
+     "stars": 4,
+     "chased": false,
+     "stopTooWide": false,
+     "volOK": false,
+     "wouldAlert": false
+    },
+    {
+     "date": "2020-07-02",
+     "o": 9.05,
+     "h": 9.4,
+     "l": 8.7,
+     "c": 9.38,
+     "chg": 0.186,
+     "vr": 2.44,
+     "light": "green",
+     "bot": "BREAKOUT",
+     "trigger": 7.99,
+     "L": 10,
+     "surf": 10,
+     "stars": 4.5,
+     "chased": true,
+     "stopTooWide": false,
+     "volOK": true,
+     "wouldAlert": false
+    },
+    {
+     "date": "2020-07-06",
+     "o": 11.05,
+     "h": 12.3,
+     "l": 10.93,
+     "c": 11.51,
+     "chg": 0.227,
+     "vr": 3.54,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.09,
+      "dollarVol": 873,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 2.78,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 15,
+       "base too deep": 41
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-07-07",
+     "o": 11.26,
+     "h": 13.77,
+     "l": 10.7,
+     "c": 13.22,
+     "chg": 0.149,
+     "vr": 4.23,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.091,
+      "dollarVol": 1208,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 4.97,
+      "baseFailCounts": {
+       "base too deep": 56
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-07-08",
+     "o": 14.1,
+     "h": 15.28,
+     "l": 12,
+     "c": 12.88,
+     "chg": -0.026,
+     "vr": 4.65,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.102,
+      "dollarVol": 1624,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 5.45,
+      "baseFailCounts": {
+       "base too deep": 56
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-07-10",
+     "o": 15.61,
+     "h": 15.73,
+     "l": 14.2,
+     "c": 14.98,
+     "chg": 0.028,
+     "vr": 2.05,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.106,
+      "dollarVol": 2264,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 4.54,
+      "baseFailCounts": {
+       "base too deep": 56
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-07-13",
+     "o": 15.26,
+     "h": 16.44,
+     "l": 13.61,
+     "c": 13.84,
+     "chg": -0.076,
+     "vr": 1.9,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.107,
+      "dollarVol": 2472,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 3.81,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 1,
+       "base too deep": 55
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    }
+   ],
+   "caught": true,
+   "alerted": false
+  },
+  {
+   "label": "SRNE Jul 2020",
+   "sym": "SRNE",
+   "window": [
+    "2020-06-01",
+    "2020-07-20"
+   ],
+   "days": [
+    {
+     "date": "2020-06-24",
+     "o": 5.05,
+     "h": 5.61,
+     "l": 5.03,
+     "c": 5.56,
+     "chg": 0.086,
+     "vr": 1.54,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.09,
+      "dollarVol": 119,
+      "rising": {
+       "10": true,
+       "20": false,
+       "50": true
+      },
+      "ext10_adr": 0.75,
+      "baseFailCounts": {
+       "base not near 6-mo high": 20,
+       "base too deep": 36
+      },
+      "base": null,
+      "fail": "20-day not rising + no valid base"
+     }
+    },
+    {
+     "date": "2020-06-25",
+     "o": 6.4,
+     "h": 7.22,
+     "l": 6,
+     "c": 6.35,
+     "chg": 0.142,
+     "vr": 3.01,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.091,
+      "dollarVol": 132,
+      "rising": {
+       "10": true,
+       "20": false,
+       "50": true
+      },
+      "ext10_adr": 1.49,
+      "baseFailCounts": {
+       "base not near 6-mo high": 21,
+       "base too deep": 35
+      },
+      "base": null,
+      "fail": "20-day not rising + no valid base"
+     }
+    },
+    {
+     "date": "2020-07-07",
+     "o": 7.07,
+     "h": 7.53,
+     "l": 6.96,
+     "c": 7.38,
+     "chg": 0.03,
+     "vr": 0.72,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.099,
+      "dollarVol": 198,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.73,
+      "baseFailCounts": {
+       "base not near 6-mo high": 11,
+       "base too deep": 45
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-07-09",
+     "o": 7.33,
+     "h": 7.76,
+     "l": 7.19,
+     "c": 7.75,
+     "chg": 0.063,
+     "vr": 0.88,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.09,
+      "dollarVol": 176,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.21,
+      "baseFailCounts": {
+       "base not near 6-mo high": 13,
+       "base too deep": 43
+      },
+      "base": null,
+      "fail": "no valid base"
+     }
+    },
+    {
+     "date": "2020-07-10",
+     "o": 7.89,
+     "h": 8.51,
+     "l": 7.83,
+     "c": 8.06,
+     "chg": 0.04,
+     "vr": 1.26,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.09,
+      "dollarVol": 188,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.56,
+      "baseFailCounts": {
+       "base not near 6-mo high": 11,
+       "base too deep": 45
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-07-20",
+     "o": 8.19,
+     "h": 8.57,
+     "l": 7.78,
+     "c": 8.36,
+     "chg": 0.199,
+     "vr": 2.65,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.106,
+      "dollarVol": 183,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": -0.49,
+      "baseFailCounts": {
+       "base not near 6-mo high": 1,
+       "base drifts >12% (not sideways)": 3,
+       "2nd half wider (not tightening)": 8,
+       "base too deep": 44
+      },
+      "base": null,
+      "fail": "no valid base"
+     }
+    }
+   ],
+   "caught": false,
+   "alerted": false
+  },
+  {
+   "label": "SQ Jun 2020",
+   "sym": "XYZ",
+   "window": [
+    "2020-05-15",
+    "2020-07-15"
+   ],
+   "days": [
+    {
+     "date": "2020-05-15",
+     "o": 77.75,
+     "h": 81.13,
+     "l": 76.65,
+     "c": 80.26,
+     "chg": 0.026,
+     "vr": 1.15,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.054,
+      "dollarVol": 1109,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": false
+      },
+      "ext10_adr": 1.75,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 2,
+       "base drifts >12% (not sideways)": 21,
+       "base too deep": 33
+      },
+      "base": null,
+      "fail": "50-day not rising + too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-05-18",
+     "o": 78.7,
+     "h": 81.35,
+     "l": 76.44,
+     "c": 76.63,
+     "chg": -0.045,
+     "vr": 1.13,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.055,
+      "dollarVol": 1147,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": false
+      },
+      "ext10_adr": 1.78,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 3,
+       "base drifts >12% (not sideways)": 21,
+       "base too deep": 32
+      },
+      "base": null,
+      "fail": "50-day not rising + too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-05-19",
+     "o": 76.45,
+     "h": 82.14,
+     "l": 76.25,
+     "c": 79.25,
+     "chg": 0.034,
+     "vr": 0.99,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.054,
+      "dollarVol": 1102,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": false
+      },
+      "ext10_adr": 0.54,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 4,
+       "base drifts >12% (not sideways)": 21,
+       "base too deep": 31
+      },
+      "base": null,
+      "fail": "50-day not rising + no valid base"
+     }
+    },
+    {
+     "date": "2020-05-20",
+     "o": 81.5,
+     "h": 83.1,
+     "l": 80.52,
+     "c": 82.04,
+     "chg": 0.035,
+     "vr": 0.71,
+     "light": "green",
+     "bot": "BREAKOUT",
+     "trigger": 82.14,
+     "L": 6,
+     "surf": 10,
+     "stars": 3.5,
+     "chased": false,
+     "stopTooWide": false,
+     "volOK": false,
+     "wouldAlert": false
+    },
+    {
+     "date": "2020-05-26",
+     "o": 83.98,
+     "h": 84.09,
+     "l": 80.5,
+     "c": 80.79,
+     "chg": -0.009,
+     "vr": 0.7,
+     "light": "green",
+     "bot": "BREAKOUT",
+     "trigger": 83.1,
+     "L": 12,
+     "surf": 10,
+     "stars": 4,
+     "chased": false,
+     "stopTooWide": false,
+     "volOK": false,
+     "wouldAlert": false
+    },
+    {
+     "date": "2020-06-02",
+     "o": 82.96,
+     "h": 88.27,
+     "l": 82.38,
+     "c": 88,
+     "chg": 0.064,
+     "vr": 1.37,
+     "light": "green",
+     "bot": "BREAKOUT",
+     "trigger": 84.09,
+     "L": 17,
+     "surf": 10,
+     "stars": 4,
+     "chased": false,
+     "stopTooWide": false,
+     "volOK": false,
+     "wouldAlert": false
+    },
+    {
+     "date": "2020-06-03",
+     "o": 88,
+     "h": 92.55,
+     "l": 87.09,
+     "c": 91.97,
+     "chg": 0.045,
+     "vr": 1.23,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.054,
+      "dollarVol": 1227,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.42,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 7,
+       "base drifts >12% (not sideways)": 26,
+       "base too deep": 23
+      },
+      "base": null,
+      "fail": "no valid base"
+     }
+    },
+    {
+     "date": "2020-06-04",
+     "o": 90.96,
+     "h": 92.96,
+     "l": 86.19,
+     "c": 87.72,
+     "chg": -0.046,
+     "vr": 0.94,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.055,
+      "dollarVol": 1306,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.98,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 34,
+       "base too deep": 22
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-06-10",
+     "o": 90.26,
+     "h": 92.97,
+     "l": 89.5,
+     "c": 91.91,
+     "chg": 0.027,
+     "vr": 0.77,
+     "light": "green",
+     "bot": "BREAKOUT",
+     "trigger": 92.96,
+     "L": 10,
+     "surf": 10,
+     "stars": 4,
+     "chased": false,
+     "stopTooWide": false,
+     "volOK": false,
+     "wouldAlert": false
+    },
+    {
+     "date": "2020-06-16",
+     "o": 93.07,
+     "h": 95.87,
+     "l": 92.56,
+     "c": 94.74,
+     "chg": 0.041,
+     "vr": 1.15,
+     "light": "green",
+     "bot": "BREAKOUT",
+     "trigger": 92.97,
+     "L": 18,
+     "surf": 10,
+     "stars": 4,
+     "chased": false,
+     "stopTooWide": false,
+     "volOK": false,
+     "wouldAlert": false
+    },
+    {
+     "date": "2020-06-17",
+     "o": 94.78,
+     "h": 100,
+     "l": 94.7,
+     "c": 97.03,
+     "chg": 0.024,
+     "vr": 1.54,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.05,
+      "dollarVol": 1054,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.08,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 7,
+       "base drifts >12% (not sideways)": 28,
+       "base too deep": 21
+      },
+      "base": null,
+      "fail": "no valid base"
+     }
+    },
+    {
+     "date": "2020-06-19",
+     "o": 100.1,
+     "h": 102.26,
+     "l": 97.92,
+     "c": 97.98,
+     "chg": -0.003,
+     "vr": 1.24,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.049,
+      "dollarVol": 1101,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.53,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 30,
+       "2nd half wider (not tightening)": 6,
+       "base too deep": 20
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-06-22",
+     "o": 99.74,
+     "h": 105.46,
+     "l": 99.25,
+     "c": 104.22,
+     "chg": 0.064,
+     "vr": 1.5,
+     "light": "green",
+     "bot": "BREAKOUT",
+     "trigger": 102.26,
+     "L": 5,
+     "surf": 10,
+     "stars": 3.5,
+     "chased": false,
+     "stopTooWide": false,
+     "volOK": true,
+     "wouldAlert": true
+    },
+    {
+     "date": "2020-06-23",
+     "o": 105,
+     "h": 106.36,
+     "l": 103.05,
+     "c": 104.75,
+     "chg": 0.005,
+     "vr": 1.18,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.051,
+      "dollarVol": 1244,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 2.19,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 1,
+       "base drifts >12% (not sideways)": 29,
+       "base too deep": 26
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-06-26",
+     "o": 105.03,
+     "h": 107.84,
+     "l": 102.52,
+     "c": 104.3,
+     "chg": -0.005,
+     "vr": 1.59,
+     "light": "green",
+     "bot": "BREAKOUT",
+     "trigger": 106.36,
+     "L": 8,
+     "surf": 10,
+     "stars": 4,
+     "chased": false,
+     "stopTooWide": false,
+     "volOK": true,
+     "wouldAlert": true
+    },
+    {
+     "date": "2020-07-01",
+     "o": 106.92,
+     "h": 117.13,
+     "l": 106.54,
+     "c": 115.9,
+     "chg": 0.104,
+     "vr": 1.8,
+     "light": "green",
+     "bot": "BREAKOUT",
+     "trigger": 107.84,
+     "L": 11,
+     "surf": 10,
+     "stars": 4,
+     "chased": false,
+     "stopTooWide": false,
+     "volOK": true,
+     "wouldAlert": true
+    },
+    {
+     "date": "2020-07-02",
+     "o": 118,
+     "h": 118.78,
+     "l": 113.23,
+     "c": 113.39,
+     "chg": -0.022,
+     "vr": 1.18,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.051,
+      "dollarVol": 1477,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 2.25,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 3,
+       "base drifts >12% (not sideways)": 31,
+       "base too deep": 22
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-07-06",
+     "o": 118.79,
+     "h": 128.36,
+     "l": 118.03,
+     "c": 118.97,
+     "chg": 0.049,
+     "vr": 2.68,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.05,
+      "dollarVol": 1454,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 1.51,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 4,
+       "base drifts >12% (not sideways)": 26,
+       "base too deep": 26
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-07-07",
+     "o": 121.2,
+     "h": 129.84,
+     "l": 120.03,
+     "c": 125.6,
+     "chg": 0.056,
+     "vr": 2.04,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.052,
+      "dollarVol": 1664,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 2.03,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 23,
+       "base too deep": 33
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-07-08",
+     "o": 127.2,
+     "h": 133.43,
+     "l": 127,
+     "c": 133.35,
+     "chg": 0.062,
+     "vr": 1.71,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.054,
+      "dollarVol": 1882,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 2.67,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 24,
+       "base too deep": 32
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-07-09",
+     "o": 132.54,
+     "h": 133.81,
+     "l": 127.67,
+     "c": 129.39,
+     "chg": -0.03,
+     "vr": 1.38,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.055,
+      "dollarVol": 2117,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 3.37,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 23,
+       "base too deep": 33
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    }
+   ],
+   "caught": true,
+   "alerted": true
+  },
+  {
+   "label": "CAN Aug 2020",
+   "sym": "CAN",
+   "window": [
+    "2020-07-28",
+    "2020-08-10"
+   ],
+   "days": [
+    {
+     "date": "2020-08-03",
+     "o": 2.62,
+     "h": 3.05,
+     "l": 2.55,
+     "c": 2.74,
+     "chg": 0.096,
+     "vr": 2.88,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.119,
+      "dollarVol": 12,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": false
+      },
+      "ext10_adr": 0.2,
+      "baseFailCounts": {
+       "base not near 6-mo high": 4,
+       "base too deep": 37,
+       "not enough history": 1
+      },
+      "base": null,
+      "fail": "50-day not rising + no valid base"
+     }
+    }
+   ],
+   "caught": false,
+   "alerted": false
+  },
+  {
+   "label": "ZM Aug 2020",
+   "sym": "ZM",
+   "window": [
+    "2020-08-03",
+    "2020-08-31"
+   ],
+   "days": [
+    {
+     "date": "2020-08-05",
+     "o": 266.29,
+     "h": 275.09,
+     "l": 262.52,
+     "c": 272.9,
+     "chg": 0.021,
+     "vr": 0.81,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.05,
+      "dollarVol": 1485,
+      "rising": {
+       "10": true,
+       "20": false,
+       "50": true
+      },
+      "ext10_adr": 0.93,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 10,
+       "lower low in 2nd half": 16,
+       "base drifts >12% (not sideways)": 11,
+       "base too deep": 14
+      },
+      "base": {
+       "L": 36,
+       "top": 281,
+       "depth": 0.194,
+       "prior": 3.531
+      },
+      "surf": 10,
+      "fail": "20-day not rising"
+     }
+    },
+    {
+     "date": "2020-08-18",
+     "o": 271.72,
+     "h": 277.78,
+     "l": 265.5,
+     "c": 276.8,
+     "chg": 0.04,
+     "vr": 1.31,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.048,
+      "dollarVol": 1322,
+      "rising": {
+       "10": false,
+       "20": false,
+       "50": true
+      },
+      "ext10_adr": 0.96,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 12,
+       "2nd half wider (not tightening)": 34,
+       "lower low in 2nd half": 1,
+       "base too deep": 5
+      },
+      "base": {
+       "L": 45,
+       "top": 281,
+       "depth": 0.194,
+       "prior": 3.531
+      },
+      "surf": 50,
+      "fail": "20-day not rising"
+     }
+    },
+    {
+     "date": "2020-08-19",
+     "o": 274.68,
+     "h": 279.59,
+     "l": 270.32,
+     "c": 273.51,
+     "chg": -0.012,
+     "vr": 0.92,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.049,
+      "dollarVol": 1399,
+      "rising": {
+       "10": false,
+       "20": false,
+       "50": true
+      },
+      "ext10_adr": 1.74,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 19,
+       "2nd half wider (not tightening)": 33,
+       "base too deep": 4
+      },
+      "base": null,
+      "fail": "20-day not rising + too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-08-20",
+     "o": 274.45,
+     "h": 290.88,
+     "l": 273.99,
+     "c": 290.69,
+     "chg": 0.063,
+     "vr": 1.84,
+     "light": "green",
+     "bot": "BREAKOUT",
+     "trigger": 279.59,
+     "L": 10,
+     "surf": 50,
+     "stars": 1.5,
+     "chased": false,
+     "stopTooWide": false,
+     "volOK": true,
+     "wouldAlert": true
+    },
+    {
+     "date": "2020-08-21",
+     "o": 291,
+     "h": 295.97,
+     "l": 286.94,
+     "c": 289.68,
+     "chg": -0.003,
+     "vr": 0.99,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.048,
+      "dollarVol": 1539,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": true
+      },
+      "ext10_adr": 2.66,
+      "baseFailCounts": {
+       "base drifts >12% (not sideways)": 39,
+       "2nd half wider (not tightening)": 15,
+       "base too deep": 2
+      },
+      "base": null,
+      "fail": "too far above 10-day + no valid base"
+     }
+    },
+    {
+     "date": "2020-08-26",
+     "o": 293,
+     "h": 302,
+     "l": 290.85,
+     "c": 295.27,
+     "chg": 0.017,
+     "vr": 1.02,
+     "light": "green",
+     "bot": "BREAKOUT",
+     "trigger": 295.97,
+     "L": 7,
+     "surf": 10,
+     "stars": 3,
+     "chased": false,
+     "stopTooWide": false,
+     "volOK": false,
+     "wouldAlert": false
+    },
+    {
+     "date": "2020-08-28",
+     "o": 299.22,
+     "h": 303.58,
+     "l": 297.26,
+     "c": 299.27,
+     "chg": 0.016,
+     "vr": 0.96,
+     "light": "green",
+     "bot": "BREAKOUT",
+     "trigger": 302,
+     "L": 16,
+     "surf": 20,
+     "stars": 2.5,
+     "chased": false,
+     "stopTooWide": false,
+     "volOK": false,
+     "wouldAlert": false
+    },
+    {
+     "date": "2020-08-31",
+     "o": 304.01,
+     "h": 325.9,
+     "l": 301.27,
+     "c": 325.1,
+     "chg": 0.086,
+     "vr": 4.15,
+     "light": "green",
+     "bot": "BREAKOUT",
+     "trigger": 303.58,
+     "L": 18,
+     "surf": 20,
+     "stars": 3,
+     "chased": false,
+     "stopTooWide": false,
+     "volOK": true,
+     "wouldAlert": true
+    }
+   ],
+   "caught": true,
+   "alerted": true
+  },
+  {
+   "label": "PETS 2020 (should NOT fire)",
+   "sym": "PETS",
+   "window": [
+    "2020-08-01",
+    "2020-09-15"
+   ],
+   "days": [
+    {
+     "date": "2020-08-07",
+     "o": 31.75,
+     "h": 32.4,
+     "l": 31.35,
+     "c": 31.88,
+     "chg": 0.008,
+     "vr": 0.59,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.059,
+      "dollarVol": 37,
+      "rising": {
+       "10": false,
+       "20": false,
+       "50": false
+      },
+      "ext10_adr": 0.22,
+      "baseFailCounts": {
+       "base not near 6-mo high": 9,
+       "base drifts >12% (not sideways)": 21,
+       "lower low in 2nd half": 5,
+       "2nd half wider (not tightening)": 20
+      },
+      "base": {
+       "L": 14,
+       "top": 39.85,
+       "depth": 0.245,
+       "prior": 0.88
+      },
+      "surf": null,
+      "fail": "20-day not rising + 50-day not rising + not surfing a rising 10/20/50"
+     }
+    },
+    {
+     "date": "2020-08-10",
+     "o": 31.95,
+     "h": 32.65,
+     "l": 31.56,
+     "c": 32.4,
+     "chg": 0.016,
+     "vr": 0.46,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.059,
+      "dollarVol": 38,
+      "rising": {
+       "10": false,
+       "20": false,
+       "50": false
+      },
+      "ext10_adr": 0.3,
+      "baseFailCounts": {
+       "base not near 6-mo high": 10,
+       "base drifts >12% (not sideways)": 20,
+       "lower low in 2nd half": 5,
+       "2nd half wider (not tightening)": 20
+      },
+      "base": {
+       "L": 15,
+       "top": 39.85,
+       "depth": 0.245,
+       "prior": 0.88
+      },
+      "surf": null,
+      "fail": "20-day not rising + 50-day not rising + not surfing a rising 10/20/50"
+     }
+    },
+    {
+     "date": "2020-08-13",
+     "o": 32,
+     "h": 32.85,
+     "l": 31.75,
+     "c": 32.47,
+     "chg": 0.011,
+     "vr": 0.37,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.051,
+      "dollarVol": 37,
+      "rising": {
+       "10": true,
+       "20": false,
+       "50": false
+      },
+      "ext10_adr": 0.28,
+      "baseFailCounts": {
+       "base not near 6-mo high": 13,
+       "base drifts >12% (not sideways)": 17,
+       "lower low in 2nd half": 6,
+       "2nd half wider (not tightening)": 18
+      },
+      "base": {
+       "L": 23,
+       "top": 42.89,
+       "depth": 0.298,
+       "prior": 1.023
+      },
+      "surf": null,
+      "fail": "20-day not rising + 50-day not rising + not surfing a rising 10/20/50"
+     }
+    },
+    {
+     "date": "2020-08-17",
+     "o": 32.65,
+     "h": 33.26,
+     "l": 32.36,
+     "c": 32.97,
+     "chg": 0.013,
+     "vr": 0.44,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.045,
+      "dollarVol": 35,
+      "rising": {
+       "10": true,
+       "20": false,
+       "50": false
+      },
+      "ext10_adr": 0.4,
+      "baseFailCounts": {
+       "base not near 6-mo high": 15,
+       "base drifts >12% (not sideways)": 13,
+       "lower low in 2nd half": 10,
+       "2nd half wider (not tightening)": 16
+      },
+      "base": {
+       "L": 25,
+       "top": 42.89,
+       "depth": 0.298,
+       "prior": 1.023
+      },
+      "surf": null,
+      "fail": "20-day not rising + 50-day not rising + not surfing a rising 10/20/50"
+     }
+    },
+    {
+     "date": "2020-08-19",
+     "o": 33.3,
+     "h": 34.98,
+     "l": 33.09,
+     "c": 33.48,
+     "chg": 0.028,
+     "vr": 1.41,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.035,
+      "dollarVol": 26,
+      "rising": {
+       "10": true,
+       "20": false,
+       "50": false
+      },
+      "ext10_adr": 0.29,
+      "baseFailCounts": {
+       "base not near 6-mo high": 17,
+       "base drifts >12% (not sideways)": 13,
+       "lower low in 2nd half": 11,
+       "2nd half wider (not tightening)": 12
+      },
+      "base": {
+       "L": 32,
+       "top": 42.89,
+       "depth": 0.298,
+       "prior": 1.023
+      },
+      "surf": 10,
+      "fail": "ADR<4% + 20-day not rising + 50-day not rising"
+     }
+    },
+    {
+     "date": "2020-08-25",
+     "o": 34.73,
+     "h": 35.79,
+     "l": 34.21,
+     "c": 35.55,
+     "chg": 0.022,
+     "vr": 0.8,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.034,
+      "dollarVol": 24,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": false
+      },
+      "ext10_adr": 1.6,
+      "baseFailCounts": {
+       "base not near 6-mo high": 21,
+       "base drifts >12% (not sideways)": 2,
+       "lower low in 2nd half": 12,
+       "2nd half wider (not tightening)": 8
+      },
+      "base": {
+       "L": 40,
+       "top": 42.89,
+       "depth": 0.298,
+       "prior": 1.023
+      },
+      "surf": 10,
+      "fail": "ADR<4% + 50-day not rising + too far above 10-day"
+     }
+    },
+    {
+     "date": "2020-08-26",
+     "o": 35.64,
+     "h": 36.99,
+     "l": 35.55,
+     "c": 36.95,
+     "chg": 0.039,
+     "vr": 0.68,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.034,
+      "dollarVol": 23,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": false
+      },
+      "ext10_adr": 1.95,
+      "baseFailCounts": {
+       "base not near 6-mo high": 22,
+       "base drifts >12% (not sideways)": 2,
+       "lower low in 2nd half": 12,
+       "2nd half wider (not tightening)": 6
+      },
+      "base": {
+       "L": 42,
+       "top": 42.89,
+       "depth": 0.298,
+       "prior": 1.023
+      },
+      "surf": 10,
+      "fail": "ADR<4% + 50-day not rising + too far above 10-day"
+     }
+    },
+    {
+     "date": "2020-08-27",
+     "o": 36.9,
+     "h": 37.02,
+     "l": 36.11,
+     "c": 36.49,
+     "chg": -0.012,
+     "vr": 0.6,
+     "light": "green",
+     "bot": "MISSED",
+     "why": {
+      "adr": 0.034,
+      "dollarVol": 23,
+      "rising": {
+       "10": true,
+       "20": true,
+       "50": false
+      },
+      "ext10_adr": 2.68,
+      "baseFailCounts": {
+       "2nd half wider (not tightening)": 7,
+       "base drifts >12% (not sideways)": 20,
+       "lower low in 2nd half": 12
+      },
+      "base": {
+       "L": 44,
+       "top": 42.89,
+       "depth": 0.298,
+       "prior": 1.023
+      },
+      "surf": 10,
+      "fail": "ADR<4% + 50-day not rising + too far above 10-day"
+     }
+    }
+   ],
+   "caught": false,
+   "alerted": false
+  }
+ ]
+}
