@@ -309,7 +309,7 @@ async function main() {
   const rows = [...by('breakout'), ...by('near'), ...by('forming')];
 
   // intraday opening range + chart bars for the names you might act on
-  const focus = [...by('breakout'), ...by('near')].slice(0, 25);
+  const focus = [...by('breakout'), ...by('near'), ...by('forming').filter(x => x.high > x.trigger)].slice(0, 30);   // incl. names that broke out today and fell back
   for (const r of focus) {
     try { r.intra = await intraday(r.t, r.trigger); } catch { r.intra = null; } await sleep(250);
     const w = r.intra;
