@@ -1,7 +1,11 @@
 name: Research
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      script:
+        description: 'Script to run (recall.mjs or research.mjs)'
+        default: 'recall.mjs'
 
 permissions:
   contents: write
@@ -18,11 +22,11 @@ jobs:
         with:
           node-version: '20'
       - name: Run backtest
-        run: node research.mjs
+        run: node ${{ inputs.script || 'recall.mjs' }}
       - name: Save results
         run: |
           git config user.name "base-watch-bot"
           git config user.email "base-watch-bot@users.noreply.github.com"
-          git add research.json
+          git add -- '*.json'
           git commit -m "Research $(date -u +'%Y-%m-%d %H:%M')" || echo "No changes"
           for i in 1 2 3; do git pull --rebase -X theirs origin main && git push && break; sleep 5; done
