@@ -151,11 +151,11 @@ details ul{padding-left:18px;margin:8px 0}
   <details>
     <summary>His rules, and how the app uses them</summary>
     <p><b>1. Only the leaders.</b> Six momentum scans: biggest gainers over 1, 3 and 6 months, measured from the close 21/63/126 days ago and from the lowest low in that period. Only the top ~7% of each (max 50) are kept, after filtering for ADR (see the number at the top) and at least $10M traded a day.</p>
-    <p><b>2. The setup.</b> A big move first (30%+ into the base). Then a sideways base (not a run-up) with higher lows and a tightening range, surfing a rising 10, 20 or 50-day average (brief undercuts allowed), with the 10-day caught up. Tight right before the break (narrow or inside day). Stars grade his A+ traits: size of the prior move, surfing the 10/20, tightness, a steep trend, strength vs the Nasdaq, a hot sector, volume drying up, high ADR.</p>
-    <p><b>3. Entry.</b> Buy as it breaks the <b>trigger</b> (top of the range) and the <b>opening range high</b> (high of the first 1, 5 or 60-minute candle), on big volume (the app wants 1.5× normal pace). Don't buy if it's already above the <b>too late</b> price (yesterday's close + one ATR). Never within ~3 days of earnings.</p>
+    <p><b>2. The setup.</b> A big move first (30%+ up). Then a 3–40 day sideways range (flag, tightening or higher lows) holding the upper half of that move, sitting on a rising 10, 20 or 50-day average, with the 10-day caught up. How deep the range may be depends on the stock's ADR. Tight right before the break (narrow or inside day). Stars grade his A+ traits: size of the prior move, surfing the 10/20, tightness, a steep trend, strength vs the Nasdaq, a hot sector, volume drying up, high ADR.</p>
+    <p><b>3. Entry.</b> Buy as it breaks the <b>trigger</b> (top of the range), or the <b>5-min opening range high</b> if it opens above the trigger. Don't wait for the 60-minute high: in the backtest that turned a profitable entry into a break-even one. The app does not filter on volume – judge it yourself (high-volume breakouts did far better). Above the <b>1 ATR</b> line, only buy if the low-of-day stop is still within 1 ATR. Never within ~3–5 days of earnings.</p>
     <p><b>4. Stop.</b> Low of the day you buy. Must not be wider than the ATR; his are usually about half an ATR.</p>
     <p><b>5. Selling.</b> Ignore days 1–2. After 3–5 days sell 1/3 to 1/2 and move the stop to break-even. Sell the rest on the first <b>close</b> below the 10-day average.</p>
-    <p><b>6. Market.</b> Only trade breakouts when the Nasdaq light is green (10 and 20-day averages rising, 10 above 20). In red markets most breakouts fail; sit in cash.</p>
+    <p><b>6. Market.</b> Breakouts work best when the Nasdaq light is green (10 and 20-day averages rising, 10 above 20). Yellow was weak in the backtest; the app sends no breakout alerts when it is red.</p>
     <p class="note">Stars are the app's own scoring of his checklist, not his rating. He wins only 20–30% of trades and makes his money from a few that run 10–50× the risk. Not financial advice. Prices: Yahoo Finance. Stock list and earnings dates: TradingView. Source: Qullamaggie's Swing Trading School streams (2020) and his blog.</p>
   </details>
 </div>
@@ -163,7 +163,7 @@ details ul{padding-left:18px;margin:8px 0}
   <header><span class="tk" id="mtk"></span><span class="nm" id="mnm"></span><button class="x" id="mclose" aria-label="Close chart">✕</button></header>
   <div id="cbox"></div>
   <div class="lvls" id="lvls"></div>
-  <p class="note" id="mnote">Daily candles with the 10, 20 and 50-day averages. Lines: where you buy, where your stop is, and the price above which it is too late.</p>
+  <p class="note" id="mnote">Daily candles with the 10, 20 and 50-day averages. Lines: where you buy (trigger, 5-min ORH), your stop (low of day), and yesterday's close + 1 ATR.</p>
 </div></div>
 <script>
 (function(){
@@ -220,13 +220,13 @@ details ul{padding-left:18px;margin:8px 0}
       ['Price',money(r.p)+' <span style="color:'+(r.chg>=0?'var(--go)':'var(--warn)')+'">'+(r.chg>=0?'+':'')+pct(r.chg)+'</span>'],
       ['Trigger',money(r.trigger)],
       [r.p>r.top?'Above trigger':'To trigger',(r.p>r.top?'+':'')+pct(Math.abs(dist))],
-      ['Too late above',money(r.tooLate)],
+      ['1 ATR above yesterday',money(r.tooLate)],
       ['ATR / ADR',money(r.atr)+' / '+pct(r.adr)],
       ['Base',r.L+'d · '+pct(r.depth,0)+' deep'],
       ['Volume','×'+r.vr.toFixed(1)+(r.live?' proj.':'')],
       ['Prior move','+'+pct(r.prior||0,0)],
       ['Market cap',mcap(r.mc)]
-    ].concat(r.intra?[['5-min ORH',money(r.intra.orh5)],['60-min ORH',r.intra.orh60==null?'after 10:30':money(r.intra.orh60)],['Low of day',money(r.intra.lod)]]:[]).map(function(f){return '<div><dt>'+f[0]+'</dt><dd>'+f[1]+'</dd></div>'}).join('');
+    ].concat(r.intra?[['5-min ORH',money(r.intra.orh5)],['Low of day',money(r.intra.lod)]]:[]).map(function(f){return '<div><dt>'+f[0]+'</dt><dd>'+f[1]+'</dd></div>'}).join('');
     var plan='';
     if(r.st==='breakout'){
       var en=r.plan?r.plan.entry:r.entry, sp=r.plan?r.plan.stop:r.stop;
@@ -235,7 +235,7 @@ details ul{padding-left:18px;margin:8px 0}
         (r.stopTooWide?'<span class="w">Stop wider than ATR – skip or wait for a dip.</span>':'')+(r.chased?'<span class="w">Gapped/ran more than 1 ATR above yesterday – check the low-of-day stop is still within 1 ATR.</span>':'');
     }else{
       var estStop=Math.max(r.trigger-r.atr*0.5,0);
-      plan='<span>Buy if it breaks <b>'+money(r.trigger)+'</b> (opening range high)</span><span>Not above <b>'+money(r.tooLate)+'</b></span><span>Stop = low of that day (≈ '+money(estStop)+' if half an ATR)</span>'+sizing(r.trigger,estStop);
+      plan='<span>Buy if it breaks <b>'+money(r.trigger)+'</b> (opening range high)</span><span>Above <b>'+money(r.tooLate)+'</b>: only if the stop is within 1 ATR</span><span>Stop = low of that day (≈ '+money(estStop)+' if half an ATR)</span>'+sizing(r.trigger,estStop);
     }
     var url='https://www.tradingview.com/chart/?symbol='+encodeURIComponent(r.t);
     state.byT[r.t]=r;
@@ -319,9 +319,9 @@ details ul{padding-left:18px;margin:8px 0}
       var lv=[];
       var add=function(p,c,title,style){if(p==null||!(p>0))return;cs.createPriceLine({price:p,color:c,lineWidth:2,lineStyle:style==null?2:style,axisLabelVisible:true,title:title});lv.push([title,c,p])};
       add(r.trigger,'#2563eb','Trigger (base top)',2);
-      if(r.intra){add(r.intra.orh5,'#a21caf','5-min ORH',0);if(r.intra.orh60!=null)add(r.intra.orh60,'#d97706','60-min ORH',0);add(r.intra.lod,'#dc2626','STOP = low of day',0)}
+      if(r.intra){add(r.intra.orh5,'#a21caf','5-min ORH',0);add(r.intra.lod,'#dc2626','STOP = low of day',0)}
       else{add(Math.max(r.trigger-r.atr*0.5,0),'#dc2626','Est. stop (½ ATR) – real stop = low of buy day',1)}
-      add(r.tooLate,'#6b7280','Too late above',3);
+      add(r.tooLate,'#6b7280','1 ATR above yesterday',3);
       var start=Math.max(0,T.length-90);chart.timeScale().setVisibleRange({from:T[start],to:T[T.length-1]});
       $('lvls').innerHTML=lv.map(function(x){return '<div><i style="border-color:'+x[1]+'"></i>'+esc(x[0])+'<b>'+money(x[2])+'</b></div>'}).join('');
       $('mnote').textContent=r.intra?('Intraday levels from today\'s 5-minute bars (as of '+new Date(r.intra.asOf).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})+'). Buy above the higher of the trigger and the ORH; the stop is the lowest price of the day so far when you buy.'):'No intraday levels yet (they appear for breakouts and the watchlist during market hours). Daily candles with the 10, 20 and 50-day averages.';
