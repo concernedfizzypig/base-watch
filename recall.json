@@ -1,5 +1,5 @@
 {
- "at": "2026-10-16T13:50:17.885Z",
+ "at": "2026-10-16T13:54:40.425Z",
  "settings": {
   "minPrice": 1,
   "minDollarVol": 10000000,
@@ -39,7 +39,8 @@
      "vr": 0.81,
      "light": "green",
      "bot": "setup but no break (forming)",
-     "trigger": 57.99
+     "trigger": 57.99,
+     "v4": "setup, no break (trig 56.22)"
     },
     {
      "date": "2020-06-01",
@@ -58,7 +59,9 @@
      "chased": true,
      "stopTooWide": false,
      "volOK": false,
-     "wouldAlert": false
+     "wouldAlert": false,
+     "v4": "BREAKOUT L18 surf10 trig 56.22",
+     "v4ok": true
     },
     {
      "date": "2020-06-02",
@@ -86,7 +89,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2020-06-08",
@@ -120,7 +124,8 @@
       },
       "surf": 10,
       "fail": "ADR<4%"
-     }
+     },
+     "v4": "miss: adr"
     },
     {
      "date": "2020-06-09",
@@ -148,7 +153,8 @@
       },
       "base": null,
       "fail": "ADR<4% + too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: adr"
     },
     {
      "date": "2020-06-10",
@@ -176,11 +182,13 @@
       },
       "base": null,
       "fail": "ADR<4% + too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: adr"
     }
    ],
    "caught": true,
-   "alerted": false
+   "alerted": false,
+   "v4caught": true
   },
   {
    "label": "MNKD 2013 flag",
@@ -200,7 +208,8 @@
      "vr": 1.68,
      "light": "green",
      "bot": "setup but no break (forming)",
-     "trigger": 22.5
+     "trigger": 22.5,
+     "v4": "setup, no break (trig 22.5)"
     },
     {
      "date": "2013-05-10",
@@ -234,7 +243,8 @@
       },
       "surf": 10,
       "fail": "20-day not rising"
-     }
+     },
+     "v4": "setup, no break (trig 22.5)"
     },
     {
      "date": "2013-05-13",
@@ -268,7 +278,9 @@
       },
       "surf": 10,
       "fail": "20-day not rising + too far above 10-day"
-     }
+     },
+     "v4": "BREAKOUT L24 surf10 trig 22.5",
+     "v4ok": true
     },
     {
      "date": "2013-05-15",
@@ -296,7 +308,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2013-05-16",
@@ -323,7 +336,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2013-05-17",
@@ -350,7 +364,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2013-05-22",
@@ -383,7 +398,8 @@
       },
       "surf": null,
       "fail": "too far above 10-day + not surfing a rising 10/20/50"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2013-05-23",
@@ -410,7 +426,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2013-06-03",
@@ -443,7 +460,8 @@
       },
       "surf": null,
       "fail": "not surfing a rising 10/20/50"
-     }
+     },
+     "v4": "miss: base:deep"
     },
     {
      "date": "2013-06-04",
@@ -471,7 +489,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2013-06-11",
@@ -490,11 +509,14 @@
      "chased": false,
      "stopTooWide": false,
      "volOK": false,
-     "wouldAlert": false
+     "wouldAlert": false,
+     "v4": "BREAKOUT L12 surf10 trig 39.35",
+     "v4ok": true
     }
    ],
    "caught": true,
-   "alerted": false
+   "alerted": false,
+   "v4caught": true
   },
   {
    "label": "AAXN Jan 2004",
@@ -521,7 +543,9 @@
      "chased": true,
      "stopTooWide": true,
      "volOK": true,
-     "wouldAlert": false
+     "wouldAlert": false,
+     "v4": "BREAKOUT L23 surf10 trig 7.79 (LOD stop > 1 ATR)",
+     "v4ok": false
     },
     {
      "date": "2004-01-12",
@@ -540,7 +564,9 @@
      "chased": false,
      "stopTooWide": false,
      "volOK": true,
-     "wouldAlert": true
+     "wouldAlert": true,
+     "v4": "BREAKOUT L23 surf10 trig 7.88",
+     "v4ok": true
     },
     {
      "date": "2004-01-13",
@@ -567,7 +593,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2004-01-14",
@@ -595,7 +622,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2004-01-16",
@@ -622,7 +650,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2004-01-26",
@@ -655,7 +684,8 @@
       },
       "surf": null,
       "fail": "not surfing a rising 10/20/50"
-     }
+     },
+     "v4": "miss: base:deep"
     },
     {
      "date": "2004-01-27",
@@ -682,7 +712,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2004-02-03",
@@ -701,11 +732,14 @@
      "chased": true,
      "stopTooWide": true,
      "volOK": true,
-     "wouldAlert": false
+     "wouldAlert": false,
+     "v4": "BREAKOUT L6 surf10 trig 12.23 (LOD stop > 1 ATR)",
+     "v4ok": false
     }
    ],
    "caught": true,
-   "alerted": true
+   "alerted": true,
+   "v4caught": true
   },
   {
    "label": "AMZN Aug 2020 HTF",
@@ -746,7 +780,8 @@
       },
       "surf": 10,
       "fail": "ADR<4%"
-     }
+     },
+     "v4": "miss: adr"
     },
     {
      "date": "2020-08-24",
@@ -779,7 +814,8 @@
       },
       "surf": 10,
       "fail": "ADR<4%"
-     }
+     },
+     "v4": "miss: adr"
     },
     {
      "date": "2020-08-26",
@@ -812,7 +848,8 @@
       },
       "surf": 10,
       "fail": "ADR<4%"
-     }
+     },
+     "v4": "miss: adr"
     },
     {
      "date": "2020-08-27",
@@ -845,7 +882,8 @@
       },
       "surf": 10,
       "fail": "ADR<4% + too far above 10-day"
-     }
+     },
+     "v4": "miss: adr"
     },
     {
      "date": "2020-08-31",
@@ -878,7 +916,8 @@
       },
       "surf": 10,
       "fail": "ADR<4%"
-     }
+     },
+     "v4": "miss: adr"
     },
     {
      "date": "2020-09-01",
@@ -911,7 +950,8 @@
       },
       "surf": 10,
       "fail": "ADR<4%"
-     }
+     },
+     "v4": "miss: adr"
     },
     {
      "date": "2020-09-02",
@@ -944,11 +984,13 @@
       },
       "surf": 10,
       "fail": "ADR<4% + too far above 10-day"
-     }
+     },
+     "v4": "miss: adr"
     }
    ],
    "caught": false,
-   "alerted": false
+   "alerted": false,
+   "v4caught": false
   },
   {
    "label": "WIX 2020 higher lows",
@@ -968,7 +1010,8 @@
      "vr": 0.89,
      "light": "green",
      "bot": "setup but no break (forming)",
-     "trigger": 319.34
+     "trigger": 319.34,
+     "v4": "setup, no break (trig 319.34)"
     },
     {
      "date": "2020-08-26",
@@ -980,7 +1023,8 @@
      "vr": 0.65,
      "light": "green",
      "bot": "setup but no break (forming)",
-     "trigger": 319.34
+     "trigger": 319.34,
+     "v4": "setup, no break (trig 319.34)"
     },
     {
      "date": "2020-09-01",
@@ -992,11 +1036,13 @@
      "vr": 0.85,
      "light": "green",
      "bot": "setup but no break (forming)",
-     "trigger": 319.34
+     "trigger": 319.34,
+     "v4": "setup, no break (trig 319.34)"
     }
    ],
    "caught": false,
-   "alerted": false
+   "alerted": false,
+   "v4caught": false
   },
   {
    "label": "LL 2020 stair-step",
@@ -1043,7 +1089,8 @@
       },
       "surf": 50,
       "fail": "20-day not rising"
-     }
+     },
+     "v4": "setup, no break (trig 275.85)"
     },
     {
      "date": "2020-08-21",
@@ -1078,7 +1125,9 @@
       },
       "surf": 50,
       "fail": "20-day not rising"
-     }
+     },
+     "v4": "BREAKOUT L20 surf10 trig 275.85",
+     "v4ok": true
     },
     {
      "date": "2020-08-24",
@@ -1113,7 +1162,8 @@
       },
       "surf": 10,
       "fail": "ADR<4% + 20-day not rising"
-     }
+     },
+     "v4": "miss: adr"
     },
     {
      "date": "2020-08-26",
@@ -1148,7 +1198,9 @@
       },
       "surf": 10,
       "fail": "20-day not rising"
-     }
+     },
+     "v4": "BREAKOUT L22 surf10 trig 279.24 (LOD stop > 1 ATR)",
+     "v4ok": false
     },
     {
      "date": "2020-08-28",
@@ -1183,7 +1235,8 @@
       },
       "surf": 10,
       "fail": "ADR<4%"
-     }
+     },
+     "v4": "miss: adr"
     },
     {
      "date": "2020-08-31",
@@ -1218,7 +1271,8 @@
       },
       "surf": 10,
       "fail": "ADR<4%"
-     }
+     },
+     "v4": "miss: adr"
     },
     {
      "date": "2020-09-01",
@@ -1253,7 +1307,8 @@
       },
       "surf": 10,
       "fail": "ADR<4%"
-     }
+     },
+     "v4": "miss: adr"
     },
     {
      "date": "2020-09-02",
@@ -1288,7 +1343,8 @@
       },
       "surf": 10,
       "fail": "ADR<4% + too far above 10-day"
-     }
+     },
+     "v4": "miss: adr"
     },
     {
      "date": "2020-09-30",
@@ -1323,7 +1379,8 @@
       },
       "surf": null,
       "fail": "20-day not rising + 50-day not rising + not surfing a rising 10/20/50"
-     }
+     },
+     "v4": "miss: trend"
     },
     {
      "date": "2020-10-01",
@@ -1358,7 +1415,8 @@
       },
       "surf": null,
       "fail": "20-day not rising + 50-day not rising + not surfing a rising 10/20/50"
-     }
+     },
+     "v4": "miss: trend"
     },
     {
      "date": "2020-10-05",
@@ -1393,7 +1451,8 @@
       },
       "surf": null,
       "fail": "20-day not rising + 50-day not rising + not surfing a rising 10/20/50"
-     }
+     },
+     "v4": "miss: trend"
     },
     {
      "date": "2020-10-06",
@@ -1428,7 +1487,8 @@
       },
       "surf": 10,
       "fail": "20-day not rising + 50-day not rising"
-     }
+     },
+     "v4": "miss: trend"
     },
     {
      "date": "2020-10-13",
@@ -1462,7 +1522,8 @@
       },
       "surf": 10,
       "fail": "ADR<4% + 50-day not rising"
-     }
+     },
+     "v4": "miss: adr"
     },
     {
      "date": "2020-10-14",
@@ -1496,11 +1557,13 @@
       },
       "surf": 10,
       "fail": "ADR<4% + 50-day not rising + too far above 10-day"
-     }
+     },
+     "v4": "miss: adr"
     }
    ],
    "caught": false,
-   "alerted": false
+   "alerted": false,
+   "v4caught": true
   },
   {
    "label": "LVGO 2020",
@@ -1539,7 +1602,9 @@
       },
       "base": null,
       "fail": "20-day not rising + no valid base"
-     }
+     },
+     "v4": "BREAKOUT L15 surf10 trig 22.2 (LOD stop > 1 ATR)",
+     "v4ok": false
     },
     {
      "date": "2020-08-14",
@@ -1566,7 +1631,8 @@
       },
       "base": null,
       "fail": "20-day not rising + too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2020-08-17",
@@ -1593,7 +1659,8 @@
       },
       "base": null,
       "fail": "20-day not rising + too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2020-08-21",
@@ -1620,7 +1687,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: base:deep"
     },
     {
      "date": "2020-08-24",
@@ -1649,7 +1717,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2020-08-25",
@@ -1677,7 +1746,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2020-09-01",
@@ -1712,7 +1782,8 @@
       },
       "surf": null,
       "fail": "not surfing a rising 10/20/50"
-     }
+     },
+     "v4": "miss: base:deep"
     },
     {
      "date": "2020-09-02",
@@ -1740,11 +1811,13 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     }
    ],
    "caught": false,
-   "alerted": false
+   "alerted": false,
+   "v4caught": false
   },
   {
    "label": "SVM Aug 2020",
@@ -1771,7 +1844,9 @@
      "chased": false,
      "stopTooWide": false,
      "volOK": false,
-     "wouldAlert": false
+     "wouldAlert": false,
+     "v4": "BREAKOUT L28 surf10 trig 8.49",
+     "v4ok": true
     },
     {
      "date": "2020-09-01",
@@ -1799,11 +1874,13 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: loose"
     }
    ],
    "caught": true,
-   "alerted": false
+   "alerted": false,
+   "v4caught": true
   },
   {
    "label": "NNDM 2020-21 flags",
@@ -1838,7 +1915,9 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "BREAKOUT L9 surf10 trig 3.28 (LOD stop > 1 ATR)",
+     "v4ok": false
     },
     {
      "date": "2020-10-14",
@@ -1865,7 +1944,9 @@
       },
       "base": null,
       "fail": "no valid base"
-     }
+     },
+     "v4": "BREAKOUT L10 surf10 trig 3.4",
+     "v4ok": true
     },
     {
      "date": "2020-10-15",
@@ -1891,7 +1972,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2020-10-16",
@@ -1917,7 +1999,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2020-11-09",
@@ -1944,7 +2027,8 @@
       },
       "base": null,
       "fail": "no valid base"
-     }
+     },
+     "v4": "miss: base:deep"
     },
     {
      "date": "2020-11-17",
@@ -1971,7 +2055,9 @@
       },
       "base": null,
       "fail": "20-day not rising + no valid base"
-     }
+     },
+     "v4": "BREAKOUT L8 surf10 trig 4.61 (LOD stop > 1 ATR)",
+     "v4ok": false
     },
     {
      "date": "2020-11-18",
@@ -1998,7 +2084,9 @@
       },
       "base": null,
       "fail": "20-day not rising + no valid base"
-     }
+     },
+     "v4": "BREAKOUT L9 surf10 trig 4.85",
+     "v4ok": true
     },
     {
      "date": "2020-11-19",
@@ -2025,7 +2113,9 @@
       },
       "base": null,
       "fail": "20-day not rising + no valid base"
-     }
+     },
+     "v4": "BREAKOUT L8 surf10 trig 4.95",
+     "v4ok": true
     },
     {
      "date": "2020-11-27",
@@ -2058,7 +2148,9 @@
       },
       "surf": 10,
       "fail": "too far above 10-day"
-     }
+     },
+     "v4": "BREAKOUT L6 surf10 trig 5.88",
+     "v4ok": true
     },
     {
      "date": "2020-12-03",
@@ -2077,7 +2169,9 @@
      "chased": true,
      "stopTooWide": false,
      "volOK": true,
-     "wouldAlert": false
+     "wouldAlert": false,
+     "v4": "BREAKOUT L9 surf10 trig 7.39",
+     "v4ok": true
     },
     {
      "date": "2020-12-04",
@@ -2104,7 +2198,9 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "BREAKOUT L5 surf10 trig 7.72",
+     "v4ok": true
     },
     {
      "date": "2020-12-21",
@@ -2123,7 +2219,9 @@
      "chased": true,
      "stopTooWide": true,
      "volOK": false,
-     "wouldAlert": false
+     "wouldAlert": false,
+     "v4": "BREAKOUT L16 surf20 trig 7.97 (LOD stop > 1 ATR)",
+     "v4ok": false
     },
     {
      "date": "2020-12-22",
@@ -2151,7 +2249,9 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "BREAKOUT L12 surf10 trig 8.42",
+     "v4ok": true
     },
     {
      "date": "2020-12-23",
@@ -2178,7 +2278,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2021-01-13",
@@ -2197,7 +2298,9 @@
      "chased": true,
      "stopTooWide": false,
      "volOK": true,
-     "wouldAlert": false
+     "wouldAlert": false,
+     "v4": "BREAKOUT L15 surf10 trig 10.49",
+     "v4ok": true
     },
     {
      "date": "2021-01-19",
@@ -2225,7 +2328,9 @@
       },
       "base": null,
       "fail": "no valid base"
-     }
+     },
+     "v4": "BREAKOUT L17 surf10 trig 11.45",
+     "v4ok": true
     },
     {
      "date": "2021-01-20",
@@ -2252,7 +2357,9 @@
       },
       "base": null,
       "fail": "no valid base"
-     }
+     },
+     "v4": "BREAKOUT L13 surf10 trig 11.61",
+     "v4ok": true
     },
     {
      "date": "2021-01-21",
@@ -2285,7 +2392,8 @@
       },
       "surf": null,
       "fail": "not surfing a rising 10/20/50"
-     }
+     },
+     "v4": "miss: base:deep"
     },
     {
      "date": "2021-01-22",
@@ -2313,7 +2421,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: base:deep"
     },
     {
      "date": "2021-01-25",
@@ -2340,11 +2449,13 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     }
    ],
    "caught": true,
-   "alerted": false
+   "alerted": false,
+   "v4caught": true
   },
   {
    "label": "JMIA Jan 2021",
@@ -2387,7 +2498,8 @@
       },
       "surf": null,
       "fail": "not surfing a rising 10/20/50"
-     }
+     },
+     "v4": "setup, no break (trig 49)"
     },
     {
      "date": "2021-01-14",
@@ -2416,7 +2528,8 @@
       },
       "base": null,
       "fail": "no valid base"
-     }
+     },
+     "v4": "setup, no break (trig 49)"
     },
     {
      "date": "2021-01-15",
@@ -2444,11 +2557,14 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "BREAKOUT L3 surf20 trig 47.88 (LOD stop > 1 ATR)",
+     "v4ok": false
     }
    ],
    "caught": false,
-   "alerted": false
+   "alerted": false,
+   "v4caught": false
   },
   {
    "label": "NIO Jun 2020",
@@ -2483,7 +2599,9 @@
       },
       "base": null,
       "fail": "no valid base"
-     }
+     },
+     "v4": "BREAKOUT L4 surf10 trig 4.2",
+     "v4ok": true
     },
     {
      "date": "2020-06-02",
@@ -2510,7 +2628,9 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "BREAKOUT L5 surf10 trig 4.33",
+     "v4ok": true
     },
     {
      "date": "2020-06-03",
@@ -2537,7 +2657,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2020-06-04",
@@ -2564,7 +2685,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2020-06-09",
@@ -2591,7 +2713,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2020-06-10",
@@ -2618,7 +2741,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2020-06-15",
@@ -2637,7 +2761,9 @@
      "chased": true,
      "stopTooWide": true,
      "volOK": false,
-     "wouldAlert": false
+     "wouldAlert": false,
+     "v4": "BREAKOUT L8 surf10 trig 6.95 (LOD stop > 1 ATR)",
+     "v4ok": false
     },
     {
      "date": "2020-06-16",
@@ -2665,7 +2791,9 @@
       },
       "base": null,
       "fail": "no valid base"
-     }
+     },
+     "v4": "BREAKOUT L8 surf10 trig 6.99 (LOD stop > 1 ATR)",
+     "v4ok": false
     },
     {
      "date": "2020-06-19",
@@ -2693,7 +2821,9 @@
       },
       "base": null,
       "fail": "no valid base"
-     }
+     },
+     "v4": "BREAKOUT L8 surf10 trig 7.44",
+     "v4ok": true
     },
     {
      "date": "2020-06-22",
@@ -2712,7 +2842,9 @@
      "chased": false,
      "stopTooWide": false,
      "volOK": false,
-     "wouldAlert": false
+     "wouldAlert": false,
+     "v4": "BREAKOUT L9 surf10 trig 7.63",
+     "v4ok": true
     },
     {
      "date": "2020-07-01",
@@ -2731,7 +2863,9 @@
      "chased": false,
      "stopTooWide": false,
      "volOK": false,
-     "wouldAlert": false
+     "wouldAlert": false,
+     "v4": "BREAKOUT L12 surf10 trig 7.9",
+     "v4ok": true
     },
     {
      "date": "2020-07-02",
@@ -2750,7 +2884,9 @@
      "chased": true,
      "stopTooWide": false,
      "volOK": true,
-     "wouldAlert": false
+     "wouldAlert": false,
+     "v4": "BREAKOUT L12 surf10 trig 7.99",
+     "v4ok": true
     },
     {
      "date": "2020-07-06",
@@ -2777,7 +2913,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2020-07-07",
@@ -2803,7 +2940,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2020-07-08",
@@ -2829,7 +2967,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2020-07-10",
@@ -2855,7 +2994,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2020-07-13",
@@ -2882,11 +3022,13 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     }
    ],
    "caught": true,
-   "alerted": false
+   "alerted": false,
+   "v4caught": true
   },
   {
    "label": "SRNE Jul 2020",
@@ -2921,7 +3063,8 @@
       },
       "base": null,
       "fail": "20-day not rising + no valid base"
-     }
+     },
+     "v4": "miss: base:deep"
     },
     {
      "date": "2020-06-25",
@@ -2948,7 +3091,8 @@
       },
       "base": null,
       "fail": "20-day not rising + no valid base"
-     }
+     },
+     "v4": "miss: base:deep"
     },
     {
      "date": "2020-07-07",
@@ -2975,7 +3119,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: base:deep"
     },
     {
      "date": "2020-07-09",
@@ -3002,7 +3147,8 @@
       },
       "base": null,
       "fail": "no valid base"
-     }
+     },
+     "v4": "miss: base:deep"
     },
     {
      "date": "2020-07-10",
@@ -3029,7 +3175,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: base:deep"
     },
     {
      "date": "2020-07-20",
@@ -3058,11 +3205,14 @@
       },
       "base": null,
       "fail": "no valid base"
-     }
+     },
+     "v4": "BREAKOUT L16 surf10 trig 8.51 (LOD stop > 1 ATR)",
+     "v4ok": false
     }
    ],
    "caught": false,
-   "alerted": false
+   "alerted": false,
+   "v4caught": false
   },
   {
    "label": "SQ Jun 2020",
@@ -3098,7 +3248,9 @@
       },
       "base": null,
       "fail": "50-day not rising + too far above 10-day + no valid base"
-     }
+     },
+     "v4": "BREAKOUT L6 surf10 trig 78.25",
+     "v4ok": true
     },
     {
      "date": "2020-05-18",
@@ -3126,7 +3278,9 @@
       },
       "base": null,
       "fail": "50-day not rising + too far above 10-day + no valid base"
-     }
+     },
+     "v4": "BREAKOUT L7 surf10 trig 81.13 (LOD stop > 1 ATR)",
+     "v4ok": false
     },
     {
      "date": "2020-05-19",
@@ -3154,7 +3308,9 @@
       },
       "base": null,
       "fail": "50-day not rising + no valid base"
-     }
+     },
+     "v4": "BREAKOUT L8 surf10 trig 81.35 (LOD stop > 1 ATR)",
+     "v4ok": false
     },
     {
      "date": "2020-05-20",
@@ -3173,7 +3329,9 @@
      "chased": false,
      "stopTooWide": false,
      "volOK": false,
-     "wouldAlert": false
+     "wouldAlert": false,
+     "v4": "BREAKOUT L9 surf10 trig 82.14",
+     "v4ok": true
     },
     {
      "date": "2020-05-26",
@@ -3192,7 +3350,9 @@
      "chased": false,
      "stopTooWide": false,
      "volOK": false,
-     "wouldAlert": false
+     "wouldAlert": false,
+     "v4": "BREAKOUT L12 surf10 trig 83.1",
+     "v4ok": true
     },
     {
      "date": "2020-06-02",
@@ -3211,7 +3371,9 @@
      "chased": false,
      "stopTooWide": false,
      "volOK": false,
-     "wouldAlert": false
+     "wouldAlert": false,
+     "v4": "BREAKOUT L17 surf10 trig 84.09",
+     "v4ok": true
     },
     {
      "date": "2020-06-03",
@@ -3239,7 +3401,9 @@
       },
       "base": null,
       "fail": "no valid base"
-     }
+     },
+     "v4": "BREAKOUT L12 surf10 trig 88.27",
+     "v4ok": true
     },
     {
      "date": "2020-06-04",
@@ -3266,7 +3430,9 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "BREAKOUT L3 surf10 trig 92.55 (LOD stop > 1 ATR)",
+     "v4ok": false
     },
     {
      "date": "2020-06-10",
@@ -3285,7 +3451,9 @@
      "chased": false,
      "stopTooWide": false,
      "volOK": false,
-     "wouldAlert": false
+     "wouldAlert": false,
+     "v4": "BREAKOUT L17 surf10 trig 92.96",
+     "v4ok": true
     },
     {
      "date": "2020-06-16",
@@ -3304,7 +3472,9 @@
      "chased": false,
      "stopTooWide": false,
      "volOK": false,
-     "wouldAlert": false
+     "wouldAlert": false,
+     "v4": "BREAKOUT L11 surf10 trig 92.97",
+     "v4ok": true
     },
     {
      "date": "2020-06-17",
@@ -3332,7 +3502,8 @@
       },
       "base": null,
       "fail": "no valid base"
-     }
+     },
+     "v4": "miss: loose"
     },
     {
      "date": "2020-06-19",
@@ -3360,7 +3531,9 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "BREAKOUT L8 surf10 trig 100",
+     "v4ok": true
     },
     {
      "date": "2020-06-22",
@@ -3379,7 +3552,9 @@
      "chased": false,
      "stopTooWide": false,
      "volOK": true,
-     "wouldAlert": true
+     "wouldAlert": true,
+     "v4": "BREAKOUT L4 surf10 trig 102.26",
+     "v4ok": true
     },
     {
      "date": "2020-06-23",
@@ -3407,7 +3582,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2020-06-26",
@@ -3426,7 +3602,9 @@
      "chased": false,
      "stopTooWide": false,
      "volOK": true,
-     "wouldAlert": true
+     "wouldAlert": true,
+     "v4": "BREAKOUT L8 surf10 trig 106.36",
+     "v4ok": true
     },
     {
      "date": "2020-07-01",
@@ -3445,7 +3623,9 @@
      "chased": false,
      "stopTooWide": false,
      "volOK": true,
-     "wouldAlert": true
+     "wouldAlert": true,
+     "v4": "BREAKOUT L11 surf10 trig 107.84",
+     "v4ok": true
     },
     {
      "date": "2020-07-02",
@@ -3473,7 +3653,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2020-07-06",
@@ -3501,7 +3682,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: loose"
     },
     {
      "date": "2020-07-07",
@@ -3528,7 +3710,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2020-07-08",
@@ -3555,7 +3738,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2020-07-09",
@@ -3582,11 +3766,13 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     }
    ],
    "caught": true,
-   "alerted": true
+   "alerted": true,
+   "v4caught": true
   },
   {
    "label": "CAN Aug 2020",
@@ -3622,11 +3808,14 @@
       },
       "base": null,
       "fail": "50-day not rising + no valid base"
-     }
+     },
+     "v4": "BREAKOUT L6 surf10 trig 2.74",
+     "v4ok": true
     }
    ],
    "caught": false,
-   "alerted": false
+   "alerted": false,
+   "v4caught": true
   },
   {
    "label": "ZM Aug 2020",
@@ -3669,7 +3858,8 @@
       },
       "surf": 10,
       "fail": "20-day not rising"
-     }
+     },
+     "v4": "setup, no break (trig 281)"
     },
     {
      "date": "2020-08-18",
@@ -3704,7 +3894,9 @@
       },
       "surf": 50,
       "fail": "20-day not rising"
-     }
+     },
+     "v4": "BREAKOUT L14 surf50 trig 275.09",
+     "v4ok": true
     },
     {
      "date": "2020-08-19",
@@ -3732,7 +3924,8 @@
       },
       "base": null,
       "fail": "20-day not rising + too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: loose"
     },
     {
      "date": "2020-08-20",
@@ -3751,7 +3944,9 @@
      "chased": false,
      "stopTooWide": false,
      "volOK": true,
-     "wouldAlert": true
+     "wouldAlert": true,
+     "v4": "BREAKOUT L5 surf20 trig 279.59",
+     "v4ok": true
     },
     {
      "date": "2020-08-21",
@@ -3779,7 +3974,8 @@
       },
       "base": null,
       "fail": "too far above 10-day + no valid base"
-     }
+     },
+     "v4": "miss: ext"
     },
     {
      "date": "2020-08-26",
@@ -3798,7 +3994,9 @@
      "chased": false,
      "stopTooWide": false,
      "volOK": false,
-     "wouldAlert": false
+     "wouldAlert": false,
+     "v4": "BREAKOUT L7 surf10 trig 295.97",
+     "v4ok": true
     },
     {
      "date": "2020-08-28",
@@ -3817,7 +4015,9 @@
      "chased": false,
      "stopTooWide": false,
      "volOK": false,
-     "wouldAlert": false
+     "wouldAlert": false,
+     "v4": "BREAKOUT L8 surf10 trig 302",
+     "v4ok": true
     },
     {
      "date": "2020-08-31",
@@ -3836,11 +4036,14 @@
      "chased": false,
      "stopTooWide": false,
      "volOK": true,
-     "wouldAlert": true
+     "wouldAlert": true,
+     "v4": "BREAKOUT L9 surf10 trig 303.58",
+     "v4ok": true
     }
    ],
    "caught": true,
-   "alerted": true
+   "alerted": true,
+   "v4caught": true
   },
   {
    "label": "PETS 2020 (should NOT fire)",
@@ -3883,7 +4086,8 @@
       },
       "surf": null,
       "fail": "20-day not rising + 50-day not rising + not surfing a rising 10/20/50"
-     }
+     },
+     "v4": "miss: trend"
     },
     {
      "date": "2020-08-10",
@@ -3918,7 +4122,8 @@
       },
       "surf": null,
       "fail": "20-day not rising + 50-day not rising + not surfing a rising 10/20/50"
-     }
+     },
+     "v4": "miss: trend"
     },
     {
      "date": "2020-08-13",
@@ -3953,7 +4158,8 @@
       },
       "surf": null,
       "fail": "20-day not rising + 50-day not rising + not surfing a rising 10/20/50"
-     }
+     },
+     "v4": "miss: trend"
     },
     {
      "date": "2020-08-17",
@@ -3988,7 +4194,8 @@
       },
       "surf": null,
       "fail": "20-day not rising + 50-day not rising + not surfing a rising 10/20/50"
-     }
+     },
+     "v4": "miss: trend"
     },
     {
      "date": "2020-08-19",
@@ -4023,7 +4230,8 @@
       },
       "surf": 10,
       "fail": "ADR<4% + 20-day not rising + 50-day not rising"
-     }
+     },
+     "v4": "miss: adr"
     },
     {
      "date": "2020-08-25",
@@ -4058,7 +4266,8 @@
       },
       "surf": 10,
       "fail": "ADR<4% + 50-day not rising + too far above 10-day"
-     }
+     },
+     "v4": "miss: adr"
     },
     {
      "date": "2020-08-26",
@@ -4093,7 +4302,8 @@
       },
       "surf": 10,
       "fail": "ADR<4% + 50-day not rising + too far above 10-day"
-     }
+     },
+     "v4": "miss: adr"
     },
     {
      "date": "2020-08-27",
@@ -4127,11 +4337,13 @@
       },
       "surf": 10,
       "fail": "ADR<4% + 50-day not rising + too far above 10-day"
-     }
+     },
+     "v4": "miss: adr"
     }
    ],
    "caught": false,
-   "alerted": false
+   "alerted": false,
+   "v4caught": false
   }
  ]
 }
